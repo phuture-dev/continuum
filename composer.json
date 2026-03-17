@@ -1,0 +1,84 @@
+{
+    "name": "phuture/continuum",
+    "description": "A forward-compatibility layer bringing tomorrow’s PHP features to today’s runtimes.",
+    "type": "library",
+    "keywords": ["polyfill", "shim", "compatibility", "portable"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Phuture",
+            "homepage": "https://www.phuture.dev"
+        },
+        {
+            "name": "Advandz Technologies, LLC",
+            "homepage": "https://www.advandz.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "league/uri-polyfill": "~v7.8.0",
+        "symfony/polyfill-php81": "~v1.33.0",
+        "symfony/polyfill-php82": "~v1.33.0",
+        "symfony/polyfill-php83": "~v1.33.0",
+        "symfony/polyfill-php84": "~v1.33.0",
+        "symfony/polyfill-php85": "~v1.33.0",
+        "symfony/polyfill-apcu": "~v1.33.0",
+        "symfony/polyfill-ctype": "~v1.33.0",
+        "symfony/polyfill-mbstring": "~v1.33.0",
+        "symfony/polyfill-iconv": "~v1.33.0",
+        "symfony/polyfill-uuid": "~v1.33.0",
+        "symfony/polyfill-intl-grapheme": "~v1.33.0",
+        "symfony/polyfill-intl-idn": "~v1.33.0",
+        "symfony/polyfill-intl-icu": "~v1.33.0",
+        "symfony/polyfill-intl-messageformatter": "~v1.33.0",
+        "symfony/polyfill-intl-normalizer": "~v1.33.0"
+    },
+    "require-dev": {
+        "nette/tester": "^2.5",
+        "phpstan/phpstan": "^1.10",
+        "squizlabs/php_codesniffer": "^3.7",
+        "friendsofphp/php-cs-fixer": "^3.92.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Phuture\\Continuum\\": "src/"
+        },
+        "files": [
+            "src/bootstrap.php"
+        ],
+        "classmap": [
+            "src/Resources"
+        ],
+        "exclude-from-classmap": [
+            "vendor/league"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Phuture\\Continuum\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": ["@phpcs", "@phpstan", "@tester"],
+        "lint": "php-cs-fixer fix",
+        "server": "php -S localhost:8000",
+        "phpstan": "phpstan analyse src --memory-limit=4294967296",
+        "phpcs": "phpcs --standard=PSR12 src",
+        "tester": "tester tests -C"
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.1.0"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "extra": {
+        "thanks": {
+            "name": "symfony/polyfill",
+            "url": "https://github.com/symfony/polyfill"
+        }
+    }
+}
