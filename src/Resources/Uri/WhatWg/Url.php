@@ -7,14 +7,41 @@ namespace Uri\WhatWg;
 use Uri\{UriComparisonMode, InvalidUrlException};
 
 // phpcs:ignore
-if (\PHP_VERSION_ID >= 80100) {
-    return require_once __DIR__ . '/../../../../vendor/league/uri-polyfill/lib/WhatWg/Url.php';
-}
-
-// phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {
+    /**
+     * WHATWG URL Standard compliant URL implementation for PHP 8.0 polyfill.
+     *
+     * This class provides a complete URL parsing and manipulation API following
+     * the WHATWG URL Standard. It supports all URL components including scheme,
+     * authority (userinfo, host, port), path, query, and fragment.
+     *
+     * Key features:
+     * - Parse and validate URLs according to WHATWG URL Standard
+     * - Access individual URL components via getters
+     * - Immutable modifications via with*() methods
+     * - Resolve relative references against a base URL
+     * - Compare URLs with configurable fragment handling
+     * - IDNA support for internationalized domain names
+     *
+     * On PHP 8.1+, this delegates to the league/uri-polyfill library which
+     * provides the native Uri\WhatWg\Url implementation. This polyfill enables
+     * code using the PHP 8.5 URI extension API to run on PHP 8.0.
+     *
+     * @see https://url.spec.whatwg.org/
+     * @see https://wiki.php.net/rfc/url_parsing_api
+     * @see https://www.php.net/releases/8.5/en.php#new-uri-extension
+     *
+     * @copyright Copyright (c) 2026, Advandz Technologies, LLC
+     * @license https://opensource.org/licenses/MIT MIT License
+     * @link https://www.phuture.dev/ Phuture
+     */
     final class Url
     {
+        /**
+         * Mapping of special schemes to their default ports.
+         *
+         * @var array<string, int|null>
+         */
         private const SPECIAL_SCHEMES = [
             'ftp' => 21,
             'file' => null,
@@ -23,14 +50,68 @@ if (\PHP_VERSION_ID < 80100) {
             'ws' => 80,
             'wss' => 443,
         ];
+
+        /**
+         * The ASCII (Punycode) encoded host.
+         *
+         * @var string|null
+         */
         private ?string $asciiHost = null;
+
+        /**
+         * The fragment identifier (without the # prefix).
+         *
+         * @var string|null
+         */
         private ?string $fragment = null;
+
+        /**
+         * The password component of the userinfo.
+         *
+         * @var string|null
+         */
         private ?string $password = null;
+
+        /**
+         * The path component.
+         *
+         * @var string
+         */
         private string $path = '';
+
+        /**
+         * The port number, null if not specified or default.
+         *
+         * @var int|null
+         */
         private ?int $port = null;
+
+        /**
+         * The query string (without the ? prefix).
+         *
+         * @var string|null
+         */
         private ?string $query = null;
+
+        /**
+         * The scheme component (lowercase).
+         *
+         * @var string
+         */
         private string $scheme = '';
+
+        /**
+         * The Unicode (IDN) decoded host.
+         *
+         * @var string|null
+         */
         private ?string $unicodeHost = null;
+
+        /**
+         * The username component of the userinfo.
+         *
+         * @var string|null
+         */
         private ?string $username = null;
 
         /**
@@ -71,6 +152,10 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Checks if this URL equals another URL.
+         *
+         * @param self $other The URL to compare with
+         * @param string $mode Comparison mode (IncludeFragment or ExcludeFragment)
+         * @return bool True if the URLs are equal according to the comparison mode
          */
         public function equals(self $other, string $mode = UriComparisonMode::ExcludeFragment): bool
         {
@@ -105,26 +190,53 @@ if (\PHP_VERSION_ID < 80100) {
             return true;
         }
 
+        /**
+         * Returns the ASCII (Punycode) encoded host.
+         *
+         * @return string|null The ASCII host, or null if not present
+         */
         public function getAsciiHost(): ?string
         {
             return $this->asciiHost;
         }
 
+        /**
+         * Returns the fragment identifier.
+         *
+         * @return string|null The fragment (without #), or null if not present
+         */
         public function getFragment(): ?string
         {
             return $this->fragment;
         }
 
+        /**
+         * Returns the password component.
+         *
+         * @return string|null The password, or null if not present
+         */
         public function getPassword(): ?string
         {
             return $this->password;
         }
 
+        /**
+         * Returns the path component.
+         *
+         * @return string The path
+         */
         public function getPath(): string
         {
             return $this->path;
         }
 
+        /**
+         * Returns the port number.
+         *
+         * Returns null for default ports of special schemes.
+         *
+         * @return int|null The port number, or null if not specified or is default
+         */
         public function getPort(): ?int
         {
             if ($this->port === null) {
@@ -142,21 +254,41 @@ if (\PHP_VERSION_ID < 80100) {
             return $this->port;
         }
 
+        /**
+         * Returns the query string.
+         *
+         * @return string|null The query string (without ?), or null if not present
+         */
         public function getQuery(): ?string
         {
             return $this->query;
         }
 
+        /**
+         * Returns the scheme component.
+         *
+         * @return string The scheme (lowercase)
+         */
         public function getScheme(): string
         {
             return $this->scheme;
         }
 
+        /**
+         * Returns the Unicode (IDN) decoded host.
+         *
+         * @return string|null The Unicode host, or null if not present
+         */
         public function getUnicodeHost(): ?string
         {
             return $this->unicodeHost;
         }
 
+        /**
+         * Returns the username component.
+         *
+         * @return string|null The username, or null if not present
+         */
         public function getUsername(): ?string
         {
             return $this->username;
@@ -191,6 +323,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Resolves a relative reference against this URL.
+         *
+         * @param string $reference The relative reference to resolve
+         * @return self The resolved URL
          */
         public function resolve(string $reference): self
         {
@@ -199,6 +334,8 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Returns the URL with ASCII (Punycode) encoded host.
+         *
+         * @return string The URL string with ASCII host
          */
         public function toAsciiString(): string
         {
@@ -207,12 +344,20 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Returns the URL with Unicode (IDN) decoded host.
+         *
+         * @return string The URL string with Unicode host
          */
         public function toUnicodeString(): string
         {
             return $this->buildUrl($this->unicodeHost);
         }
 
+        /**
+         * Returns a new instance with the specified fragment.
+         *
+         * @param string|null $fragment The new fragment (without #)
+         * @return self A new Url instance with the modified fragment
+         */
         public function withFragment(?string $fragment): self
         {
             $new = clone $this;
@@ -221,6 +366,12 @@ if (\PHP_VERSION_ID < 80100) {
             return $new;
         }
 
+        /**
+         * Returns a new instance with the specified host.
+         *
+         * @param string|null $host The new host
+         * @return self A new Url instance with the modified host
+         */
         public function withHost(?string $host): self
         {
             $new = clone $this;
@@ -230,6 +381,12 @@ if (\PHP_VERSION_ID < 80100) {
             return $new;
         }
 
+        /**
+         * Returns a new instance with the specified password.
+         *
+         * @param string|null $password The new password
+         * @return self A new Url instance with the modified password
+         */
         public function withPassword(?string $password): self
         {
             $new = clone $this;
@@ -238,6 +395,12 @@ if (\PHP_VERSION_ID < 80100) {
             return $new;
         }
 
+        /**
+         * Returns a new instance with the specified path.
+         *
+         * @param string $path The new path
+         * @return self A new Url instance with the modified path
+         */
         public function withPath(string $path): self
         {
             $new = clone $this;
@@ -246,6 +409,12 @@ if (\PHP_VERSION_ID < 80100) {
             return $new;
         }
 
+        /**
+         * Returns a new instance with the specified port.
+         *
+         * @param int|null $port The new port number, or null to remove
+         * @return self A new Url instance with the modified port
+         */
         public function withPort(?int $port): self
         {
             $new = clone $this;
@@ -254,6 +423,12 @@ if (\PHP_VERSION_ID < 80100) {
             return $new;
         }
 
+        /**
+         * Returns a new instance with the specified query.
+         *
+         * @param string|null $query The new query string (without ?)
+         * @return self A new Url instance with the modified query
+         */
         public function withQuery(?string $query): self
         {
             $new = clone $this;
@@ -262,6 +437,12 @@ if (\PHP_VERSION_ID < 80100) {
             return $new;
         }
 
+        /**
+         * Returns a new instance with the specified scheme.
+         *
+         * @param string $scheme The new scheme (will be normalized to lowercase)
+         * @return self A new Url instance with the modified scheme
+         */
         public function withScheme(string $scheme): self
         {
             $new = clone $this;
@@ -270,6 +451,12 @@ if (\PHP_VERSION_ID < 80100) {
             return $new;
         }
 
+        /**
+         * Returns a new instance with the specified username.
+         *
+         * @param string|null $username The new username
+         * @return self A new Url instance with the modified username
+         */
         public function withUsername(?string $username): self
         {
             $new = clone $this;
@@ -280,6 +467,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Builds the URL string from components.
+         *
+         * @param string|null $host The host to use (ASCII or Unicode)
+         * @return string The constructed URL string
          */
         private function buildUrl(?string $host): string
         {
@@ -322,6 +512,12 @@ if (\PHP_VERSION_ID < 80100) {
             return $result;
         }
 
+        /**
+         * Decodes percent-encoded characters in a string.
+         *
+         * @param string $string The string to decode
+         * @return string The decoded string
+         */
         private function decodePercent(string $string): string
         {
             return preg_replace_callback('/%([0-9A-Fa-f]{2})/', function ($match) {
@@ -329,6 +525,13 @@ if (\PHP_VERSION_ID < 80100) {
             }, $string);
         }
 
+        /**
+         * Encodes special characters as percent-encoded sequences.
+         *
+         * @param string $string The string to encode
+         * @param string $extraAllowed Additional characters to leave unencoded
+         * @return string The encoded string
+         */
         private function encodePercent(string $string, string $extraAllowed = ''): string
         {
             $result = '';
@@ -349,6 +552,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Finds the end of the authority component.
+         *
+         * @param string $string The string to search
+         * @return int The position of the authority end
          */
         private function findAuthorityEnd(string $string): int
         {
@@ -365,6 +571,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Finds the end of the path component.
+         *
+         * @param string $string The string to search
+         * @return int The position of the path end
          */
         private function findPathEnd(string $string): int
         {
@@ -385,11 +594,22 @@ if (\PHP_VERSION_ID < 80100) {
             return min($queryPos, $fragmentPos);
         }
 
+        /**
+         * Checks if the current scheme is a special scheme.
+         *
+         * @return bool True if the scheme is special (ftp, file, http, https, ws, wss)
+         */
         private function isSpecialScheme(): bool
         {
             return isset(self::SPECIAL_SCHEMES[$this->scheme]);
         }
 
+        /**
+         * Validates that a host contains only valid code points.
+         *
+         * @param string $host The host to validate
+         * @return bool True if the host contains only valid characters
+         */
         private function isValidHostCodePoints(string $host): bool
         {
             // Check for forbidden code points
@@ -403,16 +623,34 @@ if (\PHP_VERSION_ID < 80100) {
             return true;
         }
 
+        /**
+         * Validates an IPv4 address.
+         *
+         * @param string $ip The IP address to validate
+         * @return bool True if the address is a valid IPv4 address
+         */
         private function isValidIpv4(string $ip): bool
         {
             return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false;
         }
 
+        /**
+         * Validates an IPv6 address.
+         *
+         * @param string $ip The IP address to validate
+         * @return bool True if the address is a valid IPv6 address
+         */
         private function isValidIpv6(string $ip): bool
         {
             return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false;
         }
 
+        /**
+         * Validates a scheme string.
+         *
+         * @param string $scheme The scheme to validate
+         * @return bool True if the scheme is valid
+         */
         private function isValidScheme(string $scheme): bool
         {
             return preg_match('/^[a-zA-Z][a-zA-Z0-9+.-]*$/', $scheme) === 1;
@@ -420,6 +658,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Normalizes a path by removing . and .. segments.
+         *
+         * @param string $path The path to normalize
+         * @return string The normalized path
          */
         private function normalizePath(string $path): string
         {
@@ -458,6 +699,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Parses the authority component (userinfo@host:port).
+         *
+         * @param string $authority The authority string to parse
+         * @param array $errors Array to collect validation errors
          */
         private function parseAuthority(string $authority, array &$errors): void
         {
@@ -475,6 +719,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Parses a file: URL.
+         *
+         * @param string $remaining The remaining URL string after the scheme
+         * @param array $errors Array to collect validation errors
          */
         private function parseFileUrl(string $remaining, array &$errors): void
         {
@@ -524,6 +771,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Parses the host component.
+         *
+         * @param string $host The host string to parse
+         * @param array $errors Array to collect validation errors
          */
         private function parseHost(string $host, array &$errors): void
         {
@@ -600,7 +850,10 @@ if (\PHP_VERSION_ID < 80100) {
         }
 
         /**
-         * Parses host and port.
+         * Parses host and port components.
+         *
+         * @param string $hostPort The host:port string to parse
+         * @param array $errors Array to collect validation errors
          */
         private function parseHostAndPort(string $hostPort, array &$errors): void
         {
@@ -647,6 +900,10 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Parses the path component.
+         *
+         * @param string $path The path string to parse
+         * @param array $errors Array to collect validation errors
+         * @return string The normalized path
          */
         private function parsePath(string $path, array &$errors): string
         {
@@ -659,6 +916,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Parses a path-only URL (no authority).
+         *
+         * @param string $remaining The remaining URL string after the scheme
+         * @param array $errors Array to collect validation errors
          */
         private function parsePathOnly(string $remaining, array &$errors): void
         {
@@ -681,6 +941,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Parses the port component.
+         *
+         * @param string $port The port string to parse
+         * @param array $errors Array to collect validation errors
          */
         private function parsePort(string $port, array &$errors): void
         {
@@ -790,6 +1053,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Parses a URL with authority component.
+         *
+         * @param string $remaining The remaining URL string after the scheme and //
+         * @param array $errors Array to collect validation errors
          */
         private function parseUrlWithAuthority(string $remaining, array &$errors): void
         {
@@ -832,6 +1098,9 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Parses the userinfo component (username:password).
+         *
+         * @param string $userInfo The userinfo string to parse
+         * @param array $errors Array to collect validation errors
          */
         private function parseUserInfo(string $userInfo, array &$errors): void
         {
@@ -847,6 +1116,10 @@ if (\PHP_VERSION_ID < 80100) {
 
         /**
          * Resolves a relative URL against a base URL.
+         *
+         * @param string $url The relative URL to resolve
+         * @param self $baseUrl The base URL to resolve against
+         * @param array $errors Array to collect validation errors
          */
         private function resolveRelativeUrl(string $url, self $baseUrl, array &$errors): void
         {
@@ -924,9 +1197,21 @@ if (\PHP_VERSION_ID < 80100) {
             $this->parsePathOnly($basePath . $url, $errors);
         }
 
+        /**
+         * Removes tab and newline characters from a string.
+         *
+         * @param string $string The string to process
+         * @return string The string with tabs and newlines removed
+         */
         private function trimTabNewline(string $string): string
         {
             return str_replace(["\t", "\n", "\r"], '', $string);
         }
     }
+}
+
+// phpcs:ignore
+if (\PHP_VERSION_ID >= 80100) {
+    return require_once realpath(\Composer\InstalledVersions::getInstallPath('league/uri-polyfill'))
+        . '/lib/WhatWg/Url.php';
 }

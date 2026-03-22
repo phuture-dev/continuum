@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Uri;
 
-if (\PHP_VERSION_ID >= 80100) {
-    return require_once __DIR__ . '/../../../vendor/league/uri-polyfill/lib/InvalidUriException.php';
-}
-
+// phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {
     /**
      * Exception thrown when a URI is invalid.
@@ -23,4 +20,10 @@ if (\PHP_VERSION_ID < 80100) {
     class InvalidUriException extends UriException
     {
     }
+}
+
+// phpcs:ignore
+if (\PHP_VERSION_ID >= 80100) {
+    return require_once realpath(\Composer\InstalledVersions::getInstallPath('league/uri-polyfill'))
+        . '/lib/InvalidUriException.php';
 }

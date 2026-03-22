@@ -8,11 +8,6 @@ use Throwable;
 use Uri\InvalidUriException;
 
 // phpcs:ignore
-if (\PHP_VERSION_ID >= 80100) {
-    return require_once __DIR__ . '/../../../../vendor/league/uri-polyfill/lib/WhatWg/InvalidUrlException.php';
-}
-
-// phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {
     /**
      * Exception thrown when a URL is invalid, containing validation errors.
@@ -48,4 +43,10 @@ if (\PHP_VERSION_ID < 80100) {
             parent::__construct($message, $code, $previous);
         }
     }
+}
+
+// phpcs:ignore
+if (\PHP_VERSION_ID >= 80100) {
+    return require_once realpath(\Composer\InstalledVersions::getInstallPath('league/uri-polyfill'))
+        . '/lib/WhatWg/InvalidUrlException.php';
 }

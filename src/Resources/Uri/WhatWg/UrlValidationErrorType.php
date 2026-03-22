@@ -5,11 +5,6 @@ declare(strict_types=1);
 namespace Uri\WhatWg;
 
 // phpcs:ignore
-if (\PHP_VERSION_ID >= 80100) {
-    return require_once __DIR__ . '/../../../../vendor/league/uri-polyfill/lib/WhatWg/UrlValidationErrorType.php';
-}
-
-// phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {
     /**
      * UrlValidationErrorType enum stub for PHP 8.5.
@@ -118,4 +113,10 @@ if (\PHP_VERSION_ID < 80100) {
         // phpcs:ignore
         public const SpecialSchemeMissingFollowingSolidus = 'SpecialSchemeMissingFollowingSolidus';
     }
+}
+
+// phpcs:ignore
+if (\PHP_VERSION_ID >= 80100) {
+    return require_once realpath(\Composer\InstalledVersions::getInstallPath('league/uri-polyfill'))
+        . '/lib/WhatWg/UrlValidationErrorType.php';
 }

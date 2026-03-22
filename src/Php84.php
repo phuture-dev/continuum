@@ -129,14 +129,14 @@ final class Php84
      *
      * @param string $num The number to round as a string
      * @param int $precision The number of decimal digits to round to (default: 0)
-     * @param RoundingMode|int $mode The rounding mode (default: HalfAwayFromZero)
+     * @param RoundingMode|string $mode The rounding mode (default: HalfAwayFromZero)
      * @return string Returns the rounded number as a string
      */
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public static function bcround(
         string $num,
         int $precision = 0,
-        RoundingMode|int $mode = 1
+        RoundingMode|string $mode = 'HalfAwayFromZero'
     ): string {
         if (!extension_loaded('bcmath')) {
             throw new RuntimeException(
@@ -144,10 +144,6 @@ final class Php84
                 'This function cannot be polyfilled without it.'
             );
         }
-
-        // Extract the integer value from RoundingMode enum or use int directly
-        // Use integer values internally for PHP 8.0 compatibility
-        $modeValue = $mode instanceof RoundingMode ? $mode->value : $mode;
 
         // Calculate the scale factor for the given precision
         if ($precision < 0) {
@@ -194,22 +190,20 @@ final class Php84
 
         $numFloat = (float) $num;
 
-        // Use integer values internally for PHP 8.0 compatibility
-        // 1 = HalfAwayFromZero, 2 = HalfTowardsZero, 3 = HalfEven, 4 = HalfOdd
-        // 5 = PositiveInfinity, 6 = NegativeInfinity, 7 = TowardsZero, 8 = AwayFromZero
-        return match ($modeValue) {
-            1 => ($fractionFloat >= 0.5)
+        // Match by constant name for readability
+        return match ($mode) {
+            RoundingMode::HalfAwayFromZero, 'HalfAwayFromZero' => ($fractionFloat >= 0.5)
                 ? ($numFloat >= 0 ? bcadd($intPart, '1', 0) : bcsub($intPart, '1', 0))
                 : $intPart,
-            2 => ($fractionFloat > 0.5)
+            RoundingMode::HalfTowardsZero, 'HalfTowardsZero' => ($fractionFloat > 0.5)
                 ? ($numFloat >= 0 ? bcadd($intPart, '1', 0) : bcsub($intPart, '1', 0))
                 : $intPart,
-            3 => self::bcRoundHalfEven($numFloat, $intPart, $fractionFloat),
-            4 => self::bcRoundHalfOdd($numFloat, $intPart, $fractionFloat),
-            5 => self::bcRoundPositiveInfinity($intPart, $fractionFloat),
-            6 => self::bcRoundNegativeInfinity($intPart, $fractionFloat),
-            7 => $intPart,
-            8 => ($fractionFloat > 0.0)
+            RoundingMode::HalfEven, 'HalfEven' => self::bcRoundHalfEven($numFloat, $intPart, $fractionFloat),
+            RoundingMode::HalfOdd, 'HalfOdd' => self::bcRoundHalfOdd($numFloat, $intPart, $fractionFloat),
+            RoundingMode::PositiveInfinity, 'PositiveInfinity' => self::bcRoundPositiveInfinity($intPart, $fractionFloat),
+            RoundingMode::NegativeInfinity, 'NegativeInfinity' => self::bcRoundNegativeInfinity($intPart, $fractionFloat),
+            RoundingMode::TowardsZero, 'TowardsZero' => $intPart,
+            RoundingMode::AwayFromZero, 'AwayFromZero' => ($fractionFloat > 0.0)
                 ? ($numFloat >= 0 ? bcadd($intPart, '1', 0) : bcsub($intPart, '1', 0))
                 : $intPart,
             default => round($numFloat, $precision) . '',

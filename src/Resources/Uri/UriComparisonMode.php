@@ -5,11 +5,6 @@ declare(strict_types=1);
 namespace Uri;
 
 // phpcs:ignore
-if (\PHP_VERSION_ID >= 80100) {
-    return require_once __DIR__ . '/../../../vendor/league/uri-polyfill/lib/UriComparisonMode.php';
-}
-
-// phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {
     /**
      * UriComparisonMode enum stub for PHP 8.5.
@@ -38,4 +33,10 @@ if (\PHP_VERSION_ID < 80100) {
         // phpcs:ignore
         public const IncludeFragment = 'IncludeFragment';
     }
+}
+
+// phpcs:ignore
+if (\PHP_VERSION_ID >= 80100) {
+    return require_once realpath(\Composer\InstalledVersions::getInstallPath('league/uri-polyfill'))
+        . '/lib/UriComparisonMode.php';
 }

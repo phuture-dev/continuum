@@ -26,28 +26,28 @@ if (\PHP_VERSION_ID < 80100) {
     final class RoundingMode
     {
         // phpcs:ignore
-        public const AwayFromZero = 8;
+        public const AwayFromZero = 'AwayFromZero';
 
         // phpcs:ignore
-        public const HalfAwayFromZero = 1;
+        public const HalfAwayFromZero = 'HalfAwayFromZero';
 
         // phpcs:ignore
-        public const HalfEven = 3;
+        public const HalfEven = 'HalfEven';
 
         // phpcs:ignore
-        public const HalfOdd = 4;
+        public const HalfOdd = 'HalfOdd';
 
         // phpcs:ignore
-        public const HalfTowardsZero = 2;
+        public const HalfTowardsZero = 'HalfTowardsZero';
 
         // phpcs:ignore
-        public const NegativeInfinity = 6;
+        public const NegativeInfinity = 'NegativeInfinity';
 
         // phpcs:ignore
-        public const PositiveInfinity = 5;
+        public const PositiveInfinity = 'PositiveInfinity';
 
         // phpcs:ignore
-        public const TowardsZero = 7;
+        public const TowardsZero = 'TowardsZero';
     }
 }
 
@@ -56,14 +56,14 @@ if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80400 && !enum_exists(Rounding
     $enum = <<<'RoundingMode'
     enum RoundingMode: int
     {
-        case HalfAwayFromZero = 1;
-        case HalfTowardsZero = 2;
-        case HalfEven = 3;
-        case HalfOdd = 4;
-        case PositiveInfinity = 5;
-        case NegativeInfinity = 6;
-        case TowardsZero = 7;
-        case AwayFromZero = 8;
+        case HalfAwayFromZero;
+        case HalfTowardsZero;
+        case HalfEven;
+        case HalfOdd;
+        case PositiveInfinity;
+        case NegativeInfinity;
+        case TowardsZero;
+        case AwayFromZero;
     }
     RoundingMode;
     eval($enum);
