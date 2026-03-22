@@ -35,6 +35,7 @@ if (\PHP_VERSION_ID < 80300) {
         Attribute::TARGET_CLASS_CONSTANT |
         Attribute::TARGET_PARAMETER
     )]
+    // phpcs:ignore
     final class Override
     {
         /**

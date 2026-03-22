@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Uri\WhatWg;
 
-// phpcs:ignore
+use Throwable;
+use Uri\InvalidUriException;
+
 if (\PHP_VERSION_ID >= 80100) {
     return require_once __DIR__ . '/../../../../vendor/league/uri-polyfill/lib/WhatWg/UrlValidationError.php';
 }
 
-// phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {
     /**
-     * Represents a URL validation error with context and failure status.
+     * URL validation error types as defined by WHATWG URL Standard.
      *
      * @see https://tools.ietf.org/html/rfc3986
      * @see https://wiki.php.net/rfc/url_parsing_api
@@ -24,11 +25,12 @@ if (\PHP_VERSION_ID < 80100) {
      */
     final class UrlValidationError
     {
-        public string $context;
-        public bool $failure;
-        public string $type;
+        public readonly string $context;
 
-        public function __construct(string $context, string $type, bool $failure)
+        public readonly UrlValidationErrorType $type;
+        public readonly bool $failure;
+
+        public function __construct(string $context, UrlValidationErrorType $type, bool $failure)
         {
             $this->context = $context;
             $this->type = $type;

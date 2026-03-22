@@ -28,6 +28,7 @@ if (\PHP_VERSION_ID < 80500) {
      * @link https://www.phuture.dev/ Phuture
      */
     #[Attribute(Attribute::TARGET_CLASS)]
+    // phpcs:ignore
     final class DelayedTargetValidation
     {
         /**

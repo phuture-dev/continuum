@@ -37,6 +37,7 @@ if (\PHP_VERSION_ID < 80400) {
         // We use 128 directly for forward compatibility
         128
     )]
+    // phpcs:ignore
     final class Deprecated
     {
         /**

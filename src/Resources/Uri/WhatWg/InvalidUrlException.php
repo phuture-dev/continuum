@@ -7,10 +7,12 @@ namespace Uri\WhatWg;
 use Throwable;
 use Uri\InvalidUriException;
 
+// phpcs:ignore
 if (\PHP_VERSION_ID >= 80100) {
     return require_once __DIR__ . '/../../../../vendor/league/uri-polyfill/lib/WhatWg/InvalidUrlException.php';
 }
 
+// phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {
     /**
      * Exception thrown when a URL is invalid, containing validation errors.

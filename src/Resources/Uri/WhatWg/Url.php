@@ -6,10 +6,12 @@ namespace Uri\WhatWg;
 
 use Uri\{UriComparisonMode, InvalidUrlException};
 
+// phpcs:ignore
 if (\PHP_VERSION_ID >= 80100) {
     return require_once __DIR__ . '/../../../../vendor/league/uri-polyfill/lib/WhatWg/Url.php';
 }
 
+// phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {
     final class Url
     {
@@ -130,8 +132,10 @@ if (\PHP_VERSION_ID < 80100) {
             }
 
             // Return null for default ports of special schemes
-            if (isset(self::SPECIAL_SCHEMES[$this->scheme]) &&
-                self::SPECIAL_SCHEMES[$this->scheme] === $this->port) {
+            if (
+                isset(self::SPECIAL_SCHEMES[$this->scheme]) &&
+                self::SPECIAL_SCHEMES[$this->scheme] === $this->port
+            ) {
                 return null;
             }
 

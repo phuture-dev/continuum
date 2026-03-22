@@ -4,12 +4,21 @@ declare(strict_types=1);
 
 namespace Uri\WhatWg;
 
+// phpcs:ignore
 if (\PHP_VERSION_ID >= 80100) {
     return require_once __DIR__ . '/../../../../vendor/league/uri-polyfill/lib/WhatWg/UrlValidationErrorType.php';
 }
 
+// phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {
     /**
+     * UrlValidationErrorType enum stub for PHP 8.5.
+     *
+     * This stub enum exists for type compatibility with PHP 8.5+ code.
+     * On PHP versions < 8.1, enums are not supported by the parser,
+     * so this file will only be loaded when the native UrlValidationErrorType
+     * enum does not exist (PHP < 8.5).
+     *
      * URL validation error types as defined by WHATWG URL Standard.
      *
      * @see https://tools.ietf.org/html/rfc3986
@@ -22,42 +31,91 @@ if (\PHP_VERSION_ID < 80100) {
      */
     final class UrlValidationErrorType
     {
+        // phpcs:ignore
         public const DomainInvalidCodePoint = 'DomainInvalidCodePoint';
+
+        // phpcs:ignore
         public const DomainToAscii = 'DomainToAscii';
+
+        // phpcs:ignore
         public const DomainToUnicode = 'DomainToUnicode';
+
+        // phpcs:ignore
         public const FileInvalidWindowsDriveLetter = 'FileInvalidWindowsDriveLetter';
+
+        // phpcs:ignore
         public const FileInvalidWindowsDriveLetterHost = 'FileInvalidWindowsDriveLetterHost';
+
+        // phpcs:ignore
         public const HostInvalidCodePoint = 'HostInvalidCodePoint';
+
+        // phpcs:ignore
         public const HostMissing = 'HostMissing';
+
+        // phpcs:ignore
         public const InvalidCredentials = 'InvalidCredentials';
+
+        // phpcs:ignore
         public const InvalidReverseSolidus = 'InvalidReverseSolidus';
 
+        // phpcs:ignore
         public const InvalidUrlUnit = 'InvalidUrlUnit';
 
+        // phpcs:ignore
         public const Ipv4EmptyPart = 'Ipv4EmptyPart';
+
+        // phpcs:ignore
         public const Ipv4InIpv6InvalidCodePoint = 'Ipv4InIpv6InvalidCodePoint';
+
+        // phpcs:ignore
         public const Ipv4InIpv6OutOfRangePart = 'Ipv4InIpv6OutOfRangePart';
+
+        // phpcs:ignore
         public const Ipv4InIpv6TooFewParts = 'Ipv4InIpv6TooFewParts';
 
+        // phpcs:ignore
         public const Ipv4InIpv6TooManyPieces = 'Ipv4InIpv6TooManyPieces';
+
+        // phpcs:ignore
         public const Ipv4NonDecimalPart = 'Ipv4NonDecimalPart';
+
+        // phpcs:ignore
         public const Ipv4NonNumericPart = 'Ipv4NonNumericPart';
+
+        // phpcs:ignore
         public const Ipv4OutOfRangePart = 'Ipv4OutOfRangePart';
+
+        // phpcs:ignore
         public const Ipv4TooManyParts = 'Ipv4TooManyParts';
+
+        // phpcs:ignore
         public const Ipv6InvalidCodePoint = 'Ipv6InvalidCodePoint';
+
+        // phpcs:ignore
         public const Ipv6InvalidCompression = 'Ipv6InvalidCompression';
+
+        // phpcs:ignore
         public const Ipv6MultipleCompression = 'Ipv6MultipleCompression';
+
+        // phpcs:ignore
         public const Ipv6TooFewPieces = 'Ipv6TooFewPieces';
+
+        // phpcs:ignore
         public const Ipv6TooManyPieces = 'Ipv6TooManyPieces';
 
+        // phpcs:ignore
         public const Ipv6Unclosed = 'Ipv6Unclosed';
-        public const MissingSchemeNonRelativeUrl = 'MissingSchemeNonRelativeUrl';
-        public const PortInvalid = 'PortInvalid';
-        public const PortOutOfRange = 'PortOutOfRange';
-        public const SpecialSchemeMissingFollowingSolidus = 'SpecialSchemeMissingFollowingSolidus';
 
-        private function __construct()
-        {
-        }
+        // phpcs:ignore
+        public const MissingSchemeNonRelativeUrl = 'MissingSchemeNonRelativeUrl';
+
+        // phpcs:ignore
+        public const PortInvalid = 'PortInvalid';
+
+        // phpcs:ignore
+        public const PortOutOfRange = 'PortOutOfRange';
+
+        // phpcs:ignore
+        public const SpecialSchemeMissingFollowingSolidus = 'SpecialSchemeMissingFollowingSolidus';
     }
 }

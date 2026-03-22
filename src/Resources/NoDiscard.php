@@ -27,6 +27,7 @@ if (\PHP_VERSION_ID < 80500) {
      * @link https://www.phuture.dev/ Phuture
      */
     #[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_FUNCTION)]
+    // phpcs:ignore
     final class NoDiscard
     {
         /**
