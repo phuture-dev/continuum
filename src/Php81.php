@@ -43,51 +43,6 @@ final class Php81
     public const T_READONLY = 384;
 
     /**
-     * Compresses data using Brotli encoding.
-     *
-     * This is a stub method for brotli_compress() functionality.
-     * The actual functionality requires the Brotli extension.
-     *
-     * @see https://www.php.net/manual/en/function.brotli-compress.php
-     *
-     * @param string $data The data to compress
-     * @param int $encoding The encoding mode
-     * @param int $quality The compression quality (0-11)
-     * @return string|false Returns compressed data or false on failure
-     * @throws RuntimeException Always throws as this requires Brotli extension
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function brotli_compress(string $data, int $encoding = 0, int $quality = 11)
-    {
-        throw new RuntimeException(
-            'Brotli compression requires the Brotli extension. ' .
-            'This function cannot be polyfilled in userland PHP.'
-        );
-    }
-
-    /**
-     * Decompresses Brotli compressed data.
-     *
-     * This is a stub method for brotli_decompress() functionality.
-     * The actual functionality requires the Brotli extension.
-     *
-     * @see https://www.php.net/manual/en/function.brotli-decompress.php
-     *
-     * @param string $data The compressed data
-     * @param int $max_length Maximum length of decompressed data
-     * @return string|false Returns decompressed data or false on failure
-     * @throws RuntimeException Always throws as this requires Brotli extension
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function brotli_decompress(string $data, int $max_length = 0)
-    {
-        throw new RuntimeException(
-            'Brotli decompression requires the Brotli extension. ' .
-            'This function cannot be polyfilled in userland PHP.'
-        );
-    }
-
-    /**
      * Synchronizes file data to disk.
      *
      * This is a best-effort polyfill for the fdatasync() function introduced in PHP 8.1.

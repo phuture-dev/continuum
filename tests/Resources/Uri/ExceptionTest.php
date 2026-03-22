@@ -16,10 +16,6 @@ require __DIR__ . '/../../bootstrap.php';
  */
 class ExceptionTest extends TestCase
 {
-    // =========================================================================
-    // UriException Tests
-    // =========================================================================
-
     public function testUriExceptionIsException(): void
     {
         $exception = new UriException('Test message');
@@ -43,10 +39,6 @@ class ExceptionTest extends TestCase
         Assert::same($previous, $exception->getPrevious());
     }
 
-    // =========================================================================
-    // InvalidUriException Tests
-    // =========================================================================
-
     public function testInvalidUriExceptionExtendsUriException(): void
     {
         $exception = new InvalidUriException('Invalid URI');
@@ -60,7 +52,7 @@ class ExceptionTest extends TestCase
         Assert::exception(
             fn() => throw new InvalidUriException('Test exception'),
             InvalidUriException::class,
-            'Test exception'
+            'The specified URI is malformed; Test exception'
         );
     }
 
@@ -71,7 +63,7 @@ class ExceptionTest extends TestCase
             throw new InvalidUriException('Test exception');
         } catch (InvalidUriException $e) {
             $caught = true;
-            Assert::same('Test exception', $e->getMessage());
+            Assert::same('The specified URI is malformed; Test exception', $e->getMessage());
         }
         Assert::true($caught);
     }
@@ -93,20 +85,16 @@ class ExceptionTest extends TestCase
         $previous = new \RuntimeException('Previous');
         $exception = new InvalidUriException('Invalid URI', 500, $previous);
 
-        Assert::same('Invalid URI', $exception->getMessage());
+        Assert::same('The specified URI is malformed; Invalid URI', $exception->getMessage());
         Assert::same(500, $exception->getCode());
         Assert::same($previous, $exception->getPrevious());
     }
 
-    // =========================================================================
-    // InvalidUrlException Tests
-    // =========================================================================
-
     public function testInvalidUrlExceptionExtendsInvalidUriException(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
         $exception = new InvalidUrlException('Invalid URL', [$error]);
@@ -118,8 +106,8 @@ class ExceptionTest extends TestCase
     public function testInvalidUrlExceptionHasErrorsProperty(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
         $exception = new InvalidUrlException('Invalid URL', [$error]);
@@ -132,23 +120,23 @@ class ExceptionTest extends TestCase
     public function testInvalidUrlExceptionCanBeThrown(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
 
         Assert::exception(
             fn() => throw new InvalidUrlException('Test exception', [$error]),
             InvalidUrlException::class,
-            'Test exception'
+            'The specified URI is malformed; Test exception (PortInvalid)'
         );
     }
 
     public function testInvalidUrlExceptionCanBeCaught(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
         $caught = false;
@@ -156,7 +144,7 @@ class ExceptionTest extends TestCase
             throw new InvalidUrlException('Test exception', [$error]);
         } catch (InvalidUrlException $e) {
             $caught = true;
-            Assert::same('Test exception', $e->getMessage());
+            Assert::same('The specified URI is malformed; Test exception (PortInvalid)', $e->getMessage());
         }
         Assert::true($caught);
     }
@@ -164,8 +152,8 @@ class ExceptionTest extends TestCase
     public function testInvalidUrlExceptionCanBeCaughtAsInvalidUriException(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
         $caught = false;
@@ -181,8 +169,8 @@ class ExceptionTest extends TestCase
     public function testInvalidUrlExceptionCanBeCaughtAsUriException(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
         $caught = false;
@@ -210,26 +198,22 @@ class ExceptionTest extends TestCase
     {
         $previous = new \RuntimeException('Previous');
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
         $exception = new InvalidUrlException('Invalid URL', [$error], 400, $previous);
 
-        Assert::same('Invalid URL', $exception->getMessage());
+        Assert::same('The specified URI is malformed; Invalid URL (PortInvalid)', $exception->getMessage());
         Assert::same(400, $exception->getCode());
         Assert::same($previous, $exception->getPrevious());
     }
 
-    // =========================================================================
-    // UrlValidationError Tests
-    // =========================================================================
-
     public function testUrlValidationErrorHasContextProperty(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'my-context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
 
@@ -239,8 +223,8 @@ class ExceptionTest extends TestCase
     public function testUrlValidationErrorHasTypeProperty(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
 
@@ -250,8 +234,8 @@ class ExceptionTest extends TestCase
     public function testUrlValidationErrorHasFailureProperty(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
 
@@ -261,17 +245,13 @@ class ExceptionTest extends TestCase
     public function testUrlValidationErrorWithFailureFalse(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::SpecialSchemeMissingFollowingSolidus,
             'context',
+            UrlValidationErrorType::SpecialSchemeMissingFollowingSolidus,
             false
         );
 
         Assert::false($error->failure);
     }
-
-    // =========================================================================
-    // UrlValidationErrorType Tests
-    // =========================================================================
 
     public function testUrlValidationErrorTypeDomainInvalidCodePoint(): void
     {
@@ -313,16 +293,12 @@ class ExceptionTest extends TestCase
         Assert::same(UrlValidationErrorType::SpecialSchemeMissingFollowingSolidus, UrlValidationErrorType::SpecialSchemeMissingFollowingSolidus);
     }
 
-    // =========================================================================
-    // Integration Tests
-    // =========================================================================
-
     public function testExceptionHierarchy(): void
     {
         // Test that the exception hierarchy is correct
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
         $invalidUrlException = new InvalidUrlException('test', [$error]);

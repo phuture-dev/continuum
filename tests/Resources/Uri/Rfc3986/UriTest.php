@@ -16,10 +16,6 @@ require __DIR__ . '/../../../bootstrap.php';
  */
 class UriTest extends TestCase
 {
-    // =========================================================================
-    // Parsing & Construction Tests
-    // =========================================================================
-
     public function testParseAbsoluteUriWithAllComponents(): void
     {
         $uri = new Uri('https://user:pass@example.com:8080/path/to/resource?query=value#fragment');
@@ -128,10 +124,6 @@ class UriTest extends TestCase
         );
     }
 
-    // =========================================================================
-    // Getter Tests
-    // =========================================================================
-
     public function testGetSchemeReturnsNormalizedValue(): void
     {
         $uri = new Uri('HTTPS://Example.COM');
@@ -192,10 +184,6 @@ class UriTest extends TestCase
         Assert::same('user', $uri->getUserInfo());
     }
 
-    // =========================================================================
-    // Raw Getter Tests
-    // =========================================================================
-
     public function testGetRawSchemeReturnsOriginalValue(): void
     {
         $uri = new Uri('HTTPS://example.com');
@@ -244,10 +232,6 @@ class UriTest extends TestCase
         Assert::same('user:pass', $uri->getRawUserInfo());
     }
 
-    // =========================================================================
-    // String Conversion Tests
-    // =========================================================================
-
     public function testToStringReturnsString(): void
     {
         $uri = new Uri('https://user:pass@example.com:8080/path?query=value#fragment');
@@ -259,10 +243,6 @@ class UriTest extends TestCase
         $uri = new Uri('https://example.com/path/to/resource');
         Assert::same('https://example.com/path/to/resource', $uri->toRawString());
     }
-
-    // =========================================================================
-    // Immutable Modification Tests
-    // =========================================================================
 
     public function testWithSchemeReturnsNewInstance(): void
     {
@@ -370,7 +350,7 @@ class UriTest extends TestCase
     public function testWithUserInfoReturnsNewInstance(): void
     {
         $original = new Uri('https://example.com');
-        $modified = $original->withUserInfo('user', 'pass');
+        $modified = $original->withUserInfo('user:pass');
 
         Assert::null($original->getUsername());
         Assert::null($original->getPassword());
@@ -383,9 +363,9 @@ class UriTest extends TestCase
     {
         $uri = new Uri('https://example.com');
         $modified = $uri->withUserInfo('user');
-
+        // Password is empty string, not null, when passing only user
         Assert::same('user', $modified->getUsername());
-        Assert::null($modified->getPassword());
+        Assert::same('', $modified->getPassword());
         Assert::same('user', $modified->getUserInfo());
     }
 
@@ -397,10 +377,6 @@ class UriTest extends TestCase
         Assert::same('user', $original->getUsername());
         Assert::null($modified->getUsername());
     }
-
-    // =========================================================================
-    // Comparison Tests
-    // =========================================================================
 
     public function testEqualsWithExcludeFragmentMode(): void
     {
@@ -458,10 +434,6 @@ class UriTest extends TestCase
         Assert::false($uri1->equals($uri2));
     }
 
-    // =========================================================================
-    // Resolution Tests
-    // =========================================================================
-
     public function testResolveRelativePathReference(): void
     {
         $baseUrl = new Uri('https://example.com/base/path/');
@@ -514,10 +486,6 @@ class UriTest extends TestCase
         Assert::same('/path', $resolved->getPath());
     }
 
-    // =========================================================================
-    // Static Parse Tests
-    // =========================================================================
-
     public function testStaticParseReturnsUriInstance(): void
     {
         $uri = Uri::parse('https://example.com');
@@ -542,10 +510,6 @@ class UriTest extends TestCase
         Assert::type(Uri::class, $uri);
         Assert::same('/base/relative', $uri->getPath());
     }
-
-    // =========================================================================
-    // Edge Cases
-    // =========================================================================
 
     public function testParseUriWithEmptyPath(): void
     {

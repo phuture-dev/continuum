@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Uri\WhatWg;
 
-use Uri\{UriComparisonMode, InvalidUrlException};
+use Uri\UriComparisonMode;
 
 // phpcs:ignore
 if (\PHP_VERSION_ID < 80100) {

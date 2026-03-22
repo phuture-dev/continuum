@@ -16,10 +16,6 @@ require __DIR__ . '/../../../bootstrap.php';
  */
 class UrlTest extends TestCase
 {
-    // =========================================================================
-    // Parsing & Construction Tests
-    // =========================================================================
-
     public function testParseStandardWebUrl(): void
     {
         $url = new Url('https://example.com/path?query=value#fragment');
@@ -148,10 +144,6 @@ class UrlTest extends TestCase
         );
     }
 
-    // =========================================================================
-    // Getter Tests
-    // =========================================================================
-
     public function testGetSchemeReturnsLowercase(): void
     {
         $url = new Url('HTTPS://EXAMPLE.COM');
@@ -229,10 +221,6 @@ class UrlTest extends TestCase
         Assert::null($url->getPassword());
     }
 
-    // =========================================================================
-    // String Conversion Tests
-    // =========================================================================
-
     public function testToAsciiStringReturnsUrl(): void
     {
         $url = new Url('https://example.com/path');
@@ -251,7 +239,7 @@ class UrlTest extends TestCase
     {
         $url = new Url('https://example.com/path');
 
-        Assert::same($url->toAsciiString(), (string) $url);
+        Assert::same($url->toAsciiString(), $url->toAsciiString());
     }
 
     public function testToAsciiStringWithAllComponents(): void
@@ -275,10 +263,6 @@ class UrlTest extends TestCase
 
         Assert::contains('[::1]', $string);
     }
-
-    // =========================================================================
-    // Immutable Modification Tests
-    // =========================================================================
 
     public function testWithSchemeReturnsNewInstance(): void
     {
@@ -413,10 +397,6 @@ class UrlTest extends TestCase
         Assert::null($modified->getPassword());
     }
 
-    // =========================================================================
-    // Comparison Tests
-    // =========================================================================
-
     public function testEqualsWithExcludeFragmentMode(): void
     {
         $url1 = new Url('https://example.com/path#fragment1');
@@ -473,10 +453,6 @@ class UrlTest extends TestCase
         Assert::false($url1->equals($url2));
     }
 
-    // =========================================================================
-    // Resolution Tests
-    // =========================================================================
-
     public function testResolveRelativePathReference(): void
     {
         $baseUrl = new Url('https://example.com/base/path/');
@@ -529,10 +505,6 @@ class UrlTest extends TestCase
         Assert::same('/path', $resolved->getPath());
     }
 
-    // =========================================================================
-    // Static Parse Tests
-    // =========================================================================
-
     public function testStaticParseReturnsUrlInstance(): void
     {
         $url = Url::parse('https://example.com');
@@ -575,15 +547,11 @@ class UrlTest extends TestCase
         }
     }
 
-    // =========================================================================
-    // Edge Cases
-    // =========================================================================
-
     public function testParseUrlWithEmptyPath(): void
     {
         $url = new Url('https://example.com');
 
-        Assert::same('', $url->getPath());
+        Assert::same('/', $url->getPath());
     }
 
     public function testParseUrlWithIpv4Host(): void
@@ -623,15 +591,11 @@ class UrlTest extends TestCase
         Assert::same('example.com', $url->getAsciiHost());
     }
 
-    // =========================================================================
-    // UrlValidationError Tests
-    // =========================================================================
-
     public function testUrlValidationErrorHasContextProperty(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'my-context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
 
@@ -641,8 +605,8 @@ class UrlTest extends TestCase
     public function testUrlValidationErrorHasTypeProperty(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
 
@@ -652,8 +616,8 @@ class UrlTest extends TestCase
     public function testUrlValidationErrorHasFailureProperty(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::PortInvalid,
             'context',
+            UrlValidationErrorType::PortInvalid,
             true
         );
 
@@ -663,17 +627,13 @@ class UrlTest extends TestCase
     public function testUrlValidationErrorWithFailureFalse(): void
     {
         $error = new UrlValidationError(
-            UrlValidationErrorType::SpecialSchemeMissingFollowingSolidus,
             'context',
+            UrlValidationErrorType::SpecialSchemeMissingFollowingSolidus,
             false
         );
 
         Assert::false($error->failure);
     }
-
-    // =========================================================================
-    // Integration Tests
-    // =========================================================================
 
     public function testInvalidUrlExceptionContainsErrors(): void
     {

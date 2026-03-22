@@ -92,34 +92,3 @@ if (extension_loaded('gd')) {
         }
     }
 }
-
-if (extension_loaded('brotli')) {
-    if (!function_exists('brotli_compress')) {
-        /**
-         * Compresses data using the Brotli algorithm.
-         *
-         * @param string $data The data to compress
-         * @param int $encoding The encoding mode (0=generic, 1=text, 2=font)
-         * @param int $quality The compression quality (0-11)
-         * @return mixed Returns the compressed data, or false on failure
-         */
-        function brotli_compress(string $data, int $encoding = 0, int $quality = 11): mixed
-        {
-            return Php81::brotli_compress($data, $encoding, $quality);
-        }
-    }
-
-    if (!function_exists('brotli_decompress')) {
-        /**
-         * Decompresses Brotli-encoded data.
-         *
-         * @param string $data The compressed data
-         * @param int $max_length Maximum length of decompressed data (0 for unlimited)
-         * @return mixed Returns the decompressed data, or false on failure
-         */
-        function brotli_decompress(string $data, int $max_length = 0): mixed
-        {
-            return Php81::brotli_decompress($data, $max_length);
-        }
-    }
-}

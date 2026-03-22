@@ -139,8 +139,8 @@ final class Php82
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public static function curl_upkeep(CurlHandle $handle): bool
     {
-        curl_setopt($handle, CURLOPT_FORBID_REUSE, 0);
-        curl_setopt($handle, CURLOPT_FRESH_CONNECT, 0);
+        curl_setopt($handle, CURLOPT_FORBID_REUSE, false);
+        curl_setopt($handle, CURLOPT_FRESH_CONNECT, false);
 
         return true;
     }
