@@ -132,8 +132,8 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
 
             if (!empty($failures)) {
                 throw new InvalidUrlException(
-                    $errors,
-                    'Invalid URL: ' . $url
+                    'Invalid URL: ' . $url,
+                    $errors
                 );
             }
 
@@ -227,6 +227,10 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
          */
         public function getPath(): string
         {
+            if ($this->path === '' && $this->isSpecialScheme()) {
+                return '/';
+            }
+
             return $this->path;
         }
 

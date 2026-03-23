@@ -73,10 +73,7 @@
     },
     "config": {
         "sort-packages": true,
-        "optimize-autoloader": true,
-        "platform": {
-            "php": "8.1.0"
-        }
+        "optimize-autoloader": true
     },
     "minimum-stability": "stable",
     "prefer-stable": true,

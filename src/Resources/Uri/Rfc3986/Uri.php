@@ -605,20 +605,37 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
         public function withUserInfo(?string $username, ?string $password = null): self
         {
             $new = clone $this;
-            $new->username = $username;
-            $new->rawUsername = $username !== null ? $this->encodeComponent($username) : null;
-            $new->password = $password;
-            $new->rawPassword = $password !== null ? $this->encodeComponent($password) : null;
 
-            if ($username !== null) {
-                $new->userInfo = $password !== null ? $username . ':' . $password : $username;
-                $new->rawUserInfo = $password !== null
-                    ? $new->rawUsername . ':' . $new->rawPassword
-                    : $new->rawUsername;
-            } else {
+            if ($username === null) {
+                $new->username = null;
+                $new->rawUsername = null;
+                $new->password = null;
+                $new->rawPassword = null;
                 $new->userInfo = null;
                 $new->rawUserInfo = null;
+
+                return $new;
             }
+
+            if ($password === null) {
+                $colonPos = strpos($username, ':');
+                if ($colonPos !== false) {
+                    $password = substr($username, $colonPos + 1);
+                    $username = substr($username, 0, $colonPos);
+                } else {
+                    $password = '';
+                }
+            }
+
+            $new->username = $username;
+            $new->rawUsername = $this->encodeComponent($username);
+            $new->password = $password;
+            $new->rawPassword = $password !== '' ? $this->encodeComponent($password) : '';
+
+            $new->userInfo = $password !== '' ? $username . ':' . $password : $username;
+            $new->rawUserInfo = $password !== ''
+                ? $new->rawUsername . ':' . $new->rawPassword
+                : $new->rawUsername;
 
             return $new;
         }
@@ -772,6 +789,10 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
          */
         private function parseUri(string $uri): void
         {
+            if (str_starts_with($uri, '://')) {
+                throw new InvalidUriException('Failed to parse URI: ' . $uri);
+            }
+
             $components = parse_url($uri);
 
             if ($components === false) {
@@ -791,7 +812,7 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
             }
 
             if (isset($components['host'])) {
-                $this->host = $this->decodeHost($components['host']);
+                $this->host = strtolower($this->decodeHost($components['host']));
             }
 
             $this->port = $components['port'] ?? null;

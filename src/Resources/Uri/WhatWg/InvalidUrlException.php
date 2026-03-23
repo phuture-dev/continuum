@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Uri\WhatWg;
 
 use Throwable;
+use ValueError;
 use Uri\InvalidUriException;
 
 // phpcs:ignore
@@ -32,14 +33,24 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
         /**
          * Constructs a new InvalidUrlException.
          *
-         * @param array $errors List of validation errors
          * @param string $message The exception message
+         * @param array $errors List of validation errors from URL parsing
          * @param int $code The exception code
-         * @param Throwable|null $previous The previous exception for chaining
+         * @param Throwable|null $previous Previous exception for chaining
          */
-        public function __construct(array $errors, string $message = '', int $code = 0, ?Throwable $previous = null)
+        public function __construct(string $message, array $errors, int $code = 0, ?Throwable $previous = null)
         {
+            if (!array_is_list($errors)) {
+                throw new ValueError('the error argument must be a list.');
+            }
+
             $this->errors = $errors;
+            $errorTypes = array_map(fn ($e) => $e->type, $errors);
+
+            if (!empty($errorTypes)) {
+                $message .= ' (' . implode(', ', $errorTypes) . ')';
+            }
+
             parent::__construct($message, $code, $previous);
         }
     }

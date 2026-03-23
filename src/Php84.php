@@ -292,6 +292,11 @@ final class Php84
 
     /**
      * Helper for rounding half to even (banker's rounding).
+     *
+     * @param float $num The original number being rounded
+     * @param string $scaled The integer part as a string
+     * @param float $fraction The fractional part
+     * @return string The rounded result as a string
      */
     private static function bcRoundHalfEven(float $num, string $scaled, float $fraction): string
     {
@@ -317,6 +322,11 @@ final class Php84
 
     /**
      * Helper for rounding half to odd.
+     *
+     * @param float $num The original number being rounded
+     * @param string $scaled The integer part as a string
+     * @param float $fraction The fractional part
+     * @return string The rounded result as a string
      */
     private static function bcRoundHalfOdd(float $num, string $scaled, float $fraction): string
     {
@@ -342,6 +352,10 @@ final class Php84
 
     /**
      * Helper for rounding toward negative infinity (floor).
+     *
+     * @param string $scaled The integer part as a string
+     * @param float $fraction The fractional part
+     * @return string The rounded result as a string
      */
     private static function bcRoundNegativeInfinity(string $scaled, float $fraction): string
     {
@@ -354,6 +368,10 @@ final class Php84
 
     /**
      * Helper for rounding toward positive infinity (ceil).
+     *
+     * @param string $scaled The integer part as a string
+     * @param float $fraction The fractional part
+     * @return string The rounded result as a string
      */
     private static function bcRoundPositiveInfinity(string $scaled, float $fraction): string
     {
