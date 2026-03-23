@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 // phpcs:ignore
-if (\PHP_VERSION_ID < 80100) {
+if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     /**
      * RoundingMode enum stub for PHP 8.4.
      *
@@ -52,7 +52,7 @@ if (\PHP_VERSION_ID < 80100) {
 }
 
 // phpcs:ignore
-if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80400 && !enum_exists(RoundingMode::class)) {
+if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80400) {
     $enum = <<<'RoundingMode'
     enum RoundingMode: int
     {

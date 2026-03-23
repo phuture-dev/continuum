@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Attribute;
 
-if (\PHP_VERSION_ID < 80400) {
+if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80400) {
     /**
      * Deprecated attribute stub class for PHP 8.4.
      *

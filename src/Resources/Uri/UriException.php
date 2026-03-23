@@ -6,7 +6,7 @@ namespace Uri;
 
 use Exception;
 
-if (\PHP_VERSION_ID < 80100) {
+if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     /**
      * Base exception class for URI-related errors.
      *
@@ -23,7 +23,8 @@ if (\PHP_VERSION_ID < 80100) {
     }
 }
 
-if (\PHP_VERSION_ID >= 80100) {
-    return require_once realpath(\Composer\InstalledVersions::getInstallPath('thephpleague/uri-polyfill'))
+// phpcs:ignore
+if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80500) {
+    require_once realpath(__DIR__ . '/../../../components/league/uri-polyfill/')
         . '/lib/UriException.php';
 }

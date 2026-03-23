@@ -7,7 +7,7 @@ namespace Uri\Rfc3986;
 use Uri\{InvalidUriException, UriComparisonMode};
 
 // phpcs:ignore
-if (\PHP_VERSION_ID < 80100) {
+if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     /**
      * RFC 3986 compliant URI implementation for PHP 8.0 polyfill.
      *
@@ -416,7 +416,7 @@ if (\PHP_VERSION_ID < 80100) {
         {
             try {
                 return new self($uri, $baseUrl);
-            } catch (InvalidUriException) {
+            } catch (InvalidUriException $e) {
                 return null;
             }
         }
@@ -699,6 +699,7 @@ if (\PHP_VERSION_ID < 80100) {
             $result = '';
             $length = strlen($component);
 
+            // phpcs:ignore
             for ($i = 0; $i < $length; $i++) {
                 $char = $component[$i];
                 $ord = ord($char);
@@ -923,7 +924,7 @@ if (\PHP_VERSION_ID < 80100) {
 }
 
 // phpcs:ignore
-if (\PHP_VERSION_ID >= 80100) {
-    return require_once realpath(\Composer\InstalledVersions::getInstallPath('thephpleague/uri-polyfill'))
+if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80500) {
+    require_once realpath(__DIR__ . '/../../../../components/league/uri-polyfill/')
         . '/lib/Rfc3986/Uri.php';
 }

@@ -1,0 +1,40 @@
+{
+    "components": {
+        "league/uri-polyfill": {
+            "version": "7.8.0",
+            "git": "https://github.com/thephpleague/uri-polyfill/",
+            "constraint": [
+                ["PHP_VERSION_ID", ">=", 80100],
+                ["PHP_VERSION_ID", "<", 80500]
+            ],
+            "autoload": "/"
+        },
+        "league/uri-interfaces": {
+            "version": "7.8.0",
+            "git": "https://github.com/thephpleague/uri-interfaces/",
+            "constraint": [
+                ["PHP_VERSION_ID", ">=", 80100],
+                ["PHP_VERSION_ID", "<", 80500]
+            ],
+            "autoload": "/"
+        },
+        "rowbot/url": {
+            "version": "4.1.0",
+            "git": "https://github.com/TRowbotham/URL-Parser/",
+            "constraint": [
+                ["PHP_VERSION_ID", ">=", 80100],
+                ["PHP_VERSION_ID", "<", 80500]
+            ],
+            "autoload": "/"
+        },
+        "rowbot/idna": {
+            "version": "0.3.0",
+            "git": "https://github.com/TRowbotham/idna/",
+            "constraint": [
+                ["PHP_VERSION_ID", ">=", 80100],
+                ["PHP_VERSION_ID", "<", 80500]
+            ],
+            "autoload": "/"
+        }
+    }
+}

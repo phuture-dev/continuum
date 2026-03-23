@@ -7,7 +7,7 @@ namespace Uri\WhatWg;
 use Uri\UriComparisonMode;
 
 // phpcs:ignore
-if (\PHP_VERSION_ID < 80100) {
+if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     /**
      * WHATWG URL Standard compliant URL implementation for PHP 8.0 polyfill.
      *
@@ -538,6 +538,7 @@ if (\PHP_VERSION_ID < 80100) {
             $length = strlen($string);
             $allowed = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~' . $extraAllowed;
 
+            // phpcs:ignore
             for ($i = 0; $i < $length; $i++) {
                 $char = $string[$i];
                 if (str_contains($allowed, $char)) {
@@ -559,6 +560,7 @@ if (\PHP_VERSION_ID < 80100) {
         private function findAuthorityEnd(string $string): int
         {
             $len = strlen($string);
+            // phpcs:ignore
             for ($i = 0; $i < $len; $i++) {
                 $char = $string[$i];
                 if ($char === '/' || $char === '?' || $char === '#') {
@@ -614,6 +616,7 @@ if (\PHP_VERSION_ID < 80100) {
         {
             // Check for forbidden code points
             $forbidden = "\x00\t\n\r #/:?@[\\]";
+            // phpcs:ignore
             for ($i = 0; $i < strlen($forbidden); $i++) {
                 if (str_contains($host, $forbidden[$i])) {
                     return false;
@@ -1211,13 +1214,7 @@ if (\PHP_VERSION_ID < 80100) {
 }
 
 // phpcs:ignore
-if (\PHP_VERSION_ID >= 80100) {
-    $files = [
-        '/Polyfill/UrlValidationErrorCollector.php',
-        '/lib/WhatWg/Url.php'
-    ];
-
-    foreach ($files as $file) {
-        require_once realpath(\Composer\InstalledVersions::getInstallPath('thephpleague/uri-polyfill')) . $file;
-    }
+if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80500) {
+    require_once realpath(__DIR__ . '/../../../../components/league/uri-polyfill/')
+        . '/lib/WhatWg/Url.php';
 }

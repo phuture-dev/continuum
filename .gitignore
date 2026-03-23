@@ -3,3 +3,7 @@
 /tests/output/
 /tests/**/output/
 /.php-cs-fixer.cache
+/components/**/LICENSE
+/components/**/composer.*
+/components/**/*.md
+/components/**/.*

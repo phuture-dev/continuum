@@ -1,9 +1,9 @@
 parameters:
+    phpVersion: 80000
     ignoreErrors:
         - identifier: missingType.iterableValue
         - identifier: return.unusedType
         - identifier: nullCoalesce.offset
-        - identifier: function.alreadyNarrowedType
 
     # Set rules level
     level: 6

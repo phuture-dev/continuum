@@ -183,7 +183,6 @@ final class Php82
             });
 
             // Try to check mailbox status - a harmless operation that will fail if closed
-            /** @phpstan-ignore-next-line */
             @imap_check($imapStream);
             restore_error_handler();
 

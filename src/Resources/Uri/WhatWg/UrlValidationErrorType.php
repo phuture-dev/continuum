@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Uri\WhatWg;
 
 // phpcs:ignore
-if (\PHP_VERSION_ID < 80100) {
+if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     /**
      * UrlValidationErrorType enum stub for PHP 8.5.
      *
@@ -116,7 +116,7 @@ if (\PHP_VERSION_ID < 80100) {
 }
 
 // phpcs:ignore
-if (\PHP_VERSION_ID >= 80100) {
-    return require_once realpath(\Composer\InstalledVersions::getInstallPath('thephpleague/uri-polyfill'))
+if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80500) {
+    require_once realpath(__DIR__ . '/../../../../components/league/uri-polyfill/')
         . '/lib/WhatWg/UrlValidationErrorType.php';
 }

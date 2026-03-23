@@ -87,6 +87,7 @@ final class Php85
             } catch (Error $e) {
                 $reflection = new ReflectionProperty($object, $name);
 
+                /** @phpstan-ignore-next-line */
                 if (method_exists($reflection, 'isReadOnly') && $reflection->isReadOnly() && PHP_VERSION_ID < 80300) {
                     throw new RuntimeException(
                         "Cannot modify readonly property {$reflection->getDeclaringClass()->getName()}::\${$name} " .
@@ -184,14 +185,17 @@ final class Php85
         $currRow = [];
 
         // Initialize first row
+        // phpcs:ignore
         for ($j = 0; $j <= $len2; ++$j) {
             $prevRow[$j] = $j * $insertion_cost;
         }
 
         // Fill the matrix
+        // phpcs:ignore
         for ($i = 1; $i <= $len1; ++$i) {
             $currRow[0] = $i * $deletion_cost;
 
+            // phpcs:ignore
             for ($j = 1; $j <= $len2; ++$j) {
                 $cost = ($clusters1[$i - 1] === $clusters2[$j - 1]) ? 0 : $replacement_cost;
 
@@ -245,6 +249,7 @@ final class Php85
         $clusters = [];
         $pos = 0;
 
+        // phpcs:ignore
         for ($i = 0; $i < $len; ++$i) {
             $cluster = grapheme_extract($string, 1, GRAPHEME_EXTR_COUNT, $pos, $nextPos);
             if ($cluster === false) {
