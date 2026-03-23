@@ -1212,6 +1212,12 @@ if (\PHP_VERSION_ID < 80100) {
 
 // phpcs:ignore
 if (\PHP_VERSION_ID >= 80100) {
-    return require_once realpath(\Composer\InstalledVersions::getInstallPath('league/uri-polyfill'))
-        . '/lib/WhatWg/Url.php';
+    $files = [
+        '/Polyfill/UrlValidationErrorCollector.php',
+        '/lib/WhatWg/Url.php'
+    ];
+
+    foreach ($files as $file) {
+        require_once realpath(\Composer\InstalledVersions::getInstallPath('thephpleague/uri-polyfill')) . $file;
+    }
 }

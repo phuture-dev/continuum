@@ -24,6 +24,6 @@ if (\PHP_VERSION_ID < 80100) {
 }
 
 if (\PHP_VERSION_ID >= 80100) {
-    return require_once realpath(\Composer\InstalledVersions::getInstallPath('league/uri-polyfill'))
+    return require_once realpath(\Composer\InstalledVersions::getInstallPath('thephpleague/uri-polyfill'))
         . '/lib/UriException.php';
 }
