@@ -70,18 +70,15 @@ This package polyfills most common PHP functions from PHP 8.1 to 8.5, designed t
 
 This package also provides polyfills for some PHP extensions, allowing better portability across different PHP runtimes.
 
-| Extension      | Level      |
-|----------------|------------|
-| `ext-mbstring` | ✅ Full    |
-| `ext-iconv`    | ✅ Full    |
-| `ext-apcu`     | ✅ Full    |
-| `ext-ctype`    | ✅ Full    |
-| `ext-uuid`     | ✅ Full    |
-| `ext-bcmath`   | ✅ Full    |
-| `ext-intl`     | ⚠️ Partial |
-
-
-> **Note:** Additionally, all [Symfony Polyfill](https://github.com/symfony/polyfill) packages are included.
+| Extension      | Level          |
+|----------------|----------------|
+| `ext-mbstring` | ✅ Full        |
+| `ext-iconv`    | ✅ Full        |
+| `ext-apcu`     | ✅ Full        |
+| `ext-ctype`    | ✅ Full        |
+| `ext-uuid`     | ✅ Full        |
+| `ext-bcmath`   | ✅ Full        |
+| `ext-intl`     | ❇️ Best-effort |
 
 ## Installation
 

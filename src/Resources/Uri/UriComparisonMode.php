@@ -25,8 +25,13 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
      * @license https://opensource.org/licenses/MIT MIT License
      * @link https://www.phuture.dev/ Phuture
      */
-    final class UriComparisonMode extends \Phuture\Continuum\Uri\UriComparisonMode
+    final class UriComparisonMode
     {
+        // phpcs:ignore
+        public const ExcludeFragment = 'ExcludeFragment';
+
+        // phpcs:ignore
+        public const IncludeFragment = 'IncludeFragment';
     }
 }
 

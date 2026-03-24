@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Uri;
 
+use Exception;
+
 if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     /**
      * Base exception class for URI-related errors.
@@ -16,7 +18,7 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
      * @license https://opensource.org/licenses/MIT MIT License
      * @link https://www.phuture.dev/ Phuture
      */
-    class UriException extends \Phuture\Continuum\Uri\UriException
+    class UriException extends Exception
     {
     }
 }

@@ -17,8 +17,42 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
      * @license https://opensource.org/licenses/MIT MIT License
      * @link https://www.phuture.dev/ Phuture
      */
-    final class UrlValidationError extends \Phuture\Continuum\Uri\WhatWg\UrlValidationError
+    class UrlValidationError
     {
+        /**
+         * The context in which the validation error occurred.
+         *
+         * @var string
+         */
+        public string $context;
+
+        /**
+         * Indicates whether the validation error is a failure.
+         *
+         * @var bool
+         */
+        public bool $failure;
+
+        /**
+         * The type of validation error.
+         *
+         * @var string
+         */
+        public string $type;
+
+        /**
+         * Constructs a new URL validation error instance.
+         *
+         * @param string $context The context in which the validation error occurred
+         * @param string $type The type of validation error
+         * @param bool $failure Whether the validation error is a failure
+         */
+        public function __construct(string $context, string $type, bool $failure)
+        {
+            $this->context = $context;
+            $this->type = $type;
+            $this->failure = $failure;
+        }
     }
 }
 
