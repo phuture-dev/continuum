@@ -19,50 +19,67 @@
 
 This package polyfills most common PHP functions from PHP 8.1 to 8.5, designed to be used on PHP 8.0 or later.
 
-| Polyfill | Level | Version | Type |
-|----------|-------|---------|------|
-| `fsync()` | ❇️ Best-effort | PHP 8.1+ | Function |
-| `fdatasync()` | ❇️ Best-effort | PHP 8.1+ | Function |
-| `imagecreatefromavif()` | ⚠️ Stub | PHP 8.1+ | Function |
-| `imageavif()` | ⚠️ Stub | PHP 8.1+ | Function |
-| `IMG_AVIF` | ✅ Full | PHP 8.1+ | Constant |
-| `IMG_WEBP_LOSSLESS` | ✅ Full | PHP 8.1+ | Constant |
-| `MYSQLI_REFRESH_REPLICA` | ✅ Full | PHP 8.1+ | Constant |
-| `T_READONLY` | ✅ Full | PHP 8.1+ | Constant |
-| `curl_upkeep()` | ❇️ Best-effort | PHP 8.2+ | Function |
-| `libxml_get_external_entity_loader()` | ⚠️ Stub | PHP 8.2+ | Function |
-| `memory_reset_peak_usage()` | ⚠️ No-op | PHP 8.2+ | Function |
-| `mysqli_execute_query()` | ✅ Full | PHP 8.2+ | Function |
-| `openssl_cipher_key_length()` | ✅ Full | PHP 8.2+ | Function |
-| `sodium_crypto_stream_xchacha20_xor_ic()` | ⚠️ Stub | PHP 8.2+ | Function |
-| `imap_is_open()` | ✅ Full | PHP 8.2+ | Function |
-| `posix_sysconf()` | ⚠️ Stub | PHP 8.3+ | Function |
-| `posix_pathconf()` | ⚠️ Stub | PHP 8.3+ | Function |
-| `posix_fpathconf()` | ⚠️ Stub | PHP 8.3+ | Function |
-| `posix_eaccess()` | ❇️ Best-effort | PHP 8.3+ | Function |
-| `socket_atmark()` | ⚠️ Stub | PHP 8.3+ | Function |
-| `POSIX_PC_*` (10 constants) | ✅ Full | PHP 8.3+ | Constant |
-| `POSIX_F_OK`, `POSIX_R_OK`, `POSIX_W_OK`, `POSIX_X_OK` | ✅ Full | PHP 8.3+ | Constant |
-| `bcceil()` | ✅ Full | PHP 8.4+ | Function |
-| `bcfloor()` | ✅ Full | PHP 8.4+ | Function |
-| `bcround()` | ✅ Full | PHP 8.4+ | Function |
-| `request_parse_body()` | ⚠️ Stub | PHP 8.4+ | Function |
-| `ldap_exop()` | ⚠️ Stub | PHP 8.4+ | Function |
-| `ldap_parse_exop()` | ⚠️ Stub | PHP 8.4+ | Function |
-| `PHP_SBINDIR` | ✅ Full | PHP 8.4+ | Constant |
-| `curl_multi_get_handles()` | ⚠️ Stub | PHP 8.5+ | Function |
-| `grapheme_levenshtein()` | ✅ Full | PHP 8.5+ | Function |
-| `FILTER_THROW_ON_FAILURE` | ✅ Full | PHP 8.5+ | Constant |
-| `PHP_BUILD_DATE` | ✅ Full | PHP 8.5+ | Constant |
-| `PHP_BUILD_PROVIDER` | ✅ Full | PHP 8.5+ | Constant |
-| `Uri\Rfc3986\Uri` | ✅ Full | PHP 8.5+ | Class |
-| `Uri\WhatWg\Url` | ✅ Full | PHP 8.5+ | Class |
-| `Uri\WhatWg\InvalidUrlException` | ✅ Full | PHP 8.5+ | Class |
-| `Uri\WhatWg\UrlValidationError` | ✅ Full | PHP 8.5+ | Class |
-| `Uri\WhatWg\UrlValidationErrorType` | ✅ Full | PHP 8.5+ | Class |
-| `Uri\UriException` | ✅ Full | PHP 8.5+ | Class |
-| `Uri\InvalidUriException` | ✅ Full | PHP 8.5+ | Class |
-| `Uri\UriComparisonMode` | ✅ Full | PHP 8.5+ | Class |
+| Polyfill                                               | Level          | Type     |
+|--------------------------------------------------------|----------------|----------|
+| ▶️ **PHP 8.1+**                                                                    |
+| `fsync()`                                              | ❇️ Best-effort | Function |
+| `fdatasync()`                                          | ❇️ Best-effort | Function |
+| `imagecreatefromavif()`                                | ⚠️ Stub        | Function |
+| `imageavif()`                                          | ⚠️ Stub        | Function |
+| `IMG_AVIF`                                             | ✅ Full        | Constant |
+| `IMG_WEBP_LOSSLESS`                                    | ✅ Full        | Constant |
+| `MYSQLI_REFRESH_REPLICA`                               | ✅ Full        | Constant |
+| `T_READONLY`                                           | ✅ Full        | Constant |
+| ▶️ **PHP 8.2+**                                                                    |
+| `curl_upkeep()`                                        | ❇️ Best-effort | Function |
+| `libxml_get_external_entity_loader()`                  | ⚠️ Stub        | Function |
+| `memory_reset_peak_usage()`                            | ⚠️ No-op       | Function |
+| `mysqli_execute_query()`                               | ✅ Full        | Function |
+| `openssl_cipher_key_length()`                          | ✅ Full        | Function |
+| `sodium_crypto_stream_xchacha20_xor_ic()`              | ⚠️ Stub        | Function |
+| `imap_is_open()`                                       | ✅ Full        | Function |
+| ▶️ **PHP 8.3+**                                                                    |
+| `posix_sysconf()`                                      | ⚠️ Stub        | Function |
+| `posix_pathconf()`                                     | ⚠️ Stub        | Function |
+| `posix_fpathconf()`                                    | ⚠️ Stub        | Function |
+| `posix_eaccess()`                                      | ❇️ Best-effort | Function |
+| `socket_atmark()`                                      | ⚠️ Stub        | Function |
+| `POSIX_PC_*` (10 constants)                            | ✅ Full        | Constant |
+| `POSIX_F_OK`, `POSIX_R_OK`, `POSIX_W_OK`, `POSIX_X_OK` | ✅ Full        | Constant |
+| ▶️ **PHP 8.4+**                                                                    |
+| `bcceil()`                                             | ✅ Full        | Function |
+| `bcfloor()`                                            | ✅ Full        | Function |
+| `bcround()`                                            | ✅ Full        | Function |
+| `request_parse_body()`                                 | ⚠️ Stub        | Function |
+| `ldap_exop()`                                          | ⚠️ Stub        | Function |
+| `ldap_parse_exop()`                                    | ⚠️ Stub        | Function |
+| `PHP_SBINDIR`                                          | ✅ Full        | Constant |
+| ▶️ **PHP 8.5+**                                                                    |
+| `locale_is_right_to_left()`                            | ✅ Full        | Function |
+| `grapheme_levenshtein()`                               | ✅ Full        | Function |
+| `PHP_BUILD_DATE`                                       | ✅ Full        | Constant |
+| `PHP_BUILD_PROVIDER`                                   | ✅ Full        | Constant |
+| `Uri\Rfc3986\Uri`                                      | ✅ Full        | Class    |
+| `Uri\WhatWg\Url`                                       | ✅ Full        | Class    |
+| `Uri\WhatWg\InvalidUrlException`                       | ✅ Full        | Class    |
+| `Uri\WhatWg\UrlValidationError`                        | ✅ Full        | Class    |
+| `Uri\WhatWg\UrlValidationErrorType`                    | ✅ Full        | Class    |
+| `Uri\UriException`                                     | ✅ Full        | Class    |
+| `Uri\InvalidUriException`                              | ✅ Full        | Class    |
+| `Uri\UriComparisonMode`                                | ✅ Full        | Class    |
+
+This package also provides polyfills for some PHP extensions, allowing better portability across different PHP runtimes.
+
+| Extension      | Level      |
+|----------------|------------|
+| `ext-mbstring` | ✅ Full    |
+| `ext-iconv`    | ✅ Full    |
+| `ext-apcu`     | ✅ Full    |
+| `ext-ctype`    | ✅ Full    |
+| `ext-uuid`     | ✅ Full    |
+| `ext-bcmath`   | ✅ Full    |
+| `ext-intl`     | ⚠️ Partial |
+
 
 > **Note:** Additionally, all [Symfony Polyfill](https://github.com/symfony/polyfill) packages are included.
 

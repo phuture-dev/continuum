@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Uri;
 
-use Throwable;
-
 // phpcs:ignore
 if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     /**
@@ -19,19 +17,8 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
      * @license https://opensource.org/licenses/MIT MIT License
      * @link https://www.phuture.dev/ Phuture
      */
-    class InvalidUriException extends UriException
+    class InvalidUriException extends \Phuture\Continuum\Uri\UriException
     {
-        /**
-         * Constructs a new InvalidUriException.
-         *
-         * @param string $message The exception message
-         * @param int $code The exception code
-         * @param Throwable|null $previous Previous exception for chaining
-         */
-        public function __construct(string $message = '', int $code = 0, ?Throwable $previous = null)
-        {
-            parent::__construct('The specified URI is malformed; ' . $message, $code, $previous);
-        }
     }
 }
 

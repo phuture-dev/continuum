@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum;
 
-use Error;
+use Locale;
 use Normalizer;
 use CurlMultiHandle;
 use RuntimeException;
-use ReflectionProperty;
-use ReflectionException;
 
 /**
  * PHP 8.5 polyfill methods.
@@ -25,17 +23,6 @@ use ReflectionException;
  */
 final class Php85
 {
-    /**
-     * Flag to make filter_var() throw ValueError on failure.
-     *
-     * This constant was introduced in PHP 8.5 for filter_var() and related functions.
-     * When this flag is used, filter functions will throw a ValueError exception
-     * instead of returning false on validation failure.
-     *
-     * @see https://www.php.net/manual/en/function.filter-var.php
-     */
-    public const FILTER_THROW_ON_FAILURE = 0x40000000;
-
     /**
      * The PHP build date.
      *
@@ -57,81 +44,87 @@ final class Php85
     public const PHP_BUILD_PROVIDER = 'phuture/continuum';
 
     /**
-     * Clones an object and updates its properties.
+     * Mapping of language codes to their default RTL scripts.
      *
-     * This polyfill implements the clone() function introduced in PHP 8.5.
-     * It allows cloning an object and updating its properties in a single operation,
-     * which is especially useful for the "with-er" pattern in readonly classes.
+     * This mapping covers languages that primarily use RTL scripts.
+     * Used when the script is not explicitly specified in the locale.
      *
-     * @see https://wiki.php.net/rfc/clone_with_v2
-     * @see https://www.php.net/manual/en/function.clone.php
+     * @see https://unicode.org/iso15924/iso15924-codes.html
      *
-     * @param object $object The object to clone
-     * @param array $properties Associative array of properties to override (key => value)
-     * @return object The cloned object with updated properties
-     * @throws RuntimeException If attempting to modify readonly properties in PHP < 8.3
-     * @throws ReflectionException If a property doesn't exist
+     * @var array
      */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function clone(object $object, array $properties = []): object
-    {
-        $cloned = clone $object;
-
-        if (empty($properties)) {
-            return $cloned;
-        }
-
-        foreach ($properties as $name => $value) {
-            try {
-                $cloned->{$name} = $value;
-            } catch (Error $e) {
-                $reflection = new ReflectionProperty($object, $name);
-
-                /** @phpstan-ignore-next-line */
-                if (method_exists($reflection, 'isReadOnly') && $reflection->isReadOnly() && PHP_VERSION_ID < 80300) {
-                    throw new RuntimeException(
-                        "Cannot modify readonly property {$reflection->getDeclaringClass()->getName()}::\${$name} " .
-                        "in PHP < 8.3. The clone() polyfill requires PHP 8.3+ to modify readonly properties."
-                    );
-                }
-
-                $reflection->setAccessible(true);
-                $reflection->setValue($cloned, $value);
-            }
-        }
-
-        return $cloned;
-    }
+    private static array $rtlLanguages = [
+        'ar' => 'Arab',  // Arabic
+        'arc' => 'Armi', // Aramaic
+        'arz' => 'Arab', // Egyptian Arabic
+        'ckb' => 'Arab', // Central Kurdish (Sorani)
+        'dv' => 'Thaa',  // Divehi/Maldivian
+        'fa' => 'Arab',  // Persian
+        'ha' => 'Arab',  // Hausa (when written in Arabic script, Ajami)
+        'he' => 'Hebr',  // Hebrew
+        'iw' => 'Hebr',  // Hebrew (old code)
+        'khw' => 'Arab', // Khowar
+        'ks' => 'Arab',  // Kashmiri
+        'ku' => 'Arab',  // Kurdish
+        'lrc' => 'Arab', // Northern Luri
+        'mzn' => 'Arab', // Mazanderani
+        'nqo' => 'Nkoo', // N'Ko (not in RTL_SCRIPTS but is RTL)
+        'ota' => 'Arab', // Ottoman Turkish
+        'pnb' => 'Arab', // Western Punjabi
+        'ps' => 'Arab',  // Pashto
+        'sd' => 'Arab',  // Sindhi
+        'skr' => 'Arab', // Saraiki
+        'syr' => 'Syrc', // Syriac
+        'ug' => 'Arab',  // Uyghur
+        'ur' => 'Arab',  // Urdu
+        'yi' => 'Hebr'   // Yiddish
+    ];
 
     /**
-     * Retrieves all curl handles associated with a cURL multi handle.
+     * List of RTL (right-to-left) script codes from Unicode data.
      *
-     * This is a stub method for the curl_multi_get_handles() function introduced in PHP 8.5.
-     * The actual functionality requires PHP 8.5+ because PHP does not expose the internal
-     * handle tracking mechanism of curl multi handles to userland code.
+     * These script codes represent writing systems that are written from right to left.
+     * Used by locale_is_right_to_left() to determine text direction.
      *
-     * @see https://www.php.net/manual/en/function.curl-multi-get-handles.php
+     * @see https://unicode.org/iso15924/iso15924-codes.html
      *
-     * @param resource|CurlMultiHandle $multiHandle The cURL multi handle
-     * @return array Array of CurlHandle objects
-     * @throws RuntimeException Always throws as this requires PHP 8.5+ curl internals
+     * @var array
      */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function curl_multi_get_handles($multiHandle): array
-    {
-        if (!extension_loaded('curl')) {
-            throw new RuntimeException(
-                'curl_multi_get_handles() requires the cURL extension. ' .
-                'This function cannot be polyfilled without it.'
-            );
-        }
-
-        throw new RuntimeException(
-            'curl_multi_get_handles() requires PHP 8.5+ and access to internal ' .
-            'cURL multi handle tracking. This function cannot be polyfilled in userland PHP. ' .
-            'You must track curl handles yourself when using curl_multi_add_handle().'
-        );
-    }
+    private static array $rtlScripts = [
+        'Arab',  // Arabic
+        'Aran',  // Arabic (Nastaliq variant)
+        'Armi',  // Imperial Aramaic
+        'Avst',  // Avestan
+        'Chrs',  // Chorasmian
+        'Cprt',  // Cypriot
+        'Elym',  // Elymaic
+        'Hatr',  // Hatran
+        'Hebr',  // Hebrew
+        'Hung',  // Old Hungarian
+        'Khar',  // Kharoshthi
+        'Lydi',  // Lydian
+        'Mand',  // Mandaic
+        'Mani',  // Manichaean
+        'Merc',  // Meroitic Cursive
+        'Mero',  // Meroitic Hieroglyphs
+        'Narb',  // Old North Arabian
+        'Nbat',  // Nabataean
+        'Orkh',  // Old Turkic
+        'Ougr',  // Old Uyghur
+        'Palm',  // Palmyrene
+        'Phli',  // Inscriptional Pahlavi
+        'Phlp',  // Psalter Pahlavi
+        'Phnx',  // Phoenician
+        'Prti',  // Inscriptional Parthian
+        'Rohg',  // Hanifi Rohingya
+        'Samr',  // Samaritan
+        'Sarb',  // Old South Arabian
+        'Sogd',  // Sogdian
+        'Sogo',  // Old Sogdian
+        'Syrc',  // Syriac
+        'Thaa',  // Thaana
+        'Yezi'   // Yezidi
+    ];
 
     /**
      * Calculates the Levenshtein distance between two strings using grapheme clusters.
@@ -213,6 +206,41 @@ final class Php85
         }
 
         return $prevRow[$len2];
+    }
+
+    /**
+     * Checks if a locale uses a right-to-left script.
+     *
+     * This polyfill implements the locale_is_right_to_left() function introduced in PHP 8.5.
+     * It determines if the given locale uses a script that is written from right to left.
+     *
+     * @see https://wiki.php.net/rfc/locale_is_right_to_left
+     * @see https://www.php.net/manual/en/function.locale-is-right-to-left.php
+     *
+     * @param string $locale The locale identifier (e.g., 'ar', 'he', 'en')
+     * @return bool True if the locale uses an RTL script, false otherwise
+     */
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public static function locale_is_right_to_left(string $locale): bool
+    {
+        // First, check if the script is explicitly specified in the locale
+        $script = Locale::getScript($locale);
+
+        if ($script !== null && $script !== '') {
+            return in_array($script, self::$rtlScripts, true);
+        }
+
+        // If no explicit script, check the language mapping
+        $language = Locale::getPrimaryLanguage($locale);
+
+        if ($language !== null && $language !== '') {
+            // Check if the language has a default RTL script
+            if (isset(self::$rtlLanguages[$language])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

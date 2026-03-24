@@ -46,6 +46,10 @@
         "rowbot/url": "^4.1.0",
         "rowbot/idna": "^0.3.0"
     },
+    "provide": {
+        "ext-bcmath": "*",
+        "ext-apcu": "*"
+    },
     "autoload": {
         "psr-4": {
             "Phuture\\Continuum\\": "src/"

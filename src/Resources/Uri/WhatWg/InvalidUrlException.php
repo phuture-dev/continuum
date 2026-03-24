@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Uri\WhatWg;
 
-use Throwable;
-use ValueError;
-use Uri\InvalidUriException;
-
 // phpcs:ignore
 if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     /**
@@ -21,38 +17,8 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
      * @license https://opensource.org/licenses/MIT MIT License
      * @link https://www.phuture.dev/ Phuture
      */
-    class InvalidUrlException extends InvalidUriException
+    class InvalidUrlException extends \Uri\InvalidUriException
     {
-        /**
-         * List of validation errors that occurred during URL parsing
-         *
-         * @var array
-         */
-        public array $errors;
-
-        /**
-         * Constructs a new InvalidUrlException.
-         *
-         * @param string $message The exception message
-         * @param array $errors List of validation errors from URL parsing
-         * @param int $code The exception code
-         * @param Throwable|null $previous Previous exception for chaining
-         */
-        public function __construct(string $message, array $errors, int $code = 0, ?Throwable $previous = null)
-        {
-            if (!array_is_list($errors)) {
-                throw new ValueError('the error argument must be a list.');
-            }
-
-            $this->errors = $errors;
-            $errorTypes = array_map(fn ($e) => $e->type, $errors);
-
-            if (!empty($errorTypes)) {
-                $message .= ' (' . implode(', ', $errorTypes) . ')';
-            }
-
-            parent::__construct($message, $code, $previous);
-        }
     }
 }
 
