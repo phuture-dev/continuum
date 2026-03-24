@@ -14,7 +14,7 @@
  * @link https://www.phuture.dev/ Phuture
  */
 // phpcs:ignore
-enum RoundingMode: int
+enum RoundingMode
 {
     case HalfAwayFromZero;
     case HalfTowardsZero;
