@@ -10,6 +10,10 @@ use Tester\{Assert, TestCase};
 use Uri\{InvalidUriException, UriException};
 use Uri\WhatWg\{InvalidUrlException, Url, UrlValidationError, UrlValidationErrorType};
 
+if (\PHP_VERSION_ID >= 80500) {
+    return;
+}
+
 require __DIR__ . '/../../bootstrap.php';
 
 /**

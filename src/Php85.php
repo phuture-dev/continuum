@@ -65,7 +65,6 @@ final class Php85
         'iw' => 'Hebr',  // Hebrew (old code)
         'khw' => 'Arab', // Khowar
         'ks' => 'Arab',  // Kashmiri
-        'ku' => 'Arab',  // Kurdish
         'lrc' => 'Arab', // Northern Luri
         'mzn' => 'Arab', // Mazanderani
         'nqo' => 'Nkoo', // N'Ko (not in RTL_SCRIPTS but is RTL)

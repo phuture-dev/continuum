@@ -8,6 +8,10 @@ use Uri\Rfc3986\Uri;
 use Tester\{Assert, TestCase};
 use Uri\{InvalidUriException, UriComparisonMode};
 
+if (\PHP_VERSION_ID >= 80500) {
+    return;
+}
+
 require __DIR__ . '/../../../bootstrap.php';
 
 /**
