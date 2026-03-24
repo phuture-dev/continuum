@@ -50,9 +50,6 @@ This package polyfills most common PHP functions from PHP 8.1 to 8.5, designed t
 | `bcceil()`                                             | ✅ Full        | Function |
 | `bcfloor()`                                            | ✅ Full        | Function |
 | `bcround()`                                            | ✅ Full        | Function |
-| `request_parse_body()`                                 | ⚠️ Stub        | Function |
-| `ldap_exop()`                                          | ⚠️ Stub        | Function |
-| `ldap_parse_exop()`                                    | ⚠️ Stub        | Function |
 | `PHP_SBINDIR`                                          | ✅ Full        | Constant |
 | ▶️ **PHP 8.5+**                                                                    |
 | `locale_is_right_to_left()`                            | ✅ Full        | Function |

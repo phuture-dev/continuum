@@ -47,13 +47,6 @@ final class Php84
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public static function bcceil(string $num): string
     {
-        if (!extension_loaded('bcmath')) {
-            throw new RuntimeException(
-                'bcceil() requires the BCMath extension. ' .
-                'This function cannot be polyfilled without it.'
-            );
-        }
-
         // Check if the number is already an integer
         if (str_contains($num, '.') === false) {
             return $num;
@@ -91,13 +84,6 @@ final class Php84
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public static function bcfloor(string $num): string
     {
-        if (!extension_loaded('bcmath')) {
-            throw new RuntimeException(
-                'bcfloor() requires the BCMath extension. ' .
-                'This function cannot be polyfilled without it.'
-            );
-        }
-
         // Check if the number is already an integer
         if (str_contains($num, '.') === false) {
             return $num;
@@ -136,62 +122,41 @@ final class Php84
     public static function bcround(
         string $num,
         int $precision = 0,
-        RoundingMode|string $mode = 'HalfAwayFromZero'
+        RoundingMode|string $mode = RoundingMode::HalfAwayFromZero
     ): string {
-        if (!extension_loaded('bcmath')) {
-            throw new RuntimeException(
-                'bcround() requires the BCMath extension. ' .
-                'This function cannot be polyfilled without it.'
-            );
-        }
+        // Calculate the scale factor: 10^|precision|
+        $scaleFactor = bcpow('10', (string) abs($precision), 0);
 
-        // Calculate the scale factor for the given precision
-        if ($precision < 0) {
-            $scaleFactor = bcpow('10', (string) -$precision, 0);
+        // Scale the number so we can round to an integer
+        if ($precision >= 0) {
+            // For positive precision: multiply by 10^precision
+            // e.g., 1.15 with precision 1 becomes 11.5
+            $scaled = bcmul($num, $scaleFactor, max($precision + 2, 10));
         } else {
-            $scaleFactor = '1.' . str_repeat('0', $precision);
-            if ($precision === 0) {
-                $scaleFactor = '1';
-            }
+            // For negative precision: divide by 10^|precision|
+            // e.g., 115 with precision -1 becomes 11.5
+            $scaled = bcdiv($num, $scaleFactor, max(-$precision + 2, 10));
         }
 
-        // Scale the number
-        $scaled = bcmul($num, $scaleFactor, $precision + 2);
-
-        // Get the integer part and fractional part
+        // Get the integer and fractional parts of the scaled number
         $scaledParts = explode('.', (string) $scaled);
         $intPart = $scaledParts[0] ?? '0';
         $fracPart = $scaledParts[1] ?? '';
 
-        // Determine the fractional value for rounding
-        if ($precision === 0) {
-            // For precision 0, check if we need to round up
-            $fraction = $fracPart !== '' ? '0.' . $fracPart : '0';
-            $fractionFloat = (float) $fraction;
-        } else {
-            // For non-zero precision, we need to look at the digit after precision
-            $fracLen = strlen($fracPart);
-            if ($fracLen > $precision) {
-                $roundDigit = (int) $fracPart[$precision];
-                $rest = substr($fracPart, $precision + 1);
+        // Determine the first decimal digit and whether there are more non-zero decimals
+        $firstDecimal = isset($fracPart[0]) ? (int) $fracPart[0] : 0;
+        $hasMoreDecimals = strlen($fracPart) > 1 && (int) substr($fracPart, 1) > 0;
 
-                // Determine if we need to round up
-                $fractionFloat = $roundDigit / 10.0;
-
-                if ($rest !== '' && (int) $rest > 0) {
-                    $fractionFloat += 0.000001; // Nudge up for proper rounding
-                }
-            } else {
-                $fractionFloat = 0.0;
-            }
-
-            $intPart = substr($intPart . $fracPart, 0, strlen($intPart) + $precision);
+        // Calculate the fractional value for rounding decision (0.0 to 1.0)
+        $fractionFloat = $firstDecimal / 10.0;
+        if ($hasMoreDecimals) {
+            $fractionFloat += 0.000001; // Nudge up slightly to ensure proper rounding
         }
 
         $numFloat = (float) $num;
 
-        // Match by constant name for readability
-        return match ($mode) {
+        // Apply the rounding mode to determine if we should round up
+        $roundedInt = match ($mode) {
             RoundingMode::HalfAwayFromZero, 'HalfAwayFromZero' => ($fractionFloat >= 0.5)
                 ? ($numFloat >= 0 ? bcadd($intPart, '1', 0) : bcsub($intPart, '1', 0))
                 : $intPart,
@@ -200,94 +165,29 @@ final class Php84
                 : $intPart,
             RoundingMode::HalfEven, 'HalfEven' => self::bcRoundHalfEven($numFloat, $intPart, $fractionFloat),
             RoundingMode::HalfOdd, 'HalfOdd' => self::bcRoundHalfOdd($numFloat, $intPart, $fractionFloat),
-            RoundingMode::PositiveInfinity, 'PositiveInfinity' => self::bcRoundPositiveInfinity($intPart, $fractionFloat),
-            RoundingMode::NegativeInfinity, 'NegativeInfinity' => self::bcRoundNegativeInfinity($intPart, $fractionFloat),
+            RoundingMode::PositiveInfinity, 'PositiveInfinity' => self::bcRoundPositiveInfinity($numFloat, $intPart, $fractionFloat),
+            RoundingMode::NegativeInfinity, 'NegativeInfinity' => self::bcRoundNegativeInfinity($numFloat, $intPart, $fractionFloat),
             RoundingMode::TowardsZero, 'TowardsZero' => $intPart,
             RoundingMode::AwayFromZero, 'AwayFromZero' => ($fractionFloat > 0.0)
                 ? ($numFloat >= 0 ? bcadd($intPart, '1', 0) : bcsub($intPart, '1', 0))
                 : $intPart,
-            default => round($numFloat, $precision) . '',
+            default => (string) round($numFloat, $precision),
         };
-    }
 
-    /**
-     * LDAP extended operation wrapper.
-     *
-     * This is a stub method for LDAP functions in PHP 8.4.
-     * The actual functionality requires the LDAP extension and PHP 8.4+.
-     *
-     * @see https://www.php.net/manual/en/function.ldap-exop.php
-     *
-     * @param mixed $ldap LDAP link identifier
-     * @param string $requestoid The extended operation request OID
-     * @param string|null $requestdata The extended operation request data
-     * @param string|null $responseoid The response OID (output)
-     * @param string|null $responsedata The response data (output)
-     * @return bool Returns true on success, false on failure
-     * @throws RuntimeException Always throws as this requires PHP 8.4+ with LDAP extension
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function ldap_exop(
-        $ldap,
-        string $requestoid,
-        ?string $requestdata = null,
-        ?string &$responseoid = null,
-        ?string &$responsedata = null
-    ): bool {
-        throw new RuntimeException(
-            'ldap_exop() requires PHP 8.4+ with LDAP extension. ' .
-            'This function cannot be polyfilled in userland PHP.'
-        );
-    }
+        // Scale back down to the desired precision
+        $result = $roundedInt;
+        if ($precision > 0) {
+            $result = bcdiv($roundedInt, $scaleFactor, $precision);
+        } elseif ($precision < 0) {
+            $result = bcmul($roundedInt, $scaleFactor, 0);
+        }
 
-    /**
-     * LDAP parse extended operation result.
-     *
-     * This is a stub method for LDAP functions in PHP 8.4.
-     * The actual functionality requires PHP 8.4+ with LDAP extension.
-     *
-     * @see https://www.php.net/manual/en/function.ldap-parse-exop.php
-     *
-     * @param mixed $ldap LDAP link identifier
-     * @param mixed $result Result
-     * @param string|null $responseoid The response OID (output)
-     * @param string|null $responsedata The response data (output)
-     * @return bool Returns true on success, false on failure
-     * @throws RuntimeException Always throws as this requires PHP 8.4+ with LDAP extension
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function ldap_parse_exop(
-        $ldap,
-        $result,
-        ?string &$responseoid = null,
-        ?string &$responsedata = null
-    ): bool {
-        throw new RuntimeException(
-            'ldap_parse_exop() requires PHP 8.4+ with LDAP extension. ' .
-            'This function cannot be polyfilled in userland PHP.'
-        );
-    }
+        // Normalize -0 to 0
+        if ($result === '-0' || $result === '-0.0' || preg_match('/^-0\.0+$/', $result)) {
+            return ltrim($result, '-');
+        }
 
-    /**
-     * Parses the request body.
-     *
-     * This is a stub method for the request_parse_body() function introduced in PHP 8.4.
-     * The actual functionality requires access to internal PHP request state that
-     * cannot be reliably replicated in userland PHP.
-     *
-     * @see https://www.php.net/manual/en/function.request-parse-body.php
-     *
-     * @param mixed $contentNegotiation Content negotiation settings
-     * @return array Returns an array with parsed data
-     * @throws RuntimeException Always throws as this requires PHP 8.4+ internal state
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function request_parse_body($contentNegotiation = null): array
-    {
-        throw new RuntimeException(
-            'request_parse_body() requires PHP 8.4+ and access to internal ' .
-            'request state. This function cannot be polyfilled in userland PHP.'
-        );
+        return $result;
     }
 
     /**
@@ -353,13 +253,16 @@ final class Php84
     /**
      * Helper for rounding toward negative infinity (floor).
      *
+     * @param float $num The original number being rounded
      * @param string $scaled The integer part as a string
      * @param float $fraction The fractional part
      * @return string The rounded result as a string
      */
-    private static function bcRoundNegativeInfinity(string $scaled, float $fraction): string
+    private static function bcRoundNegativeInfinity(float $num, string $scaled, float $fraction): string
     {
-        if ($fraction < 0.0) {
+        // For negative infinity: round toward more negative values
+        // Only round down (subtract 1) if the number is negative and has a fractional part
+        if ($num < 0 && $fraction > 0.0) {
             return bcsub($scaled, '1', 0);
         }
 
@@ -369,13 +272,16 @@ final class Php84
     /**
      * Helper for rounding toward positive infinity (ceil).
      *
+     * @param float $num The original number being rounded
      * @param string $scaled The integer part as a string
      * @param float $fraction The fractional part
      * @return string The rounded result as a string
      */
-    private static function bcRoundPositiveInfinity(string $scaled, float $fraction): string
+    private static function bcRoundPositiveInfinity(float $num, string $scaled, float $fraction): string
     {
-        if ($fraction > 0.0) {
+        // For positive infinity: round toward more positive values
+        // Only round up (add 1) if the number is positive and has a fractional part
+        if ($num >= 0 && $fraction > 0.0) {
             return bcadd($scaled, '1', 0);
         }
 

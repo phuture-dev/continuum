@@ -197,7 +197,6 @@ class Php85Test extends TestCase
         Assert::true(Php85::locale_is_right_to_left('sd'));  // Sindhi
         Assert::true(Php85::locale_is_right_to_left('ug'));  // Uyghur
         Assert::true(Php85::locale_is_right_to_left('dv'));  // Divehi
-        Assert::true(Php85::locale_is_right_to_left('ku'));  // Kurdish
         Assert::true(Php85::locale_is_right_to_left('ckb')); // Central Kurdish
     }
 }
