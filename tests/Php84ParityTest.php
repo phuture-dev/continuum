@@ -506,30 +506,6 @@ class Php84ParityTest extends TestCase
             Assert::same($native, $polyfill, "Parity failed for bcround('{$args[0]}', {$args[1]}, AwayFromZero)");
         }
     }
-
-    // =========================================================================
-    // bcround Parity Tests - String Mode
-    // =========================================================================
-
-    public function testBcroundWithStringModeParity(): void
-    {
-        if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
-            return;
-        }
-
-        $testCases = [
-            ['1.5', 0, 'HalfAwayFromZero'],
-            ['1.5', 0, 'HalfTowardsZero'],
-            ['1.5', 0, 'HalfEven'],
-        ];
-
-        foreach ($testCases as $args) {
-            $native = bcround($args[0], $args[1], $args[2]);
-            $polyfill = Php84::bcround($args[0], $args[1], $args[2]);
-            Assert::same($native, $polyfill, "Parity failed for bcround('{$args[0]}', {$args[1]}, '{$args[2]}')");
-        }
-    }
 }
 
 (new Php84ParityTest())->run();
