@@ -46,10 +46,6 @@ class Php81ParityTest extends TestCase
         if (defined('MYSQLI_REFRESH_REPLICA')) {
             Assert::same(@constant('MYSQLI_REFRESH_REPLICA'), Php81::MYSQLI_REFRESH_REPLICA);
         }
-
-        if (defined('T_READONLY')) {
-            Assert::same(constant('T_READONLY'), Php81::T_READONLY);
-        }
     }
 
     // =========================================================================

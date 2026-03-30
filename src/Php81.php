@@ -41,11 +41,6 @@ final class Php81
     public const MYSQLI_REFRESH_REPLICA = 64;
 
     /**
-     * Token for the readonly keyword.
-     */
-    public const T_READONLY = 327;
-
-    /**
      * Synchronizes file data to disk.
      *
      * This is a best-effort polyfill for the fdatasync() function introduced in PHP 8.1.

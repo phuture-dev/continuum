@@ -31,12 +31,6 @@ if (extension_loaded('mysqli')) {
     }
 }
 
-if (extension_loaded('tokenizer')) {
-    if (!defined('T_READONLY')) {
-        define('T_READONLY', Php81::T_READONLY);
-    }
-}
-
 /**
  * PHP 8.1 functions
  */
