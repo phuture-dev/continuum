@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum\Tests;
 
-use CurlMultiHandle;
 use Phuture\Continuum\Php85;
-use RuntimeException;
 use Tester\{Assert, TestCase};
 
 require __DIR__ . '/bootstrap.php';

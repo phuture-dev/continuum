@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Uri\WhatWg;
 
 use Throwable;
-use Uri\InvalidUriException;
 use ValueError;
+use Uri\InvalidUriException;
 
 // phpcs:ignore
 if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum\Tests;
 
+use mysqli_result;
 use Phuture\Continuum\Php82;
 use Tester\{Assert, TestCase};
 
@@ -39,6 +40,7 @@ class Php82ParityTest extends TestCase
     {
         if (!$this->hasCurlUpkeep) {
             Assert::false($this->hasCurlUpkeep, 'Native curl_upkeep() not available');
+
             return;
         }
 
@@ -57,6 +59,7 @@ class Php82ParityTest extends TestCase
     {
         if (!$this->hasImapIsOpen) {
             Assert::false($this->hasImapIsOpen, 'Native imap_is_open() not available');
+
             return;
         }
 
@@ -70,6 +73,7 @@ class Php82ParityTest extends TestCase
             imap_errors(); // Clear errors to prevent PHP Request Shutdown notice
 
             Assert::false($imapStream, 'IMAP server is not available');
+
             return;
         }
 
@@ -89,6 +93,7 @@ class Php82ParityTest extends TestCase
     {
         if (!$this->hasMemoryResetPeakUsage) {
             Assert::false($this->hasMemoryResetPeakUsage, 'Native memory_reset_peak_usage() not available');
+
             return;
         }
 
@@ -105,6 +110,7 @@ class Php82ParityTest extends TestCase
     {
         if (!$this->hasMysqliExecuteQuery) {
             Assert::false($this->hasMysqliExecuteQuery, 'Native mysqli_execute_query() not available');
+
             return;
         }
 
@@ -117,6 +123,7 @@ class Php82ParityTest extends TestCase
 
         if ($mysqli === false) {
             Assert::false($mysqli, 'MySQL server is not available');
+
             return;
         }
 
@@ -137,8 +144,8 @@ class Php82ParityTest extends TestCase
             $nativeResult = mysqli_execute_query($mysqli, $query, $params); // @phpstan-ignore function.notFound
             $polyfillResult = Php82::mysqli_execute_query($mysqli, $query, $params);
 
-            $nativeRows = $nativeResult instanceof \mysqli_result ? mysqli_fetch_all($nativeResult, MYSQLI_ASSOC) : false;
-            $polyfillRows = $polyfillResult instanceof \mysqli_result ? mysqli_fetch_all($polyfillResult, MYSQLI_ASSOC) : false;
+            $nativeRows = $nativeResult instanceof mysqli_result ? mysqli_fetch_all($nativeResult, MYSQLI_ASSOC) : false;
+            $polyfillRows = $polyfillResult instanceof mysqli_result ? mysqli_fetch_all($polyfillResult, MYSQLI_ASSOC) : false;
 
             Assert::same($nativeRows, $polyfillRows);
         } finally {
@@ -157,6 +164,7 @@ class Php82ParityTest extends TestCase
     {
         if (!$this->hasOpensslCipherKeyLength) {
             Assert::false($this->hasOpensslCipherKeyLength, 'Native openssl_cipher_key_length() not available');
+
             return;
         }
 

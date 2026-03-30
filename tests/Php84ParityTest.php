@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum\Tests;
 
+use RoundingMode;
 use Phuture\Continuum\Php84;
 use Tester\{Assert, TestCase};
-use RoundingMode;
 
 require __DIR__ . '/bootstrap.php';
 
@@ -32,6 +32,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcceil() not available');
+
             return;
         }
 
@@ -57,6 +58,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcceil() not available');
+
             return;
         }
 
@@ -81,6 +83,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcceil() not available');
+
             return;
         }
 
@@ -105,6 +108,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcfloor() not available');
+
             return;
         }
 
@@ -130,6 +134,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcfloor() not available');
+
             return;
         }
 
@@ -154,6 +159,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcfloor() not available');
+
             return;
         }
 
@@ -178,6 +184,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -201,6 +208,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -223,6 +231,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -249,6 +258,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -271,6 +281,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -297,6 +308,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -322,6 +334,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -347,6 +360,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -370,6 +384,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -395,6 +410,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -424,6 +440,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -453,6 +470,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 
@@ -482,6 +500,7 @@ class Php84ParityTest extends TestCase
     {
         if (!$this->hasNativeBcmath) {
             Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
+
             return;
         }
 

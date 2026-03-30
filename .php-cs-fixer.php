@@ -21,19 +21,6 @@ return (new Config())
                 'const'
             ],
         ],
-        'ordered_class_elements' => [
-            'order' => [
-                'use_trait',
-                'constant',
-                'property',
-                'construct',
-                'magic',
-                'method_public',
-                'method_protected',
-                'method_private'
-            ],
-            'sort_algorithm' => 'alpha'
-        ],
         'global_namespace_import' => [
             'import_classes' => true,
             'import_constants' => false,

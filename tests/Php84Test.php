@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum\Tests;
 
+use RoundingMode;
 use Phuture\Continuum\Php84;
 use Tester\{Assert, TestCase};
-use RoundingMode;
 
 require __DIR__ . '/bootstrap.php';
 

@@ -7,7 +7,6 @@ namespace Phuture\Continuum;
 use mysqli;
 use CurlHandle;
 use mysqli_result;
-use RuntimeException;
 use mysqli_sql_exception;
 
 /**

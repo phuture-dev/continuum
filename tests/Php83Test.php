@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Phuture\Continuum\Tests;
 
 use Phuture\Continuum\Php83;
-use RuntimeException;
 use Tester\{Assert, TestCase};
 
 require __DIR__ . '/bootstrap.php';
@@ -47,6 +46,7 @@ class Php83Test extends TestCase
     {
         if (!extension_loaded('posix')) {
             Assert::false(extension_loaded('posix'), 'posix extension is not loaded');
+
             return;
         }
 

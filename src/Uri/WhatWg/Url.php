@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Phuture\Continuum\Uri\WhatWg;
 
 use Uri\UriComparisonMode;
-use Uri\WhatWg\InvalidUrlException;
-use Uri\WhatWg\UrlValidationError;
-use Uri\WhatWg\UrlValidationErrorType;
+use Uri\WhatWg\{InvalidUrlException, UrlValidationError, UrlValidationErrorType};
 
 /**
  * WHATWG URL Standard compliant URL implementation for PHP 8.0 polyfill.

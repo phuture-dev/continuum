@@ -34,6 +34,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeGraphemeLevenshtein) {
             Assert::false($this->hasNativeGraphemeLevenshtein, 'Native grapheme_levenshtein() not available');
+
             return;
         }
 
@@ -54,6 +55,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeGraphemeLevenshtein) {
             Assert::false($this->hasNativeGraphemeLevenshtein, 'Native grapheme_levenshtein() not available');
+
             return;
         }
 
@@ -74,6 +76,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeGraphemeLevenshtein) {
             Assert::false($this->hasNativeGraphemeLevenshtein, 'Native grapheme_levenshtein() not available');
+
             return;
         }
 
@@ -96,6 +99,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeGraphemeLevenshtein) {
             Assert::false($this->hasNativeGraphemeLevenshtein, 'Native grapheme_levenshtein() not available');
+
             return;
         }
 
@@ -119,6 +123,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeGraphemeLevenshtein) {
             Assert::false($this->hasNativeGraphemeLevenshtein, 'Native grapheme_levenshtein() not available');
+
             return;
         }
 
@@ -149,6 +154,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeGraphemeLevenshtein) {
             Assert::false($this->hasNativeGraphemeLevenshtein, 'Native grapheme_levenshtein() not available');
+
             return;
         }
 
@@ -173,6 +179,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeLocaleIsRightToLeft) {
             Assert::false($this->hasNativeLocaleIsRightToLeft, 'Native locale_is_right_to_left() not available');
+
             return;
         }
 
@@ -189,6 +196,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeLocaleIsRightToLeft) {
             Assert::false($this->hasNativeLocaleIsRightToLeft, 'Native locale_is_right_to_left() not available');
+
             return;
         }
 
@@ -205,6 +213,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeLocaleIsRightToLeft) {
             Assert::false($this->hasNativeLocaleIsRightToLeft, 'Native locale_is_right_to_left() not available');
+
             return;
         }
 
@@ -228,6 +237,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeLocaleIsRightToLeft) {
             Assert::false($this->hasNativeLocaleIsRightToLeft, 'Native locale_is_right_to_left() not available');
+
             return;
         }
 
@@ -249,6 +259,7 @@ class Php85ParityTest extends TestCase
     {
         if (!$this->hasNativeLocaleIsRightToLeft) {
             Assert::false($this->hasNativeLocaleIsRightToLeft, 'Native locale_is_right_to_left() not available');
+
             return;
         }
 

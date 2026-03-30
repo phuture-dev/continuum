@@ -31,6 +31,7 @@ class Php83ParityTest extends TestCase
     {
         if (!$this->hasNativePosix) {
             Assert::false($this->hasNativePosix, 'Native posix_eaccess() not available');
+
             return;
         }
 

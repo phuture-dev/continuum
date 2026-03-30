@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum\Uri\Rfc3986;
 
-use Uri\InvalidUriException;
-use Uri\UriComparisonMode;
+use Uri\{InvalidUriException, UriComparisonMode};
 
 /**
  * RFC 3986 compliant URI implementation for PHP 8.0 polyfill.
