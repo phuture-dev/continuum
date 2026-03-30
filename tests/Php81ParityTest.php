@@ -48,11 +48,7 @@ class Php81ParityTest extends TestCase
         }
 
         if (defined('T_READONLY')) {
-            if (PHP_VERSION_ID >= 80100 && PHP_VERSION_ID < 80200) {
-                Assert::same(constant('T_READONLY'), Php81::T_READONLY);
-            } else {
-                Assert::type('int', Php81::T_READONLY);
-            }
+            Assert::same(constant('T_READONLY'), Php81::T_READONLY);
         }
     }
 

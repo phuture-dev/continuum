@@ -43,7 +43,7 @@ final class Php81
     /**
      * Token for the readonly keyword.
      */
-    public const T_READONLY = 384;
+    public const T_READONLY = 327;
 
     /**
      * Synchronizes file data to disk.
