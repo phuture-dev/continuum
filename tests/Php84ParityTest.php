@@ -35,7 +35,7 @@ class Php84ParityTest extends TestCase
     public function testBcceilPositiveNumbersParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcceil() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcceil() not available');
             return;
         }
 
@@ -60,7 +60,7 @@ class Php84ParityTest extends TestCase
     public function testBcceilNegativeNumbersParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcceil() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcceil() not available');
             return;
         }
 
@@ -84,7 +84,7 @@ class Php84ParityTest extends TestCase
     public function testBcceilZeroAndEdgeCasesParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcceil() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcceil() not available');
             return;
         }
 
@@ -108,7 +108,7 @@ class Php84ParityTest extends TestCase
     public function testBcfloorPositiveNumbersParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcfloor() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcfloor() not available');
             return;
         }
 
@@ -133,7 +133,7 @@ class Php84ParityTest extends TestCase
     public function testBcfloorNegativeNumbersParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcfloor() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcfloor() not available');
             return;
         }
 
@@ -157,7 +157,7 @@ class Php84ParityTest extends TestCase
     public function testBcfloorZeroAndEdgeCasesParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcfloor() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcfloor() not available');
             return;
         }
 
@@ -181,7 +181,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundDefaultModePositiveParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -204,7 +204,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundDefaultModeNegativeParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -226,7 +226,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundWithPrecisionParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -252,7 +252,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundHalfTowardsZeroPositiveParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -274,7 +274,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundHalfTowardsZeroNegativeParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -300,7 +300,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundHalfEvenPositiveParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -325,7 +325,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundHalfEvenNegativeParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -350,7 +350,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundHalfOddPositiveParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -373,7 +373,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundHalfOddNegativeParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -398,7 +398,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundPositiveInfinityParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -427,7 +427,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundNegativeInfinityParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -456,7 +456,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundTowardsZeroParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 
@@ -485,7 +485,7 @@ class Php84ParityTest extends TestCase
     public function testBcroundAwayFromZeroParity(): void
     {
         if (!$this->hasNativeBcmath) {
-            Assert::false($this->hasNativeBcmath, 'Native bcround() not available (requires PHP 8.4+)');
+            Assert::false($this->hasNativeBcmath, 'Native bcround() not available');
             return;
         }
 

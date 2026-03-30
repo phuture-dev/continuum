@@ -73,47 +73,6 @@ if (extension_loaded('posix')) {
  * PHP 8.3 functions
  */
 if (extension_loaded('posix')) {
-    if (!function_exists('posix_sysconf')) {
-        /**
-         * Gets system configuration information.
-         *
-         * @param int $name The system configuration variable to retrieve
-         * @return int|false Returns the configuration value, or false on failure
-         */
-        function posix_sysconf(int $name): int|false
-        {
-            return Php83::posix_sysconf($name);
-        }
-    }
-
-    if (!function_exists('posix_pathconf')) {
-        /**
-         * Gets path configuration information.
-         *
-         * @param string $path The path to check
-         * @param int $name The path configuration variable to retrieve
-         * @return int|false Returns the configuration value, or false on failure
-         */
-        function posix_pathconf(string $path, int $name): int|false
-        {
-            return Php83::posix_pathconf($path, $name);
-        }
-    }
-
-    if (!function_exists('posix_fpathconf')) {
-        /**
-         * Gets file path configuration information.
-         *
-         * @param mixed $stream The file stream to check
-         * @param int $name The path configuration variable to retrieve
-         * @return int|false Returns the configuration value, or false on failure
-         */
-        function posix_fpathconf(mixed $stream, int $name): int|false
-        {
-            return Php83::posix_fpathconf($stream, $name);
-        }
-    }
-
     if (!function_exists('posix_eaccess')) {
         /**
          * Checks user's permissions for a file using effective ID.
@@ -125,21 +84,6 @@ if (extension_loaded('posix')) {
         function posix_eaccess(string $filename, int $mode = 0): bool
         {
             return Php83::posix_eaccess($filename, $mode);
-        }
-    }
-}
-
-if (extension_loaded('sockets')) {
-    if (!function_exists('socket_atmark')) {
-        /**
-         * Checks if the socket is at the out-of-band mark.
-         *
-         * @param mixed $stream The socket stream to check
-         * @return bool Returns true if at the mark, false otherwise
-         */
-        function socket_atmark(mixed $stream): bool
-        {
-            return Php83::socket_atmark($stream);
         }
     }
 }

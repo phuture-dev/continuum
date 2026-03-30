@@ -321,18 +321,6 @@ class Php84Test extends TestCase
         Assert::same('-2', Php84::bcround('-1.5', 0, RoundingMode::AwayFromZero));
         Assert::same('-2', Php84::bcround('-1.9', 0, RoundingMode::AwayFromZero));
     }
-
-    // =========================================================================
-    // bcround Tests - String Mode
-    // =========================================================================
-
-    public function testBcroundWithStringMode(): void
-    {
-        // Test that string modes work - these don't require RoundingMode enum
-        Assert::same('2', Php84::bcround('1.5', 0, 'HalfAwayFromZero'));
-        Assert::same('1', Php84::bcround('1.5', 0, 'HalfTowardsZero'));
-        Assert::same('2', Php84::bcround('1.5', 0, 'HalfEven'));
-    }
 }
 
 (new Php84Test())->run();

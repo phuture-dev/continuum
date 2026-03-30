@@ -6,8 +6,6 @@ namespace Phuture\Continuum;
 
 use Locale;
 use Normalizer;
-use CurlMultiHandle;
-use RuntimeException;
 
 /**
  * PHP 8.5 polyfill methods.

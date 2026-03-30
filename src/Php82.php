@@ -29,8 +29,10 @@ final class Php82
      *
      * Maps cipher algorithm names to their required key lengths in bytes.
      * This covers the most commonly used OpenSSL ciphers.
+     *
+     * @var array
      */
-    private const CIPHER_KEY_LENGTHS = [
+    private static array $cipherKeyLengths = [
         // AES ciphers
         'AES-128-CBC' => 16,
         'AES-128-CFB' => 16,
@@ -117,7 +119,7 @@ final class Php82
         'SEED-CBC' => 16,
         'SEED-CFB' => 16,
         'SEED-ECB' => 16,
-        'SEED-OFB' => 16,
+        'SEED-OFB' => 16
     ];
 
     /**
@@ -190,26 +192,6 @@ final class Php82
         }
 
         return $resourceType === 'imap';
-    }
-
-    /**
-     * Gets the current external entity loader.
-     *
-     * This is a stub method for the libxml_get_external_entity_loader() function.
-     * The actual functionality requires PHP 8.2+ and access to internal libxml state.
-     *
-     * @see https://www.php.net/manual/en/function.libxml-get-external-entity-loader.php
-     *
-     * @return callable|null The current external entity loader callback, or null if none is set
-     * @throws RuntimeException Always throws as this requires PHP 8.2+ and libxml internals
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function libxml_get_external_entity_loader(): ?callable
-    {
-        throw new RuntimeException(
-            'libxml_get_external_entity_loader() requires PHP 8.2+ and access to internal ' .
-            'libxml state. This function cannot be polyfilled in userland PHP.'
-        );
     }
 
     /**
@@ -298,8 +280,8 @@ final class Php82
     {
         $upperCipher = strtoupper($cipherAlgorithm);
 
-        if (isset(self::CIPHER_KEY_LENGTHS[$upperCipher])) {
-            return self::CIPHER_KEY_LENGTHS[$upperCipher];
+        if (isset(self::$cipherKeyLengths[$upperCipher])) {
+            return self::$cipherKeyLengths[$upperCipher];
         }
 
         // Try to get cipher methods dynamically
@@ -340,34 +322,6 @@ final class Php82
         }
 
         return false;
-    }
-
-    /**
-     * Encrypts data using the XChaCha20 stream cipher.
-     *
-     * This is a stub method for the sodium_crypto_stream_xchacha20_xor_ic() function.
-     * The actual functionality requires the Sodium extension with libsodium 1.0.12 or later.
-     *
-     * @see https://www.php.net/manual/en/function.sodium-crypto-stream-xchacha20-xor-ic.php
-     *
-     * @param string $message The data to encrypt
-     * @param string $nonce The 24-byte nonce
-     * @param int $counter The initialization counter
-     * @param string $key The 32-byte key
-     * @return string The encrypted data
-     * @throws RuntimeException Always throws as this requires the Sodium extension
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function sodium_crypto_stream_xchacha20_xor_ic(
-        string $message,
-        string $nonce,
-        int $counter,
-        string $key
-    ): string {
-        throw new RuntimeException(
-            'sodium_crypto_stream_xchacha20_xor_ic() requires the Sodium extension ' .
-            'with libsodium 1.0.12 or later. This function cannot be polyfilled in userland PHP.'
-        );
     }
 
     /**

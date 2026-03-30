@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Phuture\Continuum;
 
 use RoundingMode;
-use RuntimeException;
 
 /**
  * PHP 8.4 polyfill methods.

@@ -73,47 +73,6 @@ if (extension_loaded('curl')) {
     }
 }
 
-if (extension_loaded('sodium')) {
-    if (!function_exists('sodium_crypto_stream_xchacha20_xor_ic')) {
-        /**
-         * Encrypts data using the XChaCha20 stream cipher.
-         *
-         * @param string $message The data to encrypt
-         * @param string $nonce The 24-byte nonce
-         * @param int $counter The initialization counter
-         * @param string $key The 32-byte key
-         * @return string The encrypted data
-         */
-        function sodium_crypto_stream_xchacha20_xor_ic(
-            string $message,
-            string $nonce,
-            int $counter,
-            string $key
-        ): string {
-            return Php82::sodium_crypto_stream_xchacha20_xor_ic(
-                $message,
-                $nonce,
-                $counter,
-                $key
-            );
-        }
-    }
-}
-
-if (extension_loaded('libxml')) {
-    if (!function_exists('libxml_get_external_entity_loader')) {
-        /**
-         * Gets the current external entity loader.
-         *
-         * @return callable|null The current external entity loader callback, or null if none is set
-         */
-        function libxml_get_external_entity_loader(): ?callable
-        {
-            return Php82::libxml_get_external_entity_loader();
-        }
-    }
-}
-
 if (extension_loaded('imap')) {
     if (!function_exists('imap_is_open')) {
         /**

@@ -48,7 +48,12 @@
     },
     "provide": {
         "ext-bcmath": "*",
-        "ext-apcu": "*"
+        "ext-apcu": "*",
+        "ext-ctype": "*",
+        "ext-mbstring": "*",
+        "ext-iconv": "*",
+        "ext-uuid": "*",
+        "ext-intl": "*"
     },
     "autoload": {
         "psr-4": {

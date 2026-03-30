@@ -21,11 +21,6 @@ use RuntimeException;
 final class Php83
 {
     /**
-     * Test for the existence of the file.
-     */
-    public const POSIX_F_OK = 0;
-
-    /**
      * The minimum number of bytes of storage allocated for any portion of a file.
      */
     public const POSIX_PC_ALLOC_SIZE_MIN = 8;
@@ -75,6 +70,11 @@ final class Php83
     public const POSIX_PC_SYMLINK_MAX = 9;
 
     /**
+     * Test for the existence of the file.
+     */
+    public const POSIX_F_OK = 0;
+
+    /**
      * Test for read permission.
      */
     public const POSIX_R_OK = 4;
@@ -93,8 +93,6 @@ final class Php83
      * Checks effective access to a file.
      *
      * This is a stub method for the posix_eaccess() function introduced in PHP 8.3.
-     * The actual functionality requires the POSIX extension and uses effective
-     * user/group IDs for the check, which cannot be reliably polyfilled in userland.
      *
      * @see https://www.php.net/manual/en/function.posix-eaccess.php
      *
@@ -106,127 +104,26 @@ final class Php83
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public static function posix_eaccess(string $filename, int $mode = 0): bool
     {
-        if (!extension_loaded('posix')) {
-            throw new RuntimeException(
-                'posix_eaccess() requires the POSIX extension. ' .
-                'This function cannot be polyfilled without it.'
-            );
+        // Check if the file exists
+        if (!file_exists($filename)) {
+            return false;
         }
 
-        return match ($mode) {
-            self::POSIX_F_OK => file_exists($filename),
-            self::POSIX_X_OK => is_executable($filename),
-            self::POSIX_W_OK => is_writable($filename),
-            self::POSIX_R_OK => is_readable($filename),
-            default => false
-        };
-    }
-
-    /**
-     * Gets POSIX file path configuration values.
-     *
-     * This is a stub method for the posix_fpathconf() function introduced in PHP 8.3.
-     * The actual functionality requires the POSIX extension and access to file
-     * configuration values that cannot be reliably polyfilled in userland PHP.
-     *
-     * @see https://www.php.net/manual/en/function.posix-fpathconf.php
-     *
-     * @param resource $stream The file stream
-     * @param int $name The configuration constant name
-     * @return int|false Returns the configuration value, or false on failure
-     * @throws RuntimeException If POSIX extension is not loaded
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function posix_fpathconf($stream, int $name): int|false
-    {
-        if (!extension_loaded('posix')) {
-            throw new RuntimeException(
-                'posix_fpathconf() requires the POSIX extension. ' .
-                'This function cannot be polyfilled without it.'
-            );
+        // Check each permission bit that was requested
+        $result = true;
+        if ($mode & self::POSIX_F_OK) {
+            $result = $result && file_exists($filename);
+        }
+        if ($mode & self::POSIX_R_OK) {
+            $result = $result && is_readable($filename);
+        }
+        if ($mode & self::POSIX_W_OK) {
+            $result = $result && is_writable($filename);
+        }
+        if ($mode & self::POSIX_X_OK) {
+            $result = $result && is_executable($filename);
         }
 
-        return false;
-    }
-
-    /**
-     * Gets POSIX path configuration values.
-     *
-     * This is a stub method for the posix_pathconf() function introduced in PHP 8.3.
-     * The actual functionality requires the POSIX extension and access to path
-     * configuration values that cannot be reliably polyfilled in userland PHP.
-     *
-     * @see https://www.php.net/manual/en/function.posix-pathconf.php
-     *
-     * @param string $path The path to check
-     * @param int $name The configuration constant name
-     * @return int|false Returns the configuration value, or false on failure
-     * @throws RuntimeException If POSIX extension is not loaded
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function posix_pathconf(string $path, int $name): int|false
-    {
-        if (!extension_loaded('posix')) {
-            throw new RuntimeException(
-                'posix_pathconf() requires the POSIX extension. ' .
-                'This function cannot be polyfilled without it.'
-            );
-        }
-
-        return false;
-    }
-
-    /**
-     * Gets POSIX system configuration values.
-     *
-     * This is a stub method for the posix_sysconf() function introduced in PHP 8.3.
-     * The actual functionality requires the POSIX extension and access to system
-     * configuration values that cannot be reliably polyfilled in userland PHP.
-     *
-     * @see https://www.php.net/manual/en/function.posix-sysconf.php
-     *
-     * @param int $name The configuration constant name
-     * @return int|false Returns the configuration value, or false on failure
-     * @throws RuntimeException If POSIX extension is not loaded
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function posix_sysconf(int $name): int|false
-    {
-        if (!extension_loaded('posix')) {
-            throw new RuntimeException(
-                'posix_sysconf() requires the POSIX extension. ' .
-                'This function cannot be polyfilled without it.'
-            );
-        }
-
-        // Since we cannot access actual sysconf values from userland,
-        // we return false to indicate unavailability
-        return false;
-    }
-
-    /**
-     * Checks if the socket is at the out-of-band mark.
-     *
-     * This is a stub method for the socket_atmark() function introduced in PHP 8.3.
-     * The actual functionality requires the Socket extension and access to socket
-     * state that cannot be reliably polyfilled in userland PHP.
-     *
-     * @see https://www.php.net/manual/en/function.socket-atmark.php
-     *
-     * @param resource $stream The socket stream
-     * @return bool Returns true if at mark, false otherwise
-     * @throws RuntimeException If Socket extension is not loaded
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function socket_atmark($stream): bool
-    {
-        if (!extension_loaded('sockets')) {
-            throw new RuntimeException(
-                'socket_atmark() requires the Sockets extension. ' .
-                'This function cannot be polyfilled without it.'
-            );
-        }
-
-        return false;
+        return $result;
     }
 }
