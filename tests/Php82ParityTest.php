@@ -128,7 +128,13 @@ class Php82ParityTest extends TestCase
         }
 
         // Create a test database and table
-        mysqli_query($mysqli, 'CREATE DATABASE IF NOT EXISTS continuum_test');
+        $result = mysqli_query($mysqli, 'CREATE DATABASE IF NOT EXISTS continuum_test');
+        if ($result === false) {
+            Assert::false($result, 'Failed to create test database');
+
+            return;
+        }
+
         mysqli_select_db($mysqli, 'continuum_test');
         mysqli_query($mysqli, 'DROP TABLE IF EXISTS parity_test');
         mysqli_query($mysqli, 'CREATE TABLE parity_test (id INT AUTO_INCREMENT PRIMARY KEY, value INT)');
