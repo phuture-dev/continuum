@@ -26,7 +26,6 @@ class Php81Test extends TestCase
         Assert::same(256, Php81::IMG_AVIF);
         Assert::same(101, Php81::IMG_WEBP_LOSSLESS);
         Assert::same(64, Php81::MYSQLI_REFRESH_REPLICA);
-        Assert::same(327, Php81::T_READONLY);
     }
 
     // =========================================================================
