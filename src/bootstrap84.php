@@ -26,7 +26,7 @@ if (extension_loaded('bcmath')) {
          * @param string $num The number to ceil as a string
          * @return string Returns the ceiling of num as a string
          */
-        function bcceil(string $num) : string
+        function bcceil(string $num): string
         {
             return Php84::bcceil($num);
         }
@@ -39,7 +39,7 @@ if (extension_loaded('bcmath')) {
          * @param string $num The number to floor as a string
          * @return string Returns the floor of num as a string
          */
-        function bcfloor(string $num) : string
+        function bcfloor(string $num): string
         {
             return Php84::bcfloor($num);
         }
@@ -54,10 +54,11 @@ if (extension_loaded('bcmath')) {
          * @param RoundingMode|string $mode The rounding mode
          * @return string Returns the rounded number as a string
          */
-        function bcround(string $num,
+        function bcround(
+            string $num,
             int $precision = 0,
             RoundingMode|string $mode = RoundingMode::HalfAwayFromZero
-        ) : string {
+        ): string {
             return Php84::bcround($num, $precision, $mode);
         }
     }

@@ -111,17 +111,21 @@ final class Php83
 
         // Check each permission bit that was requested
         $result = true;
-        if ($mode & self::POSIX_F_OK) {
-            $result = $result && file_exists($filename);
-        }
+
         if ($mode & self::POSIX_R_OK) {
-            $result = $result && is_readable($filename);
+            $result = is_readable($filename);
         }
+
         if ($mode & self::POSIX_W_OK) {
-            $result = $result && is_writable($filename);
+            if ($result) {
+                $result = is_writable($filename);
+            }
         }
+
         if ($mode & self::POSIX_X_OK) {
-            $result = $result && is_executable($filename);
+            if ($result) {
+                $result = is_executable($filename);
+            }
         }
 
         return $result;

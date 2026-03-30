@@ -2,9 +2,9 @@ parameters:
     phpVersion: 80000
     excludePaths:
         - src/stubs/*
+        - tests/*
     ignoreErrors:
         - identifier: missingType.iterableValue
-        - identifier: return.unusedType
         - identifier: nullCoalesce.offset
 
     # Set rules level
