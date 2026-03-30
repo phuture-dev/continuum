@@ -61,34 +61,3 @@ if (!function_exists('fdatasync')) {
         return Php81::fdatasync($stream);
     }
 }
-
-if (extension_loaded('gd')) {
-    if (!function_exists('imagecreatefromavif')) {
-        /**
-         * Creates a new image from an AVIF file.
-         *
-         * @param string $filename Path to the AVIF image file
-         * @return mixed Returns an image object on success, false on failure
-         */
-        function imagecreatefromavif(string $filename): mixed
-        {
-            return Php81::imagecreatefromavif($filename);
-        }
-    }
-
-    if (!function_exists('imageavif')) {
-        /**
-         * Outputs an image to an AVIF file or browser.
-         *
-         * @param mixed $image The image resource
-         * @param mixed $file The output file path or null to output directly
-         * @param int $quality The compression quality (0-100), -1 for default
-         * @param int $speed The encoding speed (0-10), -1 for default
-         * @return bool Returns true on success
-         */
-        function imageavif(mixed $image, mixed $file = null, int $quality = -1, int $speed = -1): bool
-        {
-            return Php81::imageavif($image, $file, $quality, $speed);
-        }
-    }
-}

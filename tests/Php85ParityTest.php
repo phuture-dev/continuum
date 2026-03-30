@@ -12,10 +12,6 @@ require __DIR__ . '/bootstrap.php';
 /**
  * Parity tests for Php85 polyfill against native PHP 8.5+ functions.
  *
- * These tests verify that the polyfill produces identical results to the
- * native PHP 8.5 functions when running on PHP 8.5+. On earlier PHP versions,
- * these tests serve as documentation of expected behavior.
- *
  * @testCase
  */
 class Php85ParityTest extends TestCase

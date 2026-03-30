@@ -10,7 +10,7 @@ use Tester\{Assert, TestCase};
 require __DIR__ . '/bootstrap.php';
 
 /**
- * Unit tests for Php82 polyfill methods.
+ * Unit tests for PHP 8.2 polyfill methods.
  *
  * @testCase
  */

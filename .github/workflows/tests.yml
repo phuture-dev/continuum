@@ -57,14 +57,14 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-    - name: Wait for MySQL to be ready
+    - name: Setup MySQL
       run: |
         for i in {1..30}; do
           if mysqladmin ping -h 127.0.0.1 -P 3306 -u root -proot --silent 2>/dev/null; then
             echo "MySQL is ready"
             exit 0
           fi
-          echo "Waiting for MySQL... ($i/30)"
+          echo "Starting up MySQL... ($i/30)"
           sleep 2
         done
         echo "MySQL did not become ready in time"

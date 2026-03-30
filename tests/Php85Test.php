@@ -12,6 +12,8 @@ use Tester\{Assert, TestCase};
 require __DIR__ . '/bootstrap.php';
 
 /**
+ * Unit tests for PHP 8.5 polyfill methods.
+ *
  * @testCase
  */
 class Php85Test extends TestCase

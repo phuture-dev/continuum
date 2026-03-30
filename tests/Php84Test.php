@@ -11,10 +11,7 @@ use RoundingMode;
 require __DIR__ . '/bootstrap.php';
 
 /**
- * Unit tests for Php84 polyfill methods.
- *
- * These tests verify the behavior of the PHP 8.4 polyfill functions
- * for BCMath operations (bcceil, bcfloor, bcround) and the PHP_SBINDIR constant.
+ * Unit tests for PHP 8.4 polyfill methods.
  *
  * @testCase
  */
