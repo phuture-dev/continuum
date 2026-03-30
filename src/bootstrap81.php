@@ -12,6 +12,10 @@ if (\PHP_VERSION_ID >= 80100) {
  * PHP 8.1 constants
  */
 if (extension_loaded('gd')) {
+    if (!defined('IMAGETYPE_AVIF')) {
+        define('IMAGETYPE_AVIF', Php81::IMAGETYPE_AVIF);
+    }
+
     if (!defined('IMG_AVIF')) {
         define('IMG_AVIF', Php81::IMG_AVIF);
     }

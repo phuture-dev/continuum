@@ -47,21 +47,16 @@ class Php82Test extends TestCase
             return;
         }
 
-        $host = getenv('IMAP_HOST');
-        $port = getenv('IMAP_PORT');
-
-        if ($host === false || $port === false) {
-            Assert::true(true, 'IMAP server is not available');
-
-            return;
-        }
+        $host = getenv('IMAP_HOST') ?: 'localhost';
+        $port = getenv('IMAP_PORT') ?: '143';
 
         $mailbox = "{{$host}:{$port}/imap/novalidate-cert}";
         $imapStream = @imap_open($mailbox, '', '');
 
         if ($imapStream === false) {
             imap_errors(); // Clear errors to prevent PHP Request Shutdown notice
-            Assert::true(true, 'Could not connect to IMAP server');
+
+            Assert::false($imapStream, 'IMAP server is not available');
 
             return;
         }
@@ -113,7 +108,7 @@ class Php82Test extends TestCase
         $mysqli = @mysqli_connect($host, $user, $pass, '', $port);
 
         if ($mysqli === false) {
-            Assert::true(true, 'MySQL server is not available');
+            Assert::false($mysqli, 'MySQL server is not available');
 
             return;
         }

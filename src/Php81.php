@@ -22,12 +22,17 @@ final class Php81
      * Used as a value for the image_type parameter of the image_type_to_mime_type()
      * and image_type_to_extension() functions to indicate AVIF image format.
      */
-    public const IMG_AVIF = 19;
+    public const IMAGETYPE_AVIF = 19;
+
+    /**
+     * AVIF image format bitmask for imagetypes().
+     */
+    public const IMG_AVIF = 256;
 
     /**
      * Used as a quality value for lossless WebP encoding.
      */
-    public const IMG_WEBP_LOSSLESS = 18;
+    public const IMG_WEBP_LOSSLESS = 101;
 
     /**
      * Replication refresh option for mysqli_refresh().

@@ -63,8 +63,8 @@ class Php82ParityTest extends TestCase
             return;
         }
 
-        $host = getenv('IMAP_HOST');
-        $port = getenv('IMAP_PORT');
+        $host = getenv('IMAP_HOST') ?: 'localhost';
+        $port = getenv('IMAP_PORT') ?: '143';
         $mailbox = "{{$host}:{$port}/imap/novalidate-cert}";
 
         $imapStream = @imap_open($mailbox, '', '');
