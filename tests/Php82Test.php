@@ -116,12 +116,19 @@ class Php82Test extends TestCase
         // Create a test database and table
         $result = mysqli_query($mysqli, 'CREATE DATABASE IF NOT EXISTS continuum_test');
         if ($result === false) {
-            Assert::false($result, 'Failed to create test database');
+            Assert::true($result, 'Failed to create test database');
 
             return;
         }
 
-        mysqli_select_db($mysqli, 'continuum_test');
+        // Select test database
+        $result = mysqli_select_db($mysqli, 'continuum_test');
+        if ($result === false) {
+            Assert::true($result, 'Failed to connect to test database');
+
+            return;
+        }
+
         mysqli_query($mysqli, 'DROP TABLE IF EXISTS test_table');
         mysqli_query($mysqli, 'CREATE TABLE test_table (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), value INT)');
 
