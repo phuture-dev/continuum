@@ -118,6 +118,7 @@ class Php82ParityTest extends TestCase
         $port = (int) (getenv('MYSQL_PORT') ?: '3306');
         $user = getenv('MYSQL_USER') ?: 'root';
         $pass = getenv('MYSQL_PASS') ?: 'root';
+        $database = uniqid('continuum_test_');
 
         $mysqli = @mysqli_connect($host, $user, $pass, '', $port);
 
@@ -128,7 +129,7 @@ class Php82ParityTest extends TestCase
         }
 
         // Create a test database and table
-        $result = mysqli_query($mysqli, 'CREATE DATABASE IF NOT EXISTS continuum_test');
+        $result = mysqli_query($mysqli, "CREATE DATABASE IF NOT EXISTS {$database}");
         if ($result === false) {
             Assert::true($result, 'Failed to create test database');
 
@@ -136,7 +137,7 @@ class Php82ParityTest extends TestCase
         }
 
         // Select test database
-        $result = mysqli_select_db($mysqli, 'continuum_test');
+        $result = mysqli_select_db($mysqli, $database);
         if ($result === false) {
             Assert::true($result, 'Failed to connect to test database');
 
@@ -164,7 +165,7 @@ class Php82ParityTest extends TestCase
         } finally {
             // Clean up
             mysqli_query($mysqli, 'DROP TABLE IF EXISTS parity_test');
-            mysqli_query($mysqli, 'DROP DATABASE IF EXISTS continuum_test');
+            mysqli_query($mysqli, "DROP DATABASE IF EXISTS {$database}");
             mysqli_close($mysqli);
         }
     }
