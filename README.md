@@ -19,43 +19,84 @@
 
 This package polyfills most common PHP functions from PHP 8.1 to 8.5, designed to be used on PHP 8.0 or later.
 
-| Polyfill                                              | Level      | Type     |
-|-------------------------------------------------------|------------|----------|
-| ▶️ **PHP 8.1+**                                                               |
-| `fsync()`                                             | ❇️ Partial | Function |
-| `fdatasync()`                                         | ❇️ Partial | Function |
-| `IMG_AVIF`                                            | ✅ Full    | Constant |
-| `IMG_WEBP_LOSSLESS`                                   | ✅ Full    | Constant |
-| `MYSQLI_REFRESH_REPLICA`                              | ✅ Full    | Constant |
-| `T_READONLY`                                          | ✅ Full    | Constant |
-| ▶️ **PHP 8.2+**                                                               |
-| `curl_upkeep()`                                       | ❇️ Partial | Function |
-| `memory_reset_peak_usage()`                           | ⚠️ No-op   | Function |
-| `mysqli_execute_query()`                              | ✅ Full    | Function |
-| `openssl_cipher_key_length()`                         | ✅ Full    | Function |
-| `imap_is_open()`                                      | ✅ Full    | Function |
-| ▶️ **PHP 8.3+**                                                               |
-| `posix_eaccess()`                                     | ✅ Full    | Function |
-| `POSIX_PC_*` (10 constants)                           | ✅ Full    | Constant |
-| `POSIX_*_OK` (4 constants)                            | ✅ Full    | Constant |
-| ▶️ **PHP 8.4+**                                                               |
-| `bcceil()`                                            | ✅ Full    | Function |
-| `bcfloor()`                                           | ✅ Full    | Function |
-| `bcround()`                                           | ✅ Full    | Function |
-| `PHP_SBINDIR`                                         | ✅ Full    | Constant |
-| ▶️ **PHP 8.5+**                                                               |
-| `locale_is_right_to_left()`                           | ✅ Full    | Function |
-| `grapheme_levenshtein()`                              | ✅ Full    | Function |
-| `PHP_BUILD_DATE`                                      | ✅ Full    | Constant |
-| `PHP_BUILD_PROVIDER`                                  | ✅ Full    | Constant |
-| `Uri\Rfc3986\Uri`                                     | ✅ Full    | Class    |
-| `Uri\WhatWg\Url`                                      | ✅ Full    | Class    |
-| `Uri\WhatWg\InvalidUrlException`                      | ✅ Full    | Class    |
-| `Uri\WhatWg\UrlValidationError`                       | ✅ Full    | Class    |
-| `Uri\WhatWg\UrlValidationErrorType`                   | ✅ Full    | Class    |
-| `Uri\UriException`                                    | ✅ Full    | Class    |
-| `Uri\InvalidUriException`                             | ✅ Full    | Class    |
-| `Uri\UriComparisonMode`                               | ✅ Full    | Class    |
+| Polyfill                                              | Level      | Type      |
+|-------------------------------------------------------|------------|-----------|
+| ▶️ **PHP 8.1+**                                                                |
+| `array_is_list()`                                     | ✅ Full    | Function  |
+| `enum_exists()`                                       | ✅ Full    | Function  |
+| `fsync()`                                             | ❇️ Partial | Function  |
+| `fdatasync()`                                         | ❇️ Partial | Function  |
+| `IMAGETYPE_AVIF`                                      | ✅ Full    | Constant  |
+| `IMG_AVIF`                                            | ✅ Full    | Constant  |
+| `IMG_WEBP_LOSSLESS`                                   | ✅ Full    | Constant  |
+| `MYSQLI_REFRESH_REPLICA`                              | ✅ Full    | Constant  |
+| `T_READONLY`                                          | ✅ Full    | Constant  |
+| `CURLStringFile`                                      | ✅ Full    | Class     |
+| `ReturnTypeWillChange`                                | ✅ Full    | Attribute |
+| ▶️ **PHP 8.2+**                                                                |
+| `ini_parse_quantity()`                                | ✅ Full    | Function  |
+| `odbc_connection_string_is_quoted()`                  | ✅ Full    | Function  |
+| `odbc_connection_string_should_quote()`               | ✅ Full    | Function  |
+| `odbc_connection_string_quote()`                      | ✅ Full    | Function  |
+| `curl_upkeep()`                                       | ❇️ Partial | Function  |
+| `memory_reset_peak_usage()`                           | ⚠️ No-op   | Function  |
+| `mysqli_execute_query()`                              | ✅ Full    | Function  |
+| `openssl_cipher_key_length()`                         | ✅ Full    | Function  |
+| `imap_is_open()`                                      | ✅ Full    | Function  |
+| `AllowDynamicProperties`                              | ✅ Full    | Attribute |
+| `SensitiveParameter`                                  | ✅ Full    | Attribute |
+| `SensitiveParameterValue`                             | ✅ Full    | Class     |
+| `Random\Engine`                                       | ✅ Full    | Interface |
+| `Random\CryptoSafeEngine`                             | ✅ Full    | Interface |
+| `Random\Engine\Secure`                                | ✅ Full    | Class     |
+| ▶️ **PHP 8.3+**                                                                |
+| `json_validate()`                                     | ✅ Full    | Function  |
+| `mb_str_pad()`                                        | ✅ Full    | Function  |
+| `str_increment()`                                     | ✅ Full    | Function  |
+| `str_decrement()`                                     | ✅ Full    | Function  |
+| `stream_context_set_options()`                        | ✅ Full    | Function  |
+| `posix_eaccess()`                                     | ✅ Full    | Function  |
+| `POSIX_PC_*` (10 constants)                           | ✅ Full    | Constant  |
+| `POSIX_*_OK` (4 constants)                            | ✅ Full    | Constant  |
+| `Override`                                            | ✅ Full    | Attribute |
+| `DateError` / `DateException` (and related)           | ✅ Full    | Class     |
+| ▶️ **PHP 8.4+**                                                                |
+| `array_find()`                                        | ✅ Full    | Function  |
+| `array_find_key()`                                    | ✅ Full    | Function  |
+| `array_any()`                                         | ✅ Full    | Function  |
+| `array_all()`                                         | ✅ Full    | Function  |
+| `mb_trim()` / `mb_ltrim()` / `mb_rtrim()`             | ✅ Full    | Function  |
+| `mb_ucfirst()` / `mb_lcfirst()`                       | ✅ Full    | Function  |
+| `bcdivmod()`                                          | ✅ Full    | Function  |
+| `fpow()`                                              | ✅ Full    | Function  |
+| `grapheme_str_split()`                                | ✅ Full    | Function  |
+| `bcceil()`                                            | ✅ Full    | Function  |
+| `bcfloor()`                                           | ✅ Full    | Function  |
+| `bcround()`                                           | ✅ Full    | Function  |
+| `PHP_SBINDIR`                                         | ✅ Full    | Constant  |
+| `CURL_HTTP_VERSION_3`                                 | ✅ Full    | Constant  |
+| `CURL_HTTP_VERSION_3ONLY`                             | ✅ Full    | Constant  |
+| `Deprecated`                                          | ✅ Full    | Attribute |
+| `ReflectionConstant`                                  | ✅ Full    | Class     |
+| ▶️ **PHP 8.5+**                                                                |
+| `array_first()`                                       | ✅ Full    | Function  |
+| `array_last()`                                        | ✅ Full    | Function  |
+| `get_error_handler()`                                 | ✅ Full    | Function  |
+| `get_exception_handler()`                             | ✅ Full    | Function  |
+| `locale_is_right_to_left()`                           | ✅ Full    | Function  |
+| `grapheme_levenshtein()`                              | ✅ Full    | Function  |
+| `PHP_BUILD_DATE`                                      | ✅ Full    | Constant  |
+| `PHP_BUILD_PROVIDER`                                  | ✅ Full    | Constant  |
+| `NoDiscard`                                           | ✅ Full    | Attribute |
+| `DelayedTargetValidation`                             | ✅ Full    | Attribute |
+| `Uri\Rfc3986\Uri`                                     | ✅ Full    | Class     |
+| `Uri\WhatWg\Url`                                      | ✅ Full    | Class     |
+| `Uri\WhatWg\InvalidUrlException`                      | ✅ Full    | Class     |
+| `Uri\WhatWg\UrlValidationError`                       | ✅ Full    | Class     |
+| `Uri\WhatWg\UrlValidationErrorType`                   | ✅ Full    | Class     |
+| `Uri\UriException`                                    | ✅ Full    | Class     |
+| `Uri\InvalidUriException`                             | ✅ Full    | Class     |
+| `Uri\UriComparisonMode`                               | ✅ Full    | Class     |
 
 This package also provides polyfills for some PHP extensions, allowing better portability across different PHP runtimes.
 
