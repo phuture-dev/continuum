@@ -62,11 +62,17 @@ final class Php81
             return false;
         }
 
-        // fdatasync is similar to fsync but doesn't sync metadata
-        // In our polyfill, we treat them the same
-        $result = fflush($stream);
+        // Flush PHP's internal buffers
+        if (!fflush($stream)) {
+            return false;
+        }
 
-        return $result;
+        // If the posix extension is available, use it for actual disk sync
+        if (function_exists('posix_fsync')) {
+            return posix_fsync($stream);
+        }
+
+        return true;
     }
 
     /**
@@ -91,11 +97,16 @@ final class Php81
             return false;
         }
 
-        // Flush the output buffer to PHP's stream layer
-        $result = fflush($stream);
+        // Flush PHP's internal buffers
+        if (!fflush($stream)) {
+            return false;
+        }
 
-        // On systems where we can't do actual fsync, we return the fflush result
-        // This provides best-effort behavior but doesn't guarantee disk sync
-        return $result;
+        // If the posix extension is available, use it for actual disk sync
+        if (function_exists('posix_fsync')) {
+            return posix_fsync($stream);
+        }
+
+        return true;
     }
 }

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum\Tests;
 
-use Phuture\Continuum\Extension\Mbstring;
+use InvalidArgumentException;
 use Tester\{Assert, TestCase};
+use Phuture\Continuum\Extension\Mbstring;
 
 require __DIR__ . '/bootstrap.php';
 
@@ -75,7 +76,7 @@ class MbstringTest extends TestCase
         // Test that unknown encoding throws ValueError
         Assert::exception(function () {
             Mbstring::mb_preferred_mime_name('UNKNOWN');
-        }, \InvalidArgumentException::class);
+        }, InvalidArgumentException::class);
     }
 
     // =========================================================================

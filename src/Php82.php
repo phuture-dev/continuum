@@ -194,26 +194,6 @@ final class Php82
     }
 
     /**
-     * Resets the peak memory usage.
-     *
-     * This method provides a no-op implementation for PHP < 8.2. In PHP 8.2+,
-     * this function resets the peak memory usage tracked by memory_get_peak_usage().
-     * Since the internal counter cannot be reset in userland PHP, this method
-     * does nothing but provides API compatibility.
-     *
-     * @see https://www.php.net/manual/en/function.memory-reset-peak-usage.php
-     *
-     * @return void
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function memory_reset_peak_usage(): void
-    {
-        // No-op implementation for PHP < 8.2
-        // The internal peak memory counter cannot be reset from userland PHP.
-        // This method exists solely for API compatibility.
-    }
-
-    /**
      * Executes a prepared statement with parameters.
      *
      * This method prepares a SQL query, binds the given parameters, and executes it.
@@ -241,7 +221,11 @@ final class Php82
 
         if ($params !== null && count($params) > 0) {
             $types = self::buildMysqliBindTypes($params);
-            mysqli_stmt_bind_param($stmt, $types, ...$params);
+            $bindParams = [$stmt, $types];
+            foreach ($params as $key => $value) {
+                $bindParams[] = &$params[$key];
+            }
+            call_user_func_array('mysqli_stmt_bind_param', $bindParams);
         }
 
         $result = mysqli_stmt_execute($stmt);

@@ -14,51 +14,6 @@ if (file_exists(__DIR__ . '/components.json')) {
     }
 }
 
-// Download and extract components
-$removeDirectory = function (string $dir) use (&$removeDirectory): void {
-    foreach (glob($dir . '/*') ?: [] as $item) {
-        is_dir($item) ? $removeDirectory($item) : unlink($item);
-    }
-    @rmdir($dir);
-};
-
-foreach ($components->components as $name => $component) {
-    // Set download url
-    $url = rtrim($component->git, '/') . '/archive/refs/tags/' . ($component->version ?? 'main') . '.zip';
-
-    $path = __DIR__ . '/' . $name;
-    if (is_dir($path)) {
-        continue;
-    }
-
-    mkdir($path, 0755, true);
-    $zip = new \ZipArchive();
-    $zipFile = tempnam(sys_get_temp_dir(), 'component_');
-    file_put_contents($zipFile, file_get_contents($url));
-
-    if ($zip->open($zipFile)) {
-        $temp = sys_get_temp_dir() . '/component_' . uniqid();
-        mkdir($temp);
-        $zip->extractTo($temp);
-        $zip->close();
-
-        $root = glob($temp . '/*')[0];
-        foreach (
-            new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($root, \RecursiveDirectoryIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::SELF_FIRST
-            ) as $item
-        ) {
-            $target = $path . substr($item->getPathname(), strlen($root));
-            $item->isDir() ? mkdir($target, 0755, true) : copy($item, $target);
-        }
-
-        $removeDirectory($temp);
-    }
-
-    unlink($zipFile);
-}
-
 // Load components
 $loader = new Nette\Loaders\RobotLoader();
 foreach ($components->components as $name => $component) {

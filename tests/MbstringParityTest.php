@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum\Tests;
 
-use Phuture\Continuum\Extension\Mbstring;
+use Throwable;
 use Tester\{Assert, TestCase};
+use Phuture\Continuum\Extension\Mbstring;
 
 require __DIR__ . '/bootstrap.php';
 
@@ -127,13 +128,13 @@ class MbstringParityTest extends TestCase
 
             try {
                 mb_preferred_mime_name($encoding);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $nativeThrew = true;
             }
 
             try {
                 Mbstring::mb_preferred_mime_name($encoding);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $polyfillThrew = true;
             }
 
@@ -280,6 +281,67 @@ class MbstringParityTest extends TestCase
             $polyfill = Mbstring::mb_strimwidth($string, $start, $width, $marker);
 
             Assert::same($native, $polyfill, "Parity failed for mb_strimwidth with marker '{$marker}'");
+        }
+    }
+
+    public function testMbStrimwidthMultibyteParity(): void
+    {
+        if (!$this->hasNativeMbstring) {
+            Assert::false($this->hasNativeMbstring, 'Native mb_strimwidth() not available');
+
+            return;
+        }
+
+        $testCases = [
+            ['こんにちは世界', 0, 10, '...'],
+            ['あいうえお', 0, 5, '...'],
+            ['ABCこんにちは', 0, 8, '...'],
+        ];
+
+        // Emojis often have different widths in older PHP versions (8.0)
+        if (\PHP_VERSION_ID >= 80100) {
+            $testCases[] = ['😀😁😂🤣', 0, 5, '...'];
+        }
+
+        foreach ($testCases as [$string, $start, $width, $marker]) {
+            $native = mb_strimwidth($string, $start, $width, $marker, 'UTF-8');
+            $polyfill = Mbstring::mb_strimwidth($string, $start, $width, $marker, 'UTF-8');
+
+            Assert::same($native, $polyfill, "Parity failed for mb_strimwidth with multibyte string '{$string}'");
+        }
+    }
+
+    // =========================================================================
+    // mb_convert_kana Parity Tests
+    // =========================================================================
+
+    public function testMbConvertKanaParity(): void
+    {
+        if (!$this->hasNativeMbstring) {
+            Assert::false($this->hasNativeMbstring, 'Native mb_convert_kana() not available');
+
+            return;
+        }
+
+        $testCases = [
+            ['0123456789', 'R'],
+            ['０１２３４５６７８９', 'r'],
+            ['abcdefg', 'R'],
+            ['ａｂｃｄｅｆｇ', 'r'],
+            ['ｱｲｳｴｵ', 'K'],
+            ['アイウエオ', 'k'],
+            ['ｶﾞｷﾞｸﾞｹﾞｺﾞ', 'KV'],
+            ['ガギグゲゴ', 'k'],
+            ['ﾊﾟﾋﾟﾌﾟﾍﾟﾎﾟ', 'KV'],
+            ['パピプペポ', 'k'],
+            ['ｳﾞ', 'KV'],
+        ];
+
+        foreach ($testCases as [$string, $mode]) {
+            $native = mb_convert_kana($string, $mode, 'UTF-8');
+            $polyfill = Mbstring::mb_convert_kana($string, $mode, 'UTF-8');
+
+            Assert::same($native, $polyfill, "Parity failed for mb_convert_kana('{$string}', '{$mode}')");
         }
     }
 }

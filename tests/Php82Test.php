@@ -78,17 +78,6 @@ class Php82Test extends TestCase
     }
 
     // =========================================================================
-    // memory_reset_peak_usage Tests
-    // =========================================================================
-
-    public function testMemoryResetPeakUsage(): void
-    {
-        // This is a no-op, so it shouldn't throw anything
-        Php82::memory_reset_peak_usage();
-        Assert::true(true);
-    }
-
-    // =========================================================================
     // mysqli_execute_query Tests
     // =========================================================================
 

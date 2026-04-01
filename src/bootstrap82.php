@@ -46,18 +46,6 @@ if (extension_loaded('openssl')) {
     }
 }
 
-if (!function_exists('memory_reset_peak_usage')) {
-    /**
-     * Resets the peak memory usage.
-     *
-     * @return void
-     */
-    function memory_reset_peak_usage(): void
-    {
-        Php82::memory_reset_peak_usage();
-    }
-}
-
 if (extension_loaded('curl')) {
     if (!function_exists('curl_upkeep')) {
         /**

@@ -19,7 +19,6 @@ class Php82ParityTest extends TestCase
 {
     private bool $hasCurlUpkeep;
     private bool $hasImapIsOpen;
-    private bool $hasMemoryResetPeakUsage;
     private bool $hasMysqliExecuteQuery;
     private bool $hasOpensslCipherKeyLength;
 
@@ -27,7 +26,6 @@ class Php82ParityTest extends TestCase
     {
         $this->hasCurlUpkeep = function_exists('curl_upkeep');
         $this->hasImapIsOpen = function_exists('imap_is_open');
-        $this->hasMemoryResetPeakUsage = function_exists('memory_reset_peak_usage');
         $this->hasMysqliExecuteQuery = function_exists('mysqli_execute_query');
         $this->hasOpensslCipherKeyLength = function_exists('openssl_cipher_key_length');
     }
@@ -83,23 +81,6 @@ class Php82ParityTest extends TestCase
         Assert::same($native, $polyfill);
 
         imap_close($imapStream);
-    }
-
-    // =========================================================================
-    // memory_reset_peak_usage Parity Tests
-    // =========================================================================
-
-    public function testMemoryResetPeakUsageParity(): void
-    {
-        if (!$this->hasMemoryResetPeakUsage) {
-            Assert::false($this->hasMemoryResetPeakUsage, 'Native memory_reset_peak_usage() not available');
-
-            return;
-        }
-
-        memory_reset_peak_usage(); // @phpstan-ignore function.notFound
-        Php82::memory_reset_peak_usage();
-        Assert::true(true);
     }
 
     // =========================================================================
