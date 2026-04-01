@@ -53,6 +53,6 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
 
 // phpcs:ignore
 if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80400) {
-    require_once realpath(__DIR__ . '/../stubs')
+    require_once realpath(__DIR__ . '/../../stubs')
         . '/RoundingMode.php';
 }

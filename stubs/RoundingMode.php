@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * RoundingMode enum stub for PHP 8.4.
  *
