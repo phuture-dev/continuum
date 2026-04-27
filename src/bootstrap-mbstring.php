@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable PSR1.Files.SideEffects
+
 declare(strict_types=1);
 
 use Phuture\Continuum\Extension\Mbstring;
@@ -45,9 +47,9 @@ if (!function_exists('mb_preferred_mime_name')) {
      * Gets the preferred MIME name for a given encoding.
      *
      * @param string $encoding The character encoding to look up
-     * @return string|false The preferred MIME name, or false if not found
+     * @return string The preferred MIME name
      */
-    function mb_preferred_mime_name(string $encoding): string|false
+    function mb_preferred_mime_name(string $encoding): string
     {
         return Mbstring::mb_preferred_mime_name($encoding);
     }
@@ -90,8 +92,13 @@ if (!function_exists('mb_send_mail')) {
      * @param string|null $additional_params Additional parameters to pass to mail()
      * @return bool Returns true if the mail was accepted for delivery, false otherwise
      */
-    function mb_send_mail(string $to, string $subject, string $message, array|string $additional_headers = [], ?string $additional_params = null): bool
-    {
+    function mb_send_mail(
+        string $to,
+        string $subject,
+        string $message,
+        array|string $additional_headers = [],
+        ?string $additional_params = null
+    ): bool {
         return Mbstring::mb_send_mail($to, $subject, $message, $additional_headers, $additional_params);
     }
 }
@@ -138,8 +145,13 @@ if (!function_exists('mb_strimwidth')) {
      * @param string|null $encoding The character encoding
      * @return string The truncated string
      */
-    function mb_strimwidth(string $string, int $start, int $width, string $trim_marker = '', ?string $encoding = null): string
-    {
+    function mb_strimwidth(
+        string $string,
+        int $start,
+        int $width,
+        string $trim_marker = '',
+        ?string $encoding = null
+    ): string {
         return Mbstring::mb_strimwidth($string, $start, $width, $trim_marker, $encoding);
     }
 }

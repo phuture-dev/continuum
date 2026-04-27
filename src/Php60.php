@@ -41,8 +41,11 @@ final class Php60
      * @throws LogicException Always throws as this function cannot be polyfilled
      */
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function unicode_decode(string $string, string $encoding = 'UTF-8', int $flags = self::U_CONV_ERROR_SKIP): mixed
-    {
+    public static function unicode_decode(
+        string $string,
+        string $encoding = 'UTF-8',
+        int $flags = self::U_CONV_ERROR_SKIP
+    ): mixed {
         throw new LogicException(
             'unicode_decode() is a myth, much like PHP 6 itself. ' .
             'Some dreams are better left unfulfilled.'

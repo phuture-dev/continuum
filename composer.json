@@ -40,7 +40,7 @@
     },
     "require-dev": {
         "nette/tester": "^2.5",
-        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan": "^2.0",
         "squizlabs/php_codesniffer": "^3.7",
         "friendsofphp/php-cs-fixer": "^3.92.0"
     },
@@ -74,12 +74,11 @@
     },
     "scripts": {
         "test": ["@phpcs", "@phpstan", "@tester"],
-        "lint": ["@phpcbf", "php-cs-fixer fix"],
+        "lint": "php-cs-fixer fix",
         "server": "php -S localhost:8000",
         "phpstan": "phpstan analyse src --memory-limit=4294967296",
-        "phpcbf": "phpcbf -n --standard=PSR12 src/ || true",
-        "phpcs": "phpcs -n --standard=PSR12 src/",
-        "tester": "tester tests -C"
+        "phpcs": "phpcs --standard=PSR12 src",
+        "tester": "tester tests -s -C"
     },
     "config": {
         "sort-packages": true,

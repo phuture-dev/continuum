@@ -199,10 +199,10 @@ final class Mbstring
      * @see https://www.php.net/manual/en/function.mb-preferred-mime-name.php
      *
      * @param string $encoding The character encoding to look up
-     * @return string|false The preferred MIME name, or false if not found
+     * @return string The preferred MIME name
      */
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function mb_preferred_mime_name(string $encoding): string|false
+    public static function mb_preferred_mime_name(string $encoding): string
     {
         $encoding = strtoupper($encoding);
         $map = [
@@ -233,10 +233,12 @@ final class Mbstring
         ];
 
         if (!isset($map[$encoding])) {
-            throw new InvalidArgumentException('mb_preferred_mime_name(): Argument #1 ($encoding) must be a valid encoding, "' . $encoding . '" given');
+            throw new InvalidArgumentException(
+                'mb_preferred_mime_name(): Argument #1 ($encoding) must be a valid encoding, "' . $encoding . '" given'
+            );
         }
 
-        return $map[$encoding] ?? false;
+        return $map[$encoding];
     }
 
     /**
@@ -303,8 +305,13 @@ final class Mbstring
      * @return bool Returns true if the mail was accepted for delivery, false otherwise
      */
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function mb_send_mail(string $to, string $subject, string $message, array|string $additional_headers = [], ?string $additional_params = null): bool
-    {
+    public static function mb_send_mail(
+        string $to,
+        string $subject,
+        string $message,
+        array|string $additional_headers = [],
+        ?string $additional_params = null
+    ): bool {
         $encoding = function_exists('mb_internal_encoding') ? mb_internal_encoding() : 'UTF-8';
         $language = function_exists('mb_language') ? mb_language() : 'neutral';
 
@@ -486,8 +493,13 @@ final class Mbstring
      * @return string The truncated string
      */
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function mb_strimwidth(string $string, int $start, int $width, string $trim_marker = '', ?string $encoding = null): string
-    {
+    public static function mb_strimwidth(
+        string $string,
+        int $start,
+        int $width,
+        string $trim_marker = '',
+        ?string $encoding = null
+    ): string {
         $encoding = $encoding ?? (function_exists('mb_internal_encoding') ? mb_internal_encoding() : 'UTF-8');
 
         if (strtoupper($encoding) !== 'UTF-8' && strtoupper($encoding) !== 'UTF8') {
@@ -611,7 +623,10 @@ final class Mbstring
         }
 
         if ($ord0 >= 0xF0 && $ord0 <= 0xF4) {
-            return (($ord0 & 0x07) << 18) | ((ord($char[1]) & 0x3F) << 12) | ((ord($char[2]) & 0x3F) << 6) | (ord($char[3]) & 0x3F);
+            return (($ord0 & 0x07) << 18)
+                | ((ord($char[1]) & 0x3F) << 12)
+                | ((ord($char[2]) & 0x3F) << 6)
+                | (ord($char[3]) & 0x3F);
         }
 
         return 0;

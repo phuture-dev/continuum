@@ -139,7 +139,7 @@ final class Php84
 
         // Get the integer and fractional parts of the scaled number
         $scaledParts = explode('.', (string) $scaled);
-        $intPart = $scaledParts[0] ?? '0';
+        $intPart = $scaledParts[0];
         $fracPart = $scaledParts[1] ?? '';
 
         // Determine the first decimal digit and whether there are more non-zero decimals
@@ -164,8 +164,10 @@ final class Php84
                 : $intPart,
             RoundingMode::HalfEven, 'HalfEven' => self::bcRoundHalfEven($numFloat, $intPart, $fractionFloat),
             RoundingMode::HalfOdd, 'HalfOdd' => self::bcRoundHalfOdd($numFloat, $intPart, $fractionFloat),
-            RoundingMode::PositiveInfinity, 'PositiveInfinity' => self::bcRoundPositiveInfinity($numFloat, $intPart, $fractionFloat),
-            RoundingMode::NegativeInfinity, 'NegativeInfinity' => self::bcRoundNegativeInfinity($numFloat, $intPart, $fractionFloat),
+            RoundingMode::PositiveInfinity, 'PositiveInfinity' =>
+                self::bcRoundPositiveInfinity($numFloat, $intPart, $fractionFloat),
+            RoundingMode::NegativeInfinity, 'NegativeInfinity' =>
+                self::bcRoundNegativeInfinity($numFloat, $intPart, $fractionFloat),
             RoundingMode::TowardsZero, 'TowardsZero' => $intPart,
             RoundingMode::AwayFromZero, 'AwayFromZero' => ($fractionFloat > 0.0)
                 ? ($numFloat >= 0 ? bcadd($intPart, '1', 0) : bcsub($intPart, '1', 0))
