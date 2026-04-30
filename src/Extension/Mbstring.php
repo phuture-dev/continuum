@@ -20,20 +20,6 @@ use InvalidArgumentException;
 final class Mbstring
 {
     /**
-     * The current character encoding for multibyte regex operations.
-     *
-     * @var string
-     */
-    private static string $regexEncoding = 'UTF-8';
-
-    /**
-     * The current options for multibyte regex operations.
-     *
-     * @var string
-     */
-    private static string $regexOptions = 'kr';
-
-    /**
      * Converts between half-width and full-width Japanese characters.
      *
      * This is a minimal best-effort polyfill for the mb_convert_kana() function.
@@ -170,27 +156,6 @@ final class Mbstring
     }
 
     /**
-     * Parses GET/POST/COOKIE data and sets global variables.
-     *
-     * This is a polyfill for the mb_parse_str() function. It parses the query string
-     * into the provided result array. This implementation uses PHP's native parse_str()
-     * function, which handles URL-encoded strings.
-     *
-     * @see https://www.php.net/manual/en/function.mb-parse-str.php
-     *
-     * @param string $string The URL-encoded query string to parse
-     * @param array $result The array to store the parsed results
-     * @return bool Returns true on success
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function mb_parse_str(string $string, array &$result): bool
-    {
-        parse_str($string, $result);
-
-        return true;
-    }
-
-    /**
      * Gets the preferred MIME name for a given encoding.
      *
      * This polyfill returns the preferred MIME name for a character encoding.
@@ -239,53 +204,6 @@ final class Mbstring
         }
 
         return $map[$encoding];
-    }
-
-    /**
-     * Gets or sets the encoding for multibyte regex.
-     *
-     * This polyfill manages the character encoding used for multibyte regular
-     * expression functions. The default encoding is UTF-8.
-     *
-     * @see https://www.php.net/manual/en/function.mb-regex-encoding.php
-     *
-     * @param string|null $encoding The encoding to set, or null to get current encoding
-     * @return string|bool Returns the encoding on get, true on set
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function mb_regex_encoding(?string $encoding = null): string|bool
-    {
-        if (null === $encoding) {
-            return self::$regexEncoding;
-        }
-
-        self::$regexEncoding = $encoding;
-
-        return true;
-    }
-
-    /**
-     * Gets or sets the options for multibyte regex.
-     *
-     * This polyfill manages the options used for multibyte regular expression
-     * functions. The default options are 'kr' (Korean locale support).
-     *
-     * @see https://www.php.net/manual/en/function.mb-regex-set-options.php
-     *
-     * @param string|null $options The options to set, or null to get current options
-     * @return string Returns the previous options
-     */
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public static function mb_regex_set_options(?string $options = null): string
-    {
-        if (null === $options) {
-            return self::$regexOptions;
-        }
-
-        $prev = self::$regexOptions;
-        self::$regexOptions = $options;
-
-        return $prev;
     }
 
     /**

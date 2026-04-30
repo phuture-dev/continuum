@@ -42,29 +42,6 @@ class MbstringTest extends TestCase
     }
 
     // =========================================================================
-    // mb_parse_str Tests
-    // =========================================================================
-
-    public function testMbParseStr(): void
-    {
-        $query = 'foo=bar&baz=qux';
-        $result = [];
-        Mbstring::mb_parse_str($query, $result);
-
-        Assert::same('bar', $result['foo']);
-        Assert::same('qux', $result['baz']);
-    }
-
-    public function testMbParseStrUrlEncoded(): void
-    {
-        $query = 'name=John%20Doe';
-        $result = [];
-        Mbstring::mb_parse_str($query, $result);
-
-        Assert::same('John Doe', $result['name']);
-    }
-
-    // =========================================================================
     // mb_preferred_mime_name Tests
     // =========================================================================
 
@@ -77,36 +54,6 @@ class MbstringTest extends TestCase
         Assert::exception(function () {
             Mbstring::mb_preferred_mime_name('UNKNOWN');
         }, InvalidArgumentException::class);
-    }
-
-    // =========================================================================
-    // mb_regex_encoding Tests
-    // =========================================================================
-
-    public function testMbRegexEncoding(): void
-    {
-        Assert::same('UTF-8', Mbstring::mb_regex_encoding());
-
-        Mbstring::mb_regex_encoding('EUC-JP');
-        Assert::same('EUC-JP', Mbstring::mb_regex_encoding());
-
-        // Reset to default
-        Mbstring::mb_regex_encoding('UTF-8');
-    }
-
-    // =========================================================================
-    // mb_regex_set_options Tests
-    // =========================================================================
-
-    public function testMbRegexSetOptions(): void
-    {
-        Assert::same('kr', Mbstring::mb_regex_set_options());
-
-        Mbstring::mb_regex_set_options('msr');
-        Assert::same('msr', Mbstring::mb_regex_set_options());
-
-        // Reset to default
-        Mbstring::mb_regex_set_options('kr');
     }
 
     // =========================================================================
