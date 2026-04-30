@@ -28,20 +28,6 @@ if (!function_exists('mb_convert_kana')) {
     }
 }
 
-if (!function_exists('mb_parse_str')) {
-    /**
-     * Parses GET/POST/COOKIE data and sets global variables.
-     *
-     * @param string $string The URL-encoded query string to parse
-     * @param array $result The array to store the parsed results
-     * @return bool Returns true on success
-     */
-    function mb_parse_str(string $string, array &$result): bool
-    {
-        return Mbstring::mb_parse_str($string, $result);
-    }
-}
-
 if (!function_exists('mb_preferred_mime_name')) {
     /**
      * Gets the preferred MIME name for a given encoding.
@@ -52,32 +38,6 @@ if (!function_exists('mb_preferred_mime_name')) {
     function mb_preferred_mime_name(string $encoding): string
     {
         return Mbstring::mb_preferred_mime_name($encoding);
-    }
-}
-
-if (!function_exists('mb_regex_encoding')) {
-    /**
-     * Gets or sets the encoding for multibyte regex.
-     *
-     * @param string|null $encoding The encoding to set, or null to get current encoding
-     * @return string|bool Returns the encoding on get, true on set
-     */
-    function mb_regex_encoding(?string $encoding = null): string|bool
-    {
-        return Mbstring::mb_regex_encoding($encoding);
-    }
-}
-
-if (!function_exists('mb_regex_set_options')) {
-    /**
-     * Gets or sets the options for multibyte regex.
-     *
-     * @param string|null $options The options to set, or null to get current options
-     * @return string Returns the previous options
-     */
-    function mb_regex_set_options(?string $options = null): string
-    {
-        return Mbstring::mb_regex_set_options($options);
     }
 }
 
