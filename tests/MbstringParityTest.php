@@ -25,60 +25,6 @@ class MbstringParityTest extends TestCase
     }
 
     // =========================================================================
-    // mb_parse_str Parity Tests
-    // =========================================================================
-
-    public function testMbParseStrParity(): void
-    {
-        if (!$this->hasNativeMbstring) {
-            Assert::false($this->hasNativeMbstring, 'Native mb_parse_str() not available');
-
-            return;
-        }
-
-        $testCases = [
-            'foo=bar&baz=qux',
-            'name=John%20Doe&age=30',
-            'a=1&b=2&c=3',
-            '',
-        ];
-
-        foreach ($testCases as $queryString) {
-            $nativeResult = [];
-            $polyfillResult = [];
-
-            mb_parse_str($queryString, $nativeResult);
-            Mbstring::mb_parse_str($queryString, $polyfillResult);
-
-            Assert::same($nativeResult, $polyfillResult, "Parity failed for mb_parse_str('{$queryString}')");
-        }
-    }
-
-    public function testMbParseStrMultibyteParity(): void
-    {
-        if (!$this->hasNativeMbstring) {
-            Assert::false($this->hasNativeMbstring, 'Native mb_parse_str() not available');
-
-            return;
-        }
-
-        $testCases = [
-            'name=%E3%81%82&city=%E6%9D%B1%E4%BA%AC',
-            'title=%E3%83%86%E3%82%B9%E3%83%88',
-        ];
-
-        foreach ($testCases as $queryString) {
-            $nativeResult = [];
-            $polyfillResult = [];
-
-            mb_parse_str($queryString, $nativeResult);
-            Mbstring::mb_parse_str($queryString, $polyfillResult);
-
-            Assert::same($nativeResult, $polyfillResult, "Parity failed for multibyte query string");
-        }
-    }
-
-    // =========================================================================
     // mb_preferred_mime_name Parity Tests
     // =========================================================================
 

@@ -5,7 +5,7 @@
 declare(strict_types=1);
 
 // phpcs:ignore
-if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
+if (!class_exists('RoundingMode', false) && \PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     /**
      * RoundingMode enum stub for PHP 8.4.
      *
@@ -28,33 +28,27 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
     final class RoundingMode
     {
         // phpcs:ignore
-        public const AwayFromZero = 'AwayFromZero';
+        public const HalfAwayFromZero = PHP_ROUND_HALF_UP;
 
         // phpcs:ignore
-        public const HalfAwayFromZero = 'HalfAwayFromZero';
+        public const HalfTowardsZero = PHP_ROUND_HALF_DOWN;
 
         // phpcs:ignore
-        public const HalfEven = 'HalfEven';
+        public const HalfEven = PHP_ROUND_HALF_EVEN;
 
         // phpcs:ignore
-        public const HalfOdd = 'HalfOdd';
+        public const HalfOdd = PHP_ROUND_HALF_ODD;
 
         // phpcs:ignore
-        public const HalfTowardsZero = 'HalfTowardsZero';
+        public const PositiveInfinity = 5;
 
         // phpcs:ignore
-        public const NegativeInfinity = 'NegativeInfinity';
+        public const NegativeInfinity = 6;
 
         // phpcs:ignore
-        public const PositiveInfinity = 'PositiveInfinity';
+        public const TowardsZero = 7;
 
         // phpcs:ignore
-        public const TowardsZero = 'TowardsZero';
+        public const AwayFromZero = 8;
     }
-}
-
-// phpcs:ignore
-if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80400) {
-    require_once realpath(__DIR__ . '/../../stubs')
-        . '/RoundingMode.php';
 }

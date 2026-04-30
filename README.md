@@ -60,24 +60,23 @@ This package polyfills most common PHP functions from PHP 8.1 to 8.5, designed t
 | `POSIX_*_OK` (4 constants)                            | ✅ Full    | Constant  |
 | `Override`                                            | ✅ Full    | Attribute |
 | `DateError` / `DateException` (and related)           | ✅ Full    | Class     |
+| `SQLite3Exception`                                    | ✅ Full    | Class     |
+| `ldap_exop_sync()`                                    | ✅ Full    | Function  |
+| `ldap_connect_wallet()`                               | ✅ Full    | Function  |
 | ▶️ **PHP 8.4+**                                                                |
 | `array_find()`                                        | ✅ Full    | Function  |
 | `array_find_key()`                                    | ✅ Full    | Function  |
 | `array_any()`                                         | ✅ Full    | Function  |
 | `array_all()`                                         | ✅ Full    | Function  |
-| `mb_trim()` / `mb_ltrim()` / `mb_rtrim()`             | ✅ Full    | Function  |
-| `mb_ucfirst()` / `mb_lcfirst()`                       | ✅ Full    | Function  |
-| `bcdivmod()`                                          | ✅ Full    | Function  |
 | `fpow()`                                              | ✅ Full    | Function  |
 | `grapheme_str_split()`                                | ✅ Full    | Function  |
-| `bcceil()`                                            | ✅ Full    | Function  |
-| `bcfloor()`                                           | ✅ Full    | Function  |
-| `bcround()`                                           | ✅ Full    | Function  |
 | `PHP_SBINDIR`                                         | ✅ Full    | Constant  |
 | `CURL_HTTP_VERSION_3`                                 | ✅ Full    | Constant  |
 | `CURL_HTTP_VERSION_3ONLY`                             | ✅ Full    | Constant  |
 | `Deprecated`                                          | ✅ Full    | Attribute |
+| `RoundingMode`                                        | ✅ Full    | Enum      |
 | `ReflectionConstant`                                  | ✅ Full    | Class     |
+| `PDO` driver subclasses (Dblib, Firebird, etc.)       | ✅ Full    | Class     |
 | ▶️ **PHP 8.5+**                                                                |
 | `array_first()`                                       | ✅ Full    | Function  |
 | `array_last()`                                        | ✅ Full    | Function  |
@@ -97,18 +96,20 @@ This package polyfills most common PHP functions from PHP 8.1 to 8.5, designed t
 | `Uri\UriException`                                    | ✅ Full    | Class     |
 | `Uri\InvalidUriException`                             | ✅ Full    | Class     |
 | `Uri\UriComparisonMode`                               | ✅ Full    | Class     |
+| `Filter\FilterException`                              | ✅ Full    | Class     |
+| `Filter\FilterFailedException`                        | ✅ Full    | Class     |
 
 This package also provides polyfills for some PHP extensions, allowing better portability across different PHP runtimes.
 
-| Extension      |
-|----------------|
-| `ext-mbstring` |
-| `ext-iconv`    |
-| `ext-apcu`     |
-| `ext-ctype`    |
-| `ext-uuid`     |
-| `ext-bcmath`   |
-| `ext-intl`     |
+| Extension      | Level      |
+|----------------|------------|
+| `ext-mbstring` | ⚠️ Partial |
+| `ext-iconv`    | ✅ Full    |
+| `ext-apcu`     | ⚠️ Partial |
+| `ext-ctype`    | ✅ Full    |
+| `ext-uuid`     | ✅ Full    |
+| `ext-bcmath`   | ✅ Full    |
+| `ext-intl`     | ⚠️ Partial |
 
 ## Installation
 
