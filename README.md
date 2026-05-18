@@ -110,6 +110,7 @@ This package also provides polyfills for some PHP extensions, allowing better po
 | `ext-uuid`     | ✅ Full    |
 | `ext-bcmath`   | ✅ Full    |
 | `ext-intl`     | ⚠️ Partial |
+| `ext-zip`      | ⚠️ Partial |
 
 ## Installation
 
