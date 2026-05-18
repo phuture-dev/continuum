@@ -10,6 +10,8 @@ This document establishes the workflow, coding standards, and architectural patt
 4. [Method Naming Conventions](#method-naming-conventions)
 5. [Pass-by-Reference Methods](#pass-by-reference-methods)
 6. [Documentation Standards](#documentation-standards)
+   - [Method Documentation](#method-documentation)
+   - [Property Documentation](#property-documentation)
 7. [Testing Requirements](#testing-requirements)
 8. [Code Quality Standards](#code-quality-standards)
 9. [Adding New Methods](#adding-new-methods)
@@ -89,7 +91,6 @@ Flags, modes, offsets, encoding, and other optional modifiers:
 ```php
 Arrays::search(array $array, mixed $needle, bool $strict = false)
 Strings::position(string $subject, string $search, int $offset = 0)
-MultibyteStrings::position(string $subject, string $search, int $offset = 0, ?string $encoding = null)
 Hash::md5(string $data, bool $binary = false)
 ```
 
@@ -171,6 +172,8 @@ public static function sort(array &$array, int $flags = SORT_REGULAR): bool
 
 ## Documentation Standards
 
+### Method Documentation
+
 ### Required PHPDoc Format
 
 Every method MUST include complete PHPDoc with the following structure:
@@ -203,10 +206,10 @@ Every method MUST include complete PHPDoc with the following structure:
 1. **Brief Description**: One-line summary in simple language
 2. **Extended Description**: Detailed explanation using everyday words (required)
 3. **Example**: Always include a short usage example wrapped in ```php code blocks
-4. **Other Classes**: When referring to other classes, always use a Fully Qualified Class Name
+4. **Other Classes**: When referring to other classes, always use FQCNs
 5. **@param Tags**: For EVERY parameter with clear, simple descriptions
 6. **@return Tag**: Clear description of what is returned and what it represents, omit when void
-7. **Callback Documentation**: When a parameter requires a callback function, the @param description MUST include the callback signature in the format: `The callback has the signature \`function (mixed $value): mixed\``
+7. **Callback Documentation**: When a parameter requires a callback function, the @param description MUST include the callback signature in the format: ```The callback has the signature `function (mixed $value): mixed` ```
 8. **Additional Tags** (when applicable):
    - `@see` - For methods that have other related methods, like first() being related to last(), or flatten() to unflatten(), always use FQCNs
    - `@throws` - For methods that throw exceptions, always use FQCNs
@@ -348,6 +351,51 @@ public static function sort(array &$array, int $flags = SORT_REGULAR): bool
  * @return int|string|false Returns the position if found, or false if not found
  */
 ````
+
+### Property Documentation
+
+Every class property and class constant MUST be documented with a **multiline** PHPDoc block. Single-line inline doc comments (`/** @var … */`) are not allowed.
+
+**Required format:**
+
+````php
+/**
+ * Brief one-line description of what the property holds.
+ *
+ * Extended description providing context: what the structure looks like,
+ * how it is keyed, when it is populated, and any invariants that apply.
+ *
+ * @var type
+ */
+private array $propertyName = [];
+````
+
+**Good example:**
+
+````php
+/**
+ * Cached results keyed by the input string that produced them.
+ *
+ * Populated on first access and reused on subsequent calls with the same
+ * input. Cleared whenever the underlying data source changes.
+ *
+ * @var array
+ */
+private array $cache = [];
+````
+
+**Bad example (not allowed):**
+
+```php
+/** @var int Maximum number of retry attempts before giving up */
+public const MAX_RETRIES = 3;
+```
+
+#### Property PHPDoc Requirements
+
+1. **Brief description**: One-line summary on the opening line of the block
+2. **Extended description**: At least one sentence explaining what the property stores, how it is structured, or when it changes — skip only if the property is completely self-evident from its name and type alone
+3. **`@var` tag**: Always present on its own line; include the most specific type possible
 
 ---
 
@@ -567,6 +615,22 @@ $scopeClass = $reflection->getClosureScopeClass()?->name;
 $boundObject = $reflection->getClosureThis();
 ```
 
+### Inline Property Doc Instead of Multiline PHPDoc Block
+
+```php
+// WRONG: Single-line inline PHPDoc for a property or constant
+/** @var array List of open handles */
+private array $handles = [];
+
+// RIGHT: Multiline PHPDoc block
+/**
+ * List of open resource handles keyed by identifier.
+ *
+ * @var array
+ */
+private array $handles = [];
+```
+
 ### Comments That Explain "What" Instead of Rewriting the Code
 
 ```php
@@ -596,7 +660,7 @@ This workflow guide establishes the standards for maintaining consistency, predi
 
 Remember the key principles:
 
-1. **Static methods only** in `./src/` utility classes
+1. **Classes only** in `./src/`
 2. **Argument ordering**: `([required], [optional], [variadics])`
 3. **Descriptive names** for every method, variable, constant, and property — clear intent, no abbreviations
 4. **Self-explanatory code** — if a comment explains *what* the code does, rewrite the code instead
@@ -605,8 +669,3 @@ Remember the key principles:
 7. **PSR-12 compliance** enforced through tooling
 
 When in doubt, refer to existing classes as examples of proper implementation.
-
----
-
-**Last Updated**: 2026-04-30
-**Version**: 1.2
