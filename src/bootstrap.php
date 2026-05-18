@@ -19,3 +19,4 @@ require_once __DIR__ . '/bootstrap84.php';
 require_once __DIR__ . '/bootstrap85.php';
 require_once __DIR__ . '/bootstrap-bcmath.php';
 require_once __DIR__ . '/bootstrap-mbstring.php';
+require_once __DIR__ . '/bootstrap-zip.php';
