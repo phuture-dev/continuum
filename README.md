@@ -7,7 +7,7 @@
 ![PHP Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fphuture-dev%2Fcontinuum%2Frefs%2Fheads%2Fmain%2Fcomposer.json&query=require.php&style=for-the-badge&label=PHP%20Version&color=purple)
 ![Latest Release](https://img.shields.io/github/v/tag/phuture-dev/continuum?sort=semver&style=for-the-badge&label=latest%20release&color=blue)
 ![Tests Status](https://img.shields.io/github/actions/workflow/status/phuture-dev/continuum/tests.yml?style=for-the-badge&label=tests)
-![License](https://img.shields.io/github/license/phuture-dev/continuum?style=for-the-badge&color=orange)
+![License](https://img.shields.io/github/license/phuture-dev/continuum?style=for-the-badge)
 
 </div>
 
@@ -111,6 +111,48 @@ This package also provides polyfills for some PHP extensions, allowing better po
 | `ext-bcmath`   | ✅ Full    |
 | `ext-intl`     | ⚠️ Partial |
 | `ext-zip`      | ⚠️ Partial |
+
+## What's Not Covered
+
+The entries marked ❇️ Partial or ⚠️ Partial in the tables above have meaningful gaps. This section documents exactly what each one omits or cannot replicate.
+
+### Partial Polyfills
+
+**`fsync()` / `fdatasync()`** (PHP 8.1)
+- Both fall back to `fflush()`, plus `posix_fsync()` when the `posix` extension is loaded.
+- There is no guarantee of actual disk-level synchronization on systems without the POSIX extension.
+- The return value is always `true`, even when the underlying OS sync did not occur.
+
+**`curl_upkeep()`** (PHP 8.2)
+- Only sets `CURLOPT_FORBID_REUSE = false` and `CURLOPT_FRESH_CONNECT = false`.
+- Does not perform real HTTP/2 connection maintenance (window-size updates, PING frames, or keep-alive signalling).
+- Full behaviour requires PHP 8.2+ with libcurl ≥ 7.62.0.
+
+### Partial Extensions
+
+**`ext-mbstring`**
+- The only functions with **no polyfill** are the stateful regex-search family: `mb_ereg_search()`, `mb_ereg_search_init()`, `mb_ereg_search_pos()`, `mb_ereg_search_regs()`, `mb_ereg_search_getpos()`, `mb_ereg_search_getregs()`, and `mb_ereg_search_setpos()`.
+- `mb_convert_kana()` supports only the `R`, `r`, `N`, `n`, `K`, `k`, `V`, `A`, `a` conversion modes. 
+
+**`ext-apcu`**
+- In-memory, non-persistent cache: data is lost between requests.
+- Scoped to a single process; entries are not shared across PHP-FPM workers.
+- No atomic operations beyond basic `get`/`set`; no TTL-based eviction or shared-memory sizing.
+
+**`ext-intl`**
+- `Collator`: simplified sorting - does not implement the full Unicode Collation Algorithm.
+- `NumberFormatter`: advanced formatting features (currency symbol overrides, padding, significant digits) are missing.
+- `Locale`: operations are simplified; no full CLDR data lookup.
+- No direct access to ICU binary data; limited to the subset bundled with Symfony.
+
+**`ext-zip`**
+- `ZipArchive::getArchiveFlag()` - always returns `0`; archive-level flags are a libzip internal concept not accessible through userland php.
+- `ZipArchive::setArchiveFlag()` - always returns `false`.
+- `ZipArchive::registerProgressCallback()` - always returns `false`.
+- `ZipArchive::registerCancelCallback()` - always returns `false`.
+- Procedural `zip_entry_open()` only accepts modes `r` and `rb`; write-mode entry access is not supported.
+- Multi-disk ZIP archives are not supported.
+- Writing with compression methods `CM_LZMA`, `CM_LZMA2`, and `CM_XZ` is not supported.
 
 ## Installation
 
