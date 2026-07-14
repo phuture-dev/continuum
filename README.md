@@ -17,7 +17,7 @@
 
 ## Features
 
-This package polyfills most common PHP functions from PHP 8.1 to 8.5, designed to be used on PHP 8.0 or later.
+This package polyfills most common PHP functions from PHP 8.1 to 8.6, designed to be used on PHP 8.0 or later.
 
 | Polyfill                                              | Level      | Type      |
 |-------------------------------------------------------|------------|-----------|
@@ -98,6 +98,10 @@ This package polyfills most common PHP functions from PHP 8.1 to 8.5, designed t
 | `Uri\UriComparisonMode`                               | ✅ Full    | Class     |
 | `Filter\FilterException`                              | ✅ Full    | Class     |
 | `Filter\FilterFailedException`                        | ✅ Full    | Class     |
+| ▶️ **PHP 8.6+**                                                                |
+| `clamp()`                                             | ✅ Full    | Function  |
+| `grapheme_strrev()`                                   | ✅ Full    | Function  |
+| `SortDirection`                                       | ✅ Full    | Enum      |
 
 This package also provides polyfills for some PHP extensions, allowing better portability across different PHP runtimes.
 
