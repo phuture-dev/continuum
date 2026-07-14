@@ -107,9 +107,9 @@ class Php86Test extends TestCase
 
     public function testGraphemeStrrevWithEmojiModifier(): void
     {
-        if (PHP_VERSION_ID >= 80500) {
+        if (PHP_VERSION_ID >= 80400) {
             \Tester\Environment::skip(
-                'On PHP >= 8.5 the native grapheme_str_split() is used and its handling'
+                'On PHP >= 8.4 the native grapheme_str_split() is used and its handling'
                 . ' of emoji modifier sequences depends on the system ICU version.'
             );
         }
@@ -120,9 +120,9 @@ class Php86Test extends TestCase
 
     public function testGraphemeStrrevReturnsFalseOnInvalidString(): void
     {
-        if (PHP_VERSION_ID >= 80500) {
+        if (PHP_VERSION_ID >= 80400) {
             \Tester\Environment::skip(
-                'On PHP >= 8.5 the native grapheme_str_split() is used and its handling'
+                'On PHP >= 8.4 the native grapheme_str_split() is used and its handling'
                 . ' of invalid UTF-8 differs from the polyfill.'
             );
         }
