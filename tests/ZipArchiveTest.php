@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum\Tests;
 
-use Phuture\Continuum\Extension\ZipArchive;
 use Tester\{Assert, TestCase};
+use Phuture\Continuum\Extension\ZipArchive;
 
 require __DIR__ . '/bootstrap.php';
 

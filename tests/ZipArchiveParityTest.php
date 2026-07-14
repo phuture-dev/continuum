@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Phuture\Continuum\Tests;
 
 use ZipArchive;
+use FilesystemIterator;
+use RecursiveIteratorIterator;
 use Tester\{Assert, TestCase};
+use RecursiveDirectoryIterator;
 use Phuture\Continuum\Extension\ZipArchive as ZipArchivePf;
 
 require __DIR__ . '/bootstrap.php';
@@ -1049,9 +1052,9 @@ class ZipArchiveParityTest extends TestCase
             return;
         }
 
-        $items = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::CHILD_FIRST
+        $items = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
         );
 
         foreach ($items as $item) {
