@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Phuture\Continuum\Tests;
 
-use Phuture\Continuum\Php86;
 use SortDirection;
 use Tester\{Assert, TestCase};
-use ValueError;
 
 require __DIR__ . '/bootstrap.php';
 
@@ -18,118 +16,6 @@ require __DIR__ . '/bootstrap.php';
  */
 class Php86Test extends TestCase
 {
-    // =========================================================================
-    // clamp Tests
-    // =========================================================================
-
-    public function testClampReturnsValueWithinRange(): void
-    {
-        Assert::same(5, Php86::clamp(5, 1, 10));
-        Assert::same(1, Php86::clamp(1, 1, 10));
-        Assert::same(10, Php86::clamp(10, 1, 10));
-    }
-
-    public function testClampReturnsMinWhenValueIsBelowRange(): void
-    {
-        Assert::same(1, Php86::clamp(-5, 1, 10));
-        Assert::same(0, Php86::clamp(PHP_INT_MIN, 0, 10));
-    }
-
-    public function testClampReturnsMaxWhenValueIsAboveRange(): void
-    {
-        Assert::same(10, Php86::clamp(42, 1, 10));
-        Assert::same(10, Php86::clamp(PHP_INT_MAX, 0, 10));
-    }
-
-    public function testClampWithFloats(): void
-    {
-        Assert::same(2.5, Php86::clamp(2.5, 1.0, 5.0));
-        Assert::same(1.0, Php86::clamp(0.5, 1.0, 5.0));
-        Assert::same(5.0, Php86::clamp(9.9, 1.0, 5.0));
-    }
-
-    public function testClampWithEqualBounds(): void
-    {
-        Assert::same(3, Php86::clamp(1, 3, 3));
-        Assert::same(3, Php86::clamp(5, 3, 3));
-        Assert::same(3, Php86::clamp(3, 3, 3));
-    }
-
-    public function testClampThrowsWhenMinIsNan(): void
-    {
-        Assert::exception(function () {
-            Php86::clamp(1.0, NAN, 10.0);
-        }, ValueError::class, 'clamp(): Argument #2 ($min) must not be NAN');
-    }
-
-    public function testClampThrowsWhenMaxIsNan(): void
-    {
-        Assert::exception(function () {
-            Php86::clamp(1.0, 0.0, NAN);
-        }, ValueError::class, 'clamp(): Argument #3 ($max) must not be NAN');
-    }
-
-    public function testClampThrowsWhenMinIsGreaterThanMax(): void
-    {
-        Assert::exception(function () {
-            Php86::clamp(5, 10, 1);
-        }, ValueError::class, 'clamp(): Argument #2 ($min) must be smaller than or equal to argument #3 ($max)');
-    }
-
-    // =========================================================================
-    // grapheme_strrev Tests
-    // =========================================================================
-
-    public function testGraphemeStrrevReversesAsciiString(): void
-    {
-        Assert::same('EDCBA', Php86::grapheme_strrev('ABCDE'));
-        Assert::same('a', Php86::grapheme_strrev('a'));
-    }
-
-    public function testGraphemeStrrevWithEmptyString(): void
-    {
-        Assert::same('', Php86::grapheme_strrev(''));
-    }
-
-    public function testGraphemeStrrevKeepsGraphemeClustersIntact(): void
-    {
-        // Combining acute accent stays attached to its base character
-        Assert::same("e\u{0301}fac", Php86::grapheme_strrev("cafe\u{0301}"));
-    }
-
-    public function testGraphemeStrrevWithEmoji(): void
-    {
-        Assert::same('🍏elppA', Php86::grapheme_strrev('Apple🍏'));
-
-        // Regional indicator pairs (flags) are reversed as single units
-        Assert::same('🇳🇨 - 🇨🇳', Php86::grapheme_strrev('🇨🇳 - 🇳🇨'));
-    }
-
-    public function testGraphemeStrrevWithEmojiModifier(): void
-    {
-        if (PHP_VERSION_ID >= 80400) {
-            \Tester\Environment::skip(
-                'On PHP >= 8.4 the native grapheme_str_split() is used and its handling'
-                . ' of emoji modifier sequences depends on the system ICU version.'
-            );
-        }
-
-        // Emoji with a skin-tone modifier is not broken apart
-        Assert::same('C👍🏽A', Php86::grapheme_strrev('A👍🏽C'));
-    }
-
-    public function testGraphemeStrrevReturnsFalseOnInvalidString(): void
-    {
-        if (PHP_VERSION_ID >= 80400) {
-            \Tester\Environment::skip(
-                'On PHP >= 8.4 the native grapheme_str_split() is used and its handling'
-                . ' of invalid UTF-8 differs from the polyfill.'
-            );
-        }
-
-        Assert::false(@Php86::grapheme_strrev("ab\xff"));
-    }
-
     // =========================================================================
     // SortDirection Tests
     // =========================================================================

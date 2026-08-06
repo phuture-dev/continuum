@@ -27,7 +27,7 @@
         "symfony/polyfill-apcu": "~v1.37.0",
         "symfony/polyfill-ctype": "~v1.37.0",
         "symfony/polyfill-iconv": "~v1.37.0",
-        "symfony/polyfill-intl-grapheme": "~v1.38.0",
+        "symfony/polyfill-intl-grapheme": "~v1.41.0",
         "symfony/polyfill-intl-icu": "~v1.38.0",
         "symfony/polyfill-intl-idn": "~v1.38.0",
         "symfony/polyfill-intl-messageformatter": "~v1.38.0",
@@ -37,7 +37,8 @@
         "symfony/polyfill-php82": "~v1.38.0",
         "symfony/polyfill-php83": "~v1.38.0",
         "symfony/polyfill-php84": "~v1.38.0",
-        "symfony/polyfill-php85": "~v1.38.0",
+        "symfony/polyfill-php85": "~v1.41.0",
+        "symfony/polyfill-php86": "~v1.41.0",
         "symfony/polyfill-uuid": "~v1.37.0"
     },
     "require-dev": {
