@@ -5,6 +5,12 @@ parameters:
         - tests/*
     ignoreErrors:
         - identifier: missingType.iterableValue
+        -
+            identifier: property.onlyWritten
+            path: src/Resources/Time/Duration.php
+        -
+            identifier: property.onlyWritten
+            path: stubs/Time/Duration.php
 
     # Set rules level
     level: 6
