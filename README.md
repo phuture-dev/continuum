@@ -102,6 +102,8 @@ This package polyfills most common PHP functions from PHP 8.1 to 8.6, designed t
 | `clamp()`                                             | ✅ Full    | Function  |
 | `grapheme_strrev()`                                   | ✅ Full    | Function  |
 | `SortDirection`                                       | ✅ Full    | Enum      |
+| `Time\Duration`                                       | ❇️ Partial | Class     |
+| `Time\TimeException`                                  | ✅ Full    | Class     |
 
 This package also provides polyfills for some PHP extensions, allowing better portability across different PHP runtimes.
 
@@ -131,6 +133,17 @@ The entries marked ❇️ Partial or ⚠️ Partial in the tables above have mea
 - Only sets `CURLOPT_FORBID_REUSE = false` and `CURLOPT_FRESH_CONNECT = false`.
 - Does not perform real HTTP/2 connection maintenance (window-size updates, PING frames, or keep-alive signalling).
 - Full behaviour requires PHP 8.2+ with libcurl ≥ 7.62.0.
+
+**`Time\Duration`** (PHP 8.6)
+
+1. `readonly` is not enforced on PHP 8.0 — writes to `$seconds`, `$nanoseconds` or `$negative` succeed silently instead of raising `Error`, and can desynchronise the internal comparison fields, affecting only the raw `<` / `>` operators. Enforced natively on 8.1+.
+2. Two private implementation properties emulate the native comparison handler. They are hidden from `var_dump()`, `print_r()`, `json_encode()`, `foreach` and `get_object_vars()`, but **are** visible to `var_export()`, `serialize()`, `(array)` casts and Reflection.
+3. The class is user-defined, not internal: `ReflectionClass::isInternal()` is `false` and it is not a `readonly class`, so a dynamic-property write emits a deprecation on PHP 8.2+ instead of raising `Error`, and `unserialize()` can construct instances bypassing the private constructor.
+4. Internal functions cannot accept a `Duration`. The RFC's motivating example `sleep(\Time\Duration::fromMilliseconds(500))` depends on native signature changes that userland cannot make.
+5. Comparing a `Duration` against a non-`Duration` value follows generic userland object-comparison rules, which may differ from the native comparison handler.
+6. `Duration::compare(...)` first-class-callable syntax requires PHP 8.1; on PHP 8.0 use `usort($durations, [\Time\Duration::class, 'compare'])`.
+7. On 32-bit builds `$seconds` is capped at `2_147_483_647` (~68 years) instead of `9_223_372_035`, and `divideBy()` routes through bcmath.
+8. Error parity is best-effort: for cases the RFC does not pin — exact `ValueError` message texts and the exception type for a malformed ISO-8601 string — the polyfill follows php-src conventions but may differ until php-src PR #23073 is merged.
 
 ### Partial Extensions
 

@@ -29,6 +29,7 @@ final class Php83
      * If privileges are required to allow chown() to work.
      */
     public const POSIX_PC_CHOWN_RESTRICTED = 6;
+
     /**
      * The maximum number of links a given file or directory can have.
      */

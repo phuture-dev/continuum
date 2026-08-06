@@ -38,5 +38,5 @@ if (\PHP_VERSION_ID >= 80000 && \PHP_VERSION_ID < 80100) {
 
 // phpcs:ignore
 if (\PHP_VERSION_ID >= 80100 && \PHP_VERSION_ID < 80600) {
-    require_once __DIR__ . '/../../components/phuture/stubs/SortDirection.php';
+    require_once __DIR__ . '/../../stubs/SortDirection.php';
 }
