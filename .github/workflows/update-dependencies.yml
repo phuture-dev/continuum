@@ -76,14 +76,10 @@ jobs:
           cat "$RUNNER_TEMP/changes.md"
         } > "$RUNNER_TEMP/body.md"
 
-        # The label marks the pull request for the release workflow, which tags main once it is merged
-        gh label create dependencies --color 0366d6 --description "Dependency updates" --force
-
         existing_pr=$(gh pr list --base "$TARGET_BRANCH" --head "$SOURCE_BRANCH" --state open --json number --jq '.[0].number')
 
         if [ -n "$existing_pr" ]; then
           gh pr comment "$existing_pr" --body-file "$RUNNER_TEMP/body.md"
-          gh pr edit "$existing_pr" --add-label dependencies
           echo "Updated existing pull request #$existing_pr" >> "$GITHUB_STEP_SUMMARY"
           echo "number=$existing_pr" >> "$GITHUB_OUTPUT"
         else
@@ -91,19 +87,21 @@ jobs:
             --base "$TARGET_BRANCH" \
             --head "$SOURCE_BRANCH" \
             --title "Update dependencies" \
-            --label dependencies \
             --body-file "$RUNNER_TEMP/body.md")
           echo "Opened pull request $pr_url" >> "$GITHUB_STEP_SUMMARY"
           echo "number=${pr_url##*/}" >> "$GITHUB_OUTPUT"
         fi
 
-    - name: Enable auto-merge
+    - name: Assign pull request to an admin
       if: steps.update.outputs.changed == 'true'
       env:
         PR_NUMBER: ${{ steps.pr.outputs.number }}
       run: |
-        if gh pr merge "$PR_NUMBER" --auto --merge; then
-          echo "Auto-merge enabled for pull request #$PR_NUMBER" >> "$GITHUB_STEP_SUMMARY"
+        admin_login=$(gh api "repos/$GITHUB_REPOSITORY/collaborators?permission=admin" \
+          --jq '[.[] | select(.type == "User")][0].login' || true)
+
+        if [ -n "$admin_login" ] && gh pr edit "$PR_NUMBER" --add-assignee "$admin_login"; then
+          echo "Assigned pull request #$PR_NUMBER to @$admin_login" >> "$GITHUB_STEP_SUMMARY"
         else
-          echo "::warning:: Could not enable auto-merge for pull request #$PR_NUMBER, check the repository auto-merge and branch protection settings."
+          echo "::warning::Could not assign pull request #$PR_NUMBER to a repository admin."
         fi
