@@ -1,0 +1,107 @@
+name: update-dependencies
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-dependencies
+  cancel-in-progress: false
+
+jobs:
+  update:
+
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.DEPENDENCIES_TOKEN || github.token }}
+      SOURCE_BRANCH: develop
+      TARGET_BRANCH: main
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        ref: ${{ env.SOURCE_BRANCH }}
+        token: ${{ env.GH_TOKEN }}
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'
+        tools: composer
+
+    - name: Install composer/semver
+      run: |
+        mkdir -p "$RUNNER_TEMP/semver"
+        composer require composer/semver:^3.4 --working-dir="$RUNNER_TEMP/semver" --no-interaction --no-progress
+
+    - name: Update composer.json constraints
+      id: update
+      run: |
+        php .github/scripts/update-dependencies.php composer.json "$RUNNER_TEMP/semver/vendor/autoload.php" > "$RUNNER_TEMP/changes.md"
+
+        if git diff --quiet -- composer.json; then
+          echo "No compatible minor updates found." >> "$GITHUB_STEP_SUMMARY"
+          echo "changed=false" >> "$GITHUB_OUTPUT"
+        else
+          cat "$RUNNER_TEMP/changes.md" >> "$GITHUB_STEP_SUMMARY"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Validate composer.json
+      if: steps.update.outputs.changed == 'true'
+      run: composer validate --no-check-lock
+
+    - name: Commit and push to ${{ env.SOURCE_BRANCH }}
+      if: steps.update.outputs.changed == 'true'
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add composer.json
+        git commit -m "deps: update composer dependencies to latest compatible minor versions" -m "$(cat "$RUNNER_TEMP/changes.md")"
+        git push origin "HEAD:$SOURCE_BRANCH"
+
+    - name: Open pull request
+      id: pr
+      if: steps.update.outputs.changed == 'true'
+      run: |
+        {
+          echo "Automated update of composer dependencies to their latest minor versions that keep supporting every PHP version currently supported."
+          echo
+          cat "$RUNNER_TEMP/changes.md"
+        } > "$RUNNER_TEMP/body.md"
+
+        existing_pr=$(gh pr list --base "$TARGET_BRANCH" --head "$SOURCE_BRANCH" --state open --json number --jq '.[0].number')
+
+        if [ -n "$existing_pr" ]; then
+          gh pr comment "$existing_pr" --body-file "$RUNNER_TEMP/body.md"
+          echo "Updated existing pull request #$existing_pr" >> "$GITHUB_STEP_SUMMARY"
+          echo "number=$existing_pr" >> "$GITHUB_OUTPUT"
+        else
+          pr_url=$(gh pr create \
+            --base "$TARGET_BRANCH" \
+            --head "$SOURCE_BRANCH" \
+            --title "Update dependencies" \
+            --body-file "$RUNNER_TEMP/body.md")
+          echo "Opened pull request $pr_url" >> "$GITHUB_STEP_SUMMARY"
+          echo "number=${pr_url##*/}" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Assign pull request to an admin
+      if: steps.update.outputs.changed == 'true'
+      env:
+        PR_NUMBER: ${{ steps.pr.outputs.number }}
+      run: |
+        admin_login=$(gh api "repos/$GITHUB_REPOSITORY/collaborators?permission=admin" \
+          --jq '[.[] | select(.type == "User")][0].login' || true)
+
+        if [ -n "$admin_login" ] && gh pr edit "$PR_NUMBER" --add-assignee "$admin_login"; then
+          echo "Assigned pull request #$PR_NUMBER to @$admin_login" >> "$GITHUB_STEP_SUMMARY"
+        else
+          echo "::warning::Could not assign pull request #$PR_NUMBER to a repository admin."
+        fi
