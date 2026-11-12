@@ -64,7 +64,7 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add composer.json
-        git commit -m "deps: update composer dependencies to latest compatible minor versions" -m "$(cat "$RUNNER_TEMP/changes.md")"
+        git commit -m "Update composer dependencies" -m "$(cat "$RUNNER_TEMP/changes.md")"
 
         # The update branch is owned by this workflow and is rebuilt from the base branch on every run
         if git fetch origin "$UPDATE_BRANCH" 2>/dev/null && git diff --quiet FETCH_HEAD HEAD; then
